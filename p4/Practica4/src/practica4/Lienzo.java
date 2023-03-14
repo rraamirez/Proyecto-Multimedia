@@ -4,6 +4,15 @@
  */
 package practica4;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+
 /**
  *
  * @author raul
@@ -13,8 +22,57 @@ public class Lienzo extends javax.swing.JPanel {
     /**
      * Creates new form Lienzo
      */
+    
+    boolean relleno;
+    Line2D linea;
+    tipos tipo = tipos.LINEA;
+    Shape forma = new Line2D.Float(50,50,200,200); 
+    Color color = Color.BLACK;
+    private Object Rectangle2D;
+    
     public Lienzo() {
         initComponents();
+    }
+
+    public tipos getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(tipos tipo) {
+        this.tipo = tipo;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public boolean isRelleno() {
+        return relleno;
+    }
+
+    public void setRelleno(boolean relleno) {
+        this.relleno = relleno;
+    }
+    
+    //usando grafics 2d creamos objeto grafics 2d dentro y le tiramos con eso
+    //El metodo paint solo se encarga de dibujar la forma que le pasamos.
+    @Override
+    public void paint(Graphics g){
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setPaint(color);
+        
+        if(relleno){
+            g2d.fill(forma);
+        }
+        
+        if(!relleno){
+            g2d.draw(forma);
+        }
     }
 
     /**
@@ -25,6 +83,17 @@ public class Lienzo extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -37,6 +106,63 @@ public class Lienzo extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        if(tipo == tipos.LINEA){
+            forma = new Line2D.Float(evt.getPoint(), evt.getPoint());
+        }
+        
+        // setFrameFromDiagonal
+        if(tipo == tipos.RECTANGULO){
+            forma = new Rectangle2D.Float(TOP_ALIGNMENT, TOP_ALIGNMENT,
+                    TOP_ALIGNMENT, TOP_ALIGNMENT);
+        }
+        
+        if(tipo == tipos.ELIPSE){
+            forma = new Ellipse2D() {
+                @Override
+                public double getX() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public double getY() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public double getWidth() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public double getHeight() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public boolean isEmpty() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void setFrame(double d, double d1, double d2, double d3) {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public Rectangle2D getBounds2D() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+            };
+            
+        }
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        ((Line2D)forma).setLine(((Line2D)forma).getP1(), evt.getPoint());
+        this.repaint();
+    }//GEN-LAST:event_formMouseDragged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

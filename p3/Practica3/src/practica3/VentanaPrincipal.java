@@ -166,10 +166,13 @@ public class VentanaPrincipal extends javax.swing.JFrame implements MouseListene
         super.paint(g);
         // Dibujar todas las líneas
         for(int j = 0; j < points.size(); j++){
+            //este if es para dibujar un punto concreto
             if (points.get(j).size() == 1){
                 Point p1 = points.get(j).get(0);
                 g.fillOval(p1.x, p1.y, 10, 10);
             }
+            //asi dibujamos a mano alzada creando los puntos que con las
+            //acciones del raton seran guardados en un vector
             for (int i = 0; i < points.get(j).size() -1; i++) {
                 Point p1 = points.get(j).get(i);
                 Point p2 = points.get(j).get(i+1);

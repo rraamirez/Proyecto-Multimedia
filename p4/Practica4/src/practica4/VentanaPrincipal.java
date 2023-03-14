@@ -6,7 +6,11 @@ package practica4;
 
 import javax.swing.JFileChooser;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 import java.util.*;
+import javax.tools.JavaFileManager;
 
 /**
  *
@@ -16,10 +20,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form VentanaPrincipal
+     * Titulo y tamaño personalizados
      */
     public VentanaPrincipal() {
         this.setTitle("PAINT BASICO");
         this.setSize(500,500);
+        //addMouseListener((MouseListener) this);
+        //addMouseMotionListener((MouseMotionListener) this);
         initComponents();
     }
 
@@ -36,22 +43,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton5 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jToggleButton6 = new javax.swing.JToggleButton();
+        negro = new javax.swing.JToggleButton();
+        rojo = new javax.swing.JToggleButton();
+        azul = new javax.swing.JToggleButton();
+        blanco = new javax.swing.JToggleButton();
+        amarillo = new javax.swing.JToggleButton();
+        verde = new javax.swing.JToggleButton();
         barraEstado2 = new javax.swing.JLabel();
         relleno = new javax.swing.JCheckBox();
         lienzo2 = new practica4.Lienzo();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jToggleButton7 = new javax.swing.JToggleButton();
-        jToggleButton8 = new javax.swing.JToggleButton();
-        jToggleButton9 = new javax.swing.JToggleButton();
-        jToggleButton10 = new javax.swing.JToggleButton();
+        linea = new javax.swing.JToggleButton();
+        cuadrado = new javax.swing.JToggleButton();
+        elipse = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         Nuevo = new javax.swing.JMenuItem();
@@ -79,30 +85,55 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(2, 3));
 
-        jToggleButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jToggleButton1.setPreferredSize(new java.awt.Dimension(25, 25));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        negro.setBackground(new java.awt.Color(0, 0, 0));
+        negro.setPreferredSize(new java.awt.Dimension(25, 25));
+        negro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                negroActionPerformed(evt);
             }
         });
-        jPanel3.add(jToggleButton1);
+        jPanel3.add(negro);
 
-        jToggleButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jPanel3.add(jToggleButton3);
+        rojo.setBackground(new java.awt.Color(255, 0, 0));
+        rojo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rojoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(rojo);
 
-        jToggleButton5.setBackground(new java.awt.Color(0, 0, 204));
-        jPanel3.add(jToggleButton5);
+        azul.setBackground(new java.awt.Color(0, 0, 204));
+        azul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                azulActionPerformed(evt);
+            }
+        });
+        jPanel3.add(azul);
 
-        jToggleButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.add(jToggleButton2);
+        blanco.setBackground(new java.awt.Color(255, 255, 255));
+        blanco.setForeground(new java.awt.Color(255, 255, 255));
+        blanco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blancoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(blanco);
 
-        jToggleButton4.setBackground(new java.awt.Color(255, 255, 51));
-        jPanel3.add(jToggleButton4);
+        amarillo.setBackground(new java.awt.Color(255, 255, 51));
+        amarillo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amarilloActionPerformed(evt);
+            }
+        });
+        jPanel3.add(amarillo);
 
-        jToggleButton6.setBackground(new java.awt.Color(51, 255, 51));
-        jPanel3.add(jToggleButton6);
+        verde.setBackground(new java.awt.Color(51, 255, 51));
+        verde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verdeActionPerformed(evt);
+            }
+        });
+        jPanel3.add(verde);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.LINE_START);
 
@@ -111,6 +142,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel2.add(barraEstado2, java.awt.BorderLayout.PAGE_END);
 
         relleno.setText("Relleno");
+        relleno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rellenoActionPerformed(evt);
+            }
+        });
         jPanel2.add(relleno, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
@@ -133,45 +169,48 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(31, 31));
         jPanel1.setMinimumSize(new java.awt.Dimension(29, 29));
         jPanel1.setPreferredSize(new java.awt.Dimension(30, 30));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jPanel5.setLayout(new java.awt.GridLayout());
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
 
         jToolBar1.setBackground(new java.awt.Color(153, 153, 153));
         jToolBar1.setRollover(true);
 
-        buttonGroup1.add(jToggleButton7);
-        jToggleButton7.setIcon(new javax.swing.ImageIcon("/home/raul/Escritorio/tercero/segundo/smm/p4/Practica4/iconos/punto.png")); // NOI18N
-        jToggleButton7.setFocusable(false);
-        jToggleButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jToggleButton7);
-
-        buttonGroup1.add(jToggleButton8);
-        jToggleButton8.setIcon(new javax.swing.ImageIcon("/home/raul/Escritorio/tercero/segundo/smm/p4/Practica4/iconos/linea.png")); // NOI18N
-        jToggleButton8.setFocusable(false);
-        jToggleButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jToggleButton8);
-
-        buttonGroup1.add(jToggleButton9);
-        jToggleButton9.setIcon(new javax.swing.ImageIcon("/home/raul/Escritorio/tercero/segundo/smm/p4/Practica4/iconos/rectangulo.png")); // NOI18N
-        jToggleButton9.setFocusable(false);
-        jToggleButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jToggleButton9);
-
-        buttonGroup1.add(jToggleButton10);
-        jToggleButton10.setIcon(new javax.swing.ImageIcon("/home/raul/Escritorio/tercero/segundo/smm/p4/Practica4/iconos/elipse.png")); // NOI18N
-        jToggleButton10.setFocusable(false);
-        jToggleButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToggleButton10.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(linea);
+        linea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/linea.png"))); // NOI18N
+        linea.setFocusable(false);
+        linea.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        linea.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        linea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton10ActionPerformed(evt);
+                lineaActionPerformed(evt);
             }
         });
-        jToolBar1.add(jToggleButton10);
+        jToolBar1.add(linea);
+
+        buttonGroup1.add(cuadrado);
+        cuadrado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rectangulo.png"))); // NOI18N
+        cuadrado.setFocusable(false);
+        cuadrado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cuadrado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cuadrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuadradoActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(cuadrado);
+
+        buttonGroup1.add(elipse);
+        elipse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/elipse.png"))); // NOI18N
+        elipse.setFocusable(false);
+        elipse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        elipse.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        elipse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                elipseActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(elipse);
 
         jPanel5.add(jToolBar1);
 
@@ -201,6 +240,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Archivo.add(Abrir);
 
         Guardar.setText("Guardar");
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarActionPerformed(evt);
+            }
+        });
         Archivo.add(Guardar);
         Archivo.add(jSeparator1);
 
@@ -254,17 +298,73 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * @param evt 
      */
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
-        // TODO add your handling code here:
+        //this.lienzo2
     }//GEN-LAST:event_NuevoActionPerformed
+    
+    //cambia colores
+    private void negroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negroActionPerformed
+        this.lienzo2.setColor(Color.black);
+    }//GEN-LAST:event_negroActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void elipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elipseActionPerformed
+        this.lienzo2.setTipo(tipos.ELIPSE);
+    }//GEN-LAST:event_elipseActionPerformed
 
-    private void jToggleButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton10ActionPerformed
+    private void lineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineaActionPerformed
+        this.lienzo2.setTipo(tipos.LINEA);
+    }//GEN-LAST:event_lineaActionPerformed
 
+    private void cuadradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoActionPerformed
+        this.lienzo2.setTipo(tipos.RECTANGULO);
+    }//GEN-LAST:event_cuadradoActionPerformed
+
+    private void rojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rojoActionPerformed
+        this.lienzo2.setColor(Color.red);
+    }//GEN-LAST:event_rojoActionPerformed
+
+    private void azulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azulActionPerformed
+        this.lienzo2.setColor(Color.blue);    }//GEN-LAST:event_azulActionPerformed
+
+    private void blancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blancoActionPerformed
+        this.lienzo2.setColor(Color.white);
+    }//GEN-LAST:event_blancoActionPerformed
+
+    private void amarilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amarilloActionPerformed
+        this.lienzo2.setColor(Color.yellow);
+    }//GEN-LAST:event_amarilloActionPerformed
+
+    private void verdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verdeActionPerformed
+        this.lienzo2.setColor(Color.green);
+    }//GEN-LAST:event_verdeActionPerformed
+
+    /**
+     * @breif Se encargará de poner el relleno sabiendo si está marcado o no
+     * @param evt 
+     */
+    private void rellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rellenoActionPerformed
+        this.lienzo2.setRelleno(relleno.isSelected());
+    }//GEN-LAST:event_rellenoActionPerformed
+
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+        // muestra el cuadro de diálogo de archivos, para que el usuario pueda elegir el archivo a abrir
+        JFileChooser selectorArchivos = new JFileChooser();
+        selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        // indica cual fue la accion de usuario sobre el jfilechooser
+        int resultado = selectorArchivos.showSaveDialog(this);
+    }//GEN-LAST:event_GuardarActionPerformed
+    
+    
+    
+    /*//usando grafics 2d creamos objeto grafics 2d dentro y le tiramos con eso
+    Shape forma = new Line2D.Float(50,50,200,200);
+    private void paint(Graphics g, int num){
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.draw(forma);
+    }*/
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -307,9 +407,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Guardar;
     private javax.swing.JMenuItem Nuevo;
     private javax.swing.JMenuItem Salir;
+    private javax.swing.JToggleButton amarillo;
+    private javax.swing.JToggleButton azul;
     private javax.swing.JCheckBoxMenuItem barraEstado;
     private javax.swing.JLabel barraEstado2;
+    private javax.swing.JToggleButton blanco;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JToggleButton cuadrado;
+    private javax.swing.JToggleButton elipse;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -317,18 +422,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton10;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
-    private javax.swing.JToggleButton jToggleButton6;
-    private javax.swing.JToggleButton jToggleButton7;
-    private javax.swing.JToggleButton jToggleButton8;
-    private javax.swing.JToggleButton jToggleButton9;
     private javax.swing.JToolBar jToolBar1;
     private practica4.Lienzo lienzo2;
+    private javax.swing.JToggleButton linea;
+    private javax.swing.JToggleButton negro;
     private javax.swing.JCheckBox relleno;
+    private javax.swing.JToggleButton rojo;
+    private javax.swing.JToggleButton verde;
     // End of variables declaration//GEN-END:variables
 }

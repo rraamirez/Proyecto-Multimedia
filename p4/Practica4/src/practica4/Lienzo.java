@@ -21,7 +21,7 @@ public class Lienzo extends javax.swing.JPanel {
     boolean relleno;
     Line2D linea;
     tipos tipo = tipos.LINEA;
-    Shape forma = new Line2D.Float(50,50,200,200); 
+    Shape forma = new Line2D.Float(0,0,0,0); 
     Color color = Color.BLACK;
     /**
      * Crearemos punto puntoInicial que será necesario para poder dibujar 

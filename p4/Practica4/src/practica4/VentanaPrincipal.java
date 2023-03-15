@@ -271,7 +271,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void barraEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barraEstadoActionPerformed
-        // TODO add your handling code here:
+        this.barraEstado2.setVisible(barraEstado.isSelected());
     }//GEN-LAST:event_barraEstadoActionPerformed
 
     /**

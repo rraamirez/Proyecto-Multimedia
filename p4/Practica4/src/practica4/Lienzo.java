@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package practica4;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -18,22 +15,30 @@ import java.awt.geom.Rectangle2D;
  * @author raul
  */
 public class Lienzo extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Lienzo
-     */
+    
+    //*************DECLARACION DE VARIABLES***************//
     
     boolean relleno;
     Line2D linea;
     tipos tipo = tipos.LINEA;
     Shape forma = new Line2D.Float(50,50,200,200); 
     Color color = Color.BLACK;
-    private Object Rectangle2D;
+    /**
+     * Crearemos punto puntoInicial que será necesario para poder dibujar 
+     * rectángulos y elipses
+     */
+    Point puntoInicial = new Point();
+    
+    
+    //************************CONSTRUCTOR**********************//
     
     public Lienzo() {
         initComponents();
     }
 
+    
+    //*************************GETTERS AND SETTERS*************************//
+    
     public tipos getTipo() {
         return tipo;
     }
@@ -57,9 +62,41 @@ public class Lienzo extends javax.swing.JPanel {
     public void setRelleno(boolean relleno) {
         this.relleno = relleno;
     }
+
+    public Line2D getLinea() {
+        return linea;
+    }
+
+    public void setLinea(Line2D linea) {
+        this.linea = linea;
+    }
+
+    public Shape getForma() {
+        return forma;
+    }
+
+    public void setForma(Shape forma) {
+        this.forma = forma;
+    }
+
+    public Point getInicial() {
+        return puntoInicial;
+    }
+
+    public void setInicial(Point inicial) {
+        this.puntoInicial = inicial;
+    }
     
-    //usando grafics 2d creamos objeto grafics 2d dentro y le tiramos con eso
-    //El metodo paint solo se encarga de dibujar la forma que le pasamos.
+    
+    //**************** MÉTODO PAINT ******************//
+    
+    /**
+     * El metodo paint será el encargado de (solo y exclusivamente)
+     * pintar la forma que tengamos.
+     * No es correcto declarar objetos forma dentro ni modificarlos.
+     * @param g Se le hace casting para que funcione como si fuese de Graphics2D
+     */
+  
     @Override
     public void paint(Graphics g){
         super.paint(g);
@@ -67,12 +104,29 @@ public class Lienzo extends javax.swing.JPanel {
         g2d.setPaint(color);
         
         if(relleno){
-            g2d.fill(forma);
+            /**
+             * No se puede hacer un fill a una linea ya que el metodo fill
+             * lo que hace es pintar "lo de dentro" y no los bordes
+             */
+            if(this.tipo == tipos.LINEA){
+                g2d.draw(forma);
+            }else{
+                g2d.fill(forma);
+            }
         }
         
         if(!relleno){
             g2d.draw(forma);
         }
+    }
+    
+    /**
+     * Este metodo al ser invocado se encarga de dejar "la pizarra en blanco".
+     * Para eso, inicializamos la forma a un objeto con coordenadas negativas.
+     */
+    public void nuevoLienzo(){
+        forma = new Rectangle2D.Float(-1,-1,-1,-1);
+        this.repaint();
     }
 
     /**
@@ -108,60 +162,40 @@ public class Lienzo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        
         if(tipo == tipos.LINEA){
             forma = new Line2D.Float(evt.getPoint(), evt.getPoint());
         }
         
-        // setFrameFromDiagonal
-        if(tipo == tipos.RECTANGULO){
-            forma = new Rectangle2D.Float(TOP_ALIGNMENT, TOP_ALIGNMENT,
-                    TOP_ALIGNMENT, TOP_ALIGNMENT);
+        if(tipo == tipos.ELIPSE){
+            forma = new Ellipse2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);
+            puntoInicial = evt.getPoint();
         }
         
-        if(tipo == tipos.ELIPSE){
-            forma = new Ellipse2D() {
-                @Override
-                public double getX() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public double getY() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public double getWidth() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public double getHeight() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public boolean isEmpty() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public void setFrame(double d, double d1, double d2, double d3) {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public Rectangle2D getBounds2D() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-            };
-            
-        }
+        if(tipo == tipos.RECTANGULO){
+            forma = new Rectangle2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);
+            puntoInicial = evt.getPoint();
+        }    
+        
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        ((Line2D)forma).setLine(((Line2D)forma).getP1(), evt.getPoint());
-        this.repaint();
+        
+        if(tipo == tipos.LINEA){
+            ((Line2D)forma).setLine(((Line2D)forma).getP1(), evt.getPoint());
+            this.repaint();
+        }
+        
+        if(tipo == tipos.ELIPSE){
+            ((Ellipse2D)forma).setFrameFromDiagonal(puntoInicial, evt.getPoint());
+            this.repaint();
+        }
+      
+        if(tipo == tipos.RECTANGULO){
+            ((Rectangle2D)forma).setFrameFromDiagonal(puntoInicial, evt.getPoint());
+            this.repaint();
+        }
+        
     }//GEN-LAST:event_formMouseDragged
 
 

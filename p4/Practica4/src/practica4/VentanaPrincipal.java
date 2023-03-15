@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package practica4;
 
 import javax.swing.JFileChooser;
@@ -25,8 +21,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         this.setTitle("PAINT BASICO");
         this.setSize(500,500);
-        //addMouseListener((MouseListener) this);
-        //addMouseMotionListener((MouseMotionListener) this);
         initComponents();
     }
 
@@ -280,28 +274,34 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_barraEstadoActionPerformed
 
+    /**
+     * Muestra diálogo de abrir. 
+     */
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
-         // muestra el cuadro de diálogo de archivos, para que el usuario pueda elegir el archivo a abrir
+        // muestra el cuadro de diálogo de archivos, para que el usuario pueda elegir el archivo a abrir
         JFileChooser selectorArchivos = new JFileChooser();
         selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
         // indica cual fue la accion de usuario sobre el jfilechooser
         int resultado = selectorArchivos.showOpenDialog(this);
     }//GEN-LAST:event_AbrirActionPerformed
 
+    /**
+     * Cierra la aplicación.
+     */
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
 
     /**
      * @brief Pulsando nuevo borramos todos los dibujos.
-     * @param evt 
+     * Invoca el método nuevoLienzo de la clase lienzo que se encarga de "borrar".
      */
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
-        //this.lienzo2
+        this.lienzo2.nuevoLienzo();
     }//GEN-LAST:event_NuevoActionPerformed
     
-    //cambia colores
+  //*******************************CARMBIAR COLORES***************************//
+    
     private void negroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negroActionPerformed
         this.lienzo2.setColor(Color.black);
     }//GEN-LAST:event_negroActionPerformed
@@ -336,15 +336,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void verdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verdeActionPerformed
         this.lienzo2.setColor(Color.green);
     }//GEN-LAST:event_verdeActionPerformed
-
+//*******************************************************************************//
+    
+    
     /**
-     * @breif Se encargará de poner el relleno sabiendo si está marcado o no
-     * @param evt 
+     * @breif Se encargará de poner el relleno sabiendo si está marcado o no gracias al metodo isSelected()
      */
     private void rellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rellenoActionPerformed
         this.lienzo2.setRelleno(relleno.isSelected());
     }//GEN-LAST:event_rellenoActionPerformed
 
+    /**
+     * Dialogo de guardar.
+     * @param evt 
+     */
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         // muestra el cuadro de diálogo de archivos, para que el usuario pueda elegir el archivo a abrir
         JFileChooser selectorArchivos = new JFileChooser();
@@ -353,17 +358,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // indica cual fue la accion de usuario sobre el jfilechooser
         int resultado = selectorArchivos.showSaveDialog(this);
     }//GEN-LAST:event_GuardarActionPerformed
-    
-    
-    
-    /*//usando grafics 2d creamos objeto grafics 2d dentro y le tiramos con eso
-    Shape forma = new Line2D.Float(50,50,200,200);
-    private void paint(Graphics g, int num){
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D)g;
-        g2d.draw(forma);
-    }*/
-    
+   
     
     /**
      * @param args the command line arguments

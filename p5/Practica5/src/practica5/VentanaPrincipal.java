@@ -47,13 +47,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         barraEstado2 = new javax.swing.JLabel();
         relleno = new javax.swing.JCheckBox();
         Mover = new javax.swing.JCheckBox();
-        lienzo2 = new practica5.Lienzo();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         linea = new javax.swing.JToggleButton();
         cuadrado = new javax.swing.JToggleButton();
         elipse = new javax.swing.JToggleButton();
+        escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         Nuevo = new javax.swing.JMenuItem();
@@ -61,6 +61,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Guardar = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         Salir = new javax.swing.JMenuItem();
+        menuNuevo = new javax.swing.JMenuItem();
         Edicion = new javax.swing.JMenu();
         barraEstado = new javax.swing.JCheckBoxMenuItem();
 
@@ -157,21 +158,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        lienzo2.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout lienzo2Layout = new javax.swing.GroupLayout(lienzo2);
-        lienzo2.setLayout(lienzo2Layout);
-        lienzo2Layout.setHorizontalGroup(
-            lienzo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
-        );
-        lienzo2Layout.setVerticalGroup(
-            lienzo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 269, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(lienzo2, java.awt.BorderLayout.CENTER);
-
         jPanel1.setMaximumSize(new java.awt.Dimension(31, 31));
         jPanel1.setMinimumSize(new java.awt.Dimension(29, 29));
         jPanel1.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -224,6 +210,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
+        escritorio.setLayout(new javax.swing.BoxLayout(escritorio, javax.swing.BoxLayout.LINE_AXIS));
+        getContentPane().add(escritorio, java.awt.BorderLayout.CENTER);
+
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -261,6 +250,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         Archivo.add(Salir);
+
+        menuNuevo.setText("Nuevo Lienzo");
+        menuNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNuevoActionPerformed(evt);
+            }
+        });
+        Archivo.add(menuNuevo);
 
         jMenuBar1.add(Archivo);
 
@@ -309,44 +306,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Invoca el método nuevoLienzo de la clase lienzo que se encarga de "borrar".
      */
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
-        this.lienzo2.nuevoLienzo();
+        this.getLienzoSeleccionado().nuevoLienzo();
     }//GEN-LAST:event_NuevoActionPerformed
     
   //*******************************CARMBIAR COLORES***************************//
     
     private void negroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negroActionPerformed
-        this.lienzo2.setColor(Color.black);
+        this.getLienzoSeleccionado().setColor(Color.black);
     }//GEN-LAST:event_negroActionPerformed
 
     private void elipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elipseActionPerformed
-        this.lienzo2.setTipo(tipos.ELIPSE);
+        this.getLienzoSeleccionado().setTipo(tipos.ELIPSE);
     }//GEN-LAST:event_elipseActionPerformed
 
     private void lineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineaActionPerformed
-        this.lienzo2.setTipo(tipos.LINEA);
+        this.getLienzoSeleccionado().setTipo(tipos.LINEA);
     }//GEN-LAST:event_lineaActionPerformed
 
     private void cuadradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoActionPerformed
-        this.lienzo2.setTipo(tipos.RECTANGULO);
+        this.getLienzoSeleccionado().setTipo(tipos.RECTANGULO);
     }//GEN-LAST:event_cuadradoActionPerformed
 
     private void rojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rojoActionPerformed
-        this.lienzo2.setColor(Color.red);
+        this.getLienzoSeleccionado().setColor(Color.red);
     }//GEN-LAST:event_rojoActionPerformed
 
     private void azulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azulActionPerformed
-        this.lienzo2.setColor(Color.blue);    }//GEN-LAST:event_azulActionPerformed
+        this.getLienzoSeleccionado().setColor(Color.blue);    
+	}//GEN-LAST:event_azulActionPerformed
 
     private void blancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blancoActionPerformed
-        this.lienzo2.setColor(Color.white);
+        this.getLienzoSeleccionado().setColor(Color.white);
     }//GEN-LAST:event_blancoActionPerformed
 
     private void amarilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amarilloActionPerformed
-        this.lienzo2.setColor(Color.yellow);
+        this.getLienzoSeleccionado().setColor(Color.yellow);
     }//GEN-LAST:event_amarilloActionPerformed
 
     private void verdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verdeActionPerformed
-        this.lienzo2.setColor(Color.green);
+        this.getLienzoSeleccionado().setColor(Color.green);
     }//GEN-LAST:event_verdeActionPerformed
 //*******************************************************************************//
     
@@ -355,7 +353,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * @breif Se encargará de poner el relleno sabiendo si está marcado o no gracias al metodo isSelected()
      */
     private void rellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rellenoActionPerformed
-        this.lienzo2.setRelleno(relleno.isSelected());
+        this.getLienzoSeleccionado().setRelleno(relleno.isSelected());
     }//GEN-LAST:event_rellenoActionPerformed
 
     /**
@@ -372,9 +370,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void MoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoverActionPerformed
-        this.lienzo2.setMover(Mover.isSelected());
+        this.getLienzoSeleccionado().setMover(Mover.isSelected());
     }//GEN-LAST:event_MoverActionPerformed
+
+    private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
+        VentanaInterna vi = new VentanaInterna();
+        escritorio.add(vi);
+        vi.setVisible(true);
+    }//GEN-LAST:event_menuNuevoActionPerformed
    
+    Lienzo getLienzoSeleccionado(){
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        return vi!=null ? vi.getLienzo() : null;
+    }
     
     /**
      * @param args the command line arguments
@@ -427,6 +435,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JToggleButton cuadrado;
     private javax.swing.JToggleButton elipse;
+    private javax.swing.JDesktopPane escritorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -436,8 +445,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
-    private practica5.Lienzo lienzo2;
     private javax.swing.JToggleButton linea;
+    private javax.swing.JMenuItem menuNuevo;
     private javax.swing.JToggleButton negro;
     private javax.swing.JCheckBox relleno;
     private javax.swing.JToggleButton rojo;

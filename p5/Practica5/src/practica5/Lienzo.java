@@ -176,9 +176,15 @@ public class Lienzo extends javax.swing.JPanel{
      * Hay que mejorarlo para que coja el ultimo
      */
     
-    private Shape getFiguraSeleccionada(Point2D p){
-        for(Shape s:vShape)
+     private Shape getFiguraSeleccionada(Point2D p){
+        for(Shape s:vShape){
+            if(s instanceof Line2D)
+                if(((Line2D)s).ptLineDist(p) <= 2.0) 
+                    return s;
+        
             if(s.contains(p)) return s;
+        }
+            
         return null;
     }
     
@@ -258,8 +264,8 @@ public class Lienzo extends javax.swing.JPanel{
 
         if(mover){
             if (forma!=null && forma instanceof Line2D){
-                puntoTmp = new Point(puntoInicial.x + anchura, puntoInicial.y + altura);
-                ((Line2D)forma).setLine(puntoInicial, puntoTmp);
+                puntoTmp = new Point(evt.getPoint().x + anchura, evt.getPoint().y + altura);
+                ((Line2D)forma).setLine(evt.getPoint(), puntoTmp);
             }
             
             if (forma!=null && forma instanceof Rectangle2D){

@@ -350,7 +350,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     
     /**
-     * @breif Se encargará de poner el relleno sabiendo si está marcado o no gracias al metodo isSelected()
+     * @brief Se encargará de poner el relleno sabiendo si está marcado o no gracias al metodo isSelected()
      */
     private void rellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rellenoActionPerformed
         this.getLienzoSeleccionado().setRelleno(relleno.isSelected());

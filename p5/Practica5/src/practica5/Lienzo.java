@@ -28,19 +28,14 @@ public class Lienzo extends javax.swing.JPanel{
     tipos tipo = tipos.LINEA;
     Shape forma = new Line2D.Float(0,0,0,0); 
     ArrayList<Shape> vShape = new ArrayList<>(); 
-    //ArrayList<Shape> vShapeR = new ArrayList<>();
     Color color = Color.BLACK;
-    /**
-     * Crearemos punto puntoInicial que será necesario para poder dibujar 
-     * rectángulos y elipses
-     */
     
     /**
      * Para movimiento de figuras
      */
     Point puntoInicial = new Point();
     Point puntoTmp;
-    int anchura, altura;
+    double anchura, altura;
     
     
     //************************CONSTRUCTOR**********************//
@@ -49,7 +44,6 @@ public class Lienzo extends javax.swing.JPanel{
         initComponents();
         
     }
-
     
     //*************************GETTERS AND SETTERS*************************//
     
@@ -117,14 +111,6 @@ public class Lienzo extends javax.swing.JPanel{
         this.vShape = vShape;
     }
 
-    /*public ArrayList<Shape> getvShapeR() {
-        return vShapeR;
-    }
-
-    public void setvShapeR(ArrayList<Shape> vShapeR) {
-        this.vShapeR = vShapeR;
-    }*/
-
     public Point getPuntoInicial() {
         return puntoInicial;
     }
@@ -166,42 +152,27 @@ public class Lienzo extends javax.swing.JPanel{
      */
     public void nuevoLienzo(){
         vShape.clear();
-        //vShapeR.clear();
         this.repaint();
     }
     
     
     /**
      * Este metodo devuelve la figura seleccionada dado un punto
-     * Hay que mejorarlo para que coja el ultimo
      */
     
      private Shape getFiguraSeleccionada(Point2D p){
-        for(Shape s:vShape){
-            if(s instanceof Line2D)
-                if(((Line2D)s).ptLineDist(p) <= 2.0) 
-                    return s;
-        
-            if(s.contains(p)) return s;
+        for (int i = vShape.size() - 1; i >= 0; i--) {
+            Shape s = vShape.get(i);
+            if (s.contains(p)) {
+                return s;
+            }
+            if (s instanceof Line2D && ((Line2D)s).ptLineDist(p) <= 2.0) {
+                return s;
+            }
         }
-            
-        return null;
-    }
+        return null;        
+}
     
-    /*public boolean isNear(Point2D p){
-        // Caso p1=p2 (punto)
-        if(this.getP1().equals(this.getP2())) return this.getP1().distance(p)<=2.0;
-        // Caso p1!=p2
-        return this.ptLineDist(p)<=2.0;
-    }
-    
-    @Override
-    public boolean contains(Line2D p) {
-        return isNear(p);
-    }*/
-    
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -235,7 +206,6 @@ public class Lienzo extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        
         if(mover){
             forma = getFiguraSeleccionada(evt.getPoint());
         }
@@ -246,15 +216,14 @@ public class Lienzo extends javax.swing.JPanel{
             }
 
             if(tipo == tipos.ELIPSE){
-                forma = new Ellipse2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);
-                puntoInicial = evt.getPoint();
+                forma = new Ellipse2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);          
             }
 
             if(tipo == tipos.RECTANGULO){
-                forma = new Rectangle2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);
-                puntoInicial = evt.getPoint();     
+                forma = new Rectangle2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);     
             }    
-
+            
+            puntoInicial = evt.getPoint();
             vShape.add(forma);
         }
         
@@ -264,21 +233,24 @@ public class Lienzo extends javax.swing.JPanel{
 
         if(mover){
             if (forma!=null && forma instanceof Line2D){
-                puntoTmp = new Point(evt.getPoint().x + anchura, evt.getPoint().y + altura);
-                ((Line2D)forma).setLine(evt.getPoint(), puntoTmp);
+                anchura = ((Line2D)forma).getX2()-((Line2D)forma).getX1();
+                altura = ((Line2D)forma).getY2()-((Line2D)forma).getY1();  
+                Line2D linea_temp = new Line2D.Double(evt.getPoint().getX(), evt.getPoint().getY(),
+                        evt.getPoint().getX()+anchura, evt.getPoint().getY()+altura);
+                ((Line2D)forma).setLine(linea_temp);
             }
             
             if (forma!=null && forma instanceof Rectangle2D){
-                ((Rectangle2D)forma).setRect(evt.getPoint().x-anchura/2, 
-                        evt.getPoint().y-altura/2, anchura, altura);
+                ((Rectangle2D)forma).setRect(evt.getPoint().x-((Rectangle2D)forma).getWidth()/2, 
+                        evt.getPoint().y-((Rectangle2D)forma).getHeight()/2, ((Rectangle2D)forma).getWidth(),
+                      ((Rectangle2D)forma).getHeight());
             }
             
             if (forma!=null && forma instanceof Ellipse2D){
-                Rectangle2D rect_elipse = new Rectangle2D.Float(evt.getPoint().x-anchura/2,
-                        evt.getPoint().y-altura/2, anchura, altura);
-                
-                ((Ellipse2D)forma).setFrame(rect_elipse);
-            } 
+                ((Ellipse2D)forma).setFrameFromDiagonal(evt.getPoint().x-((Ellipse2D)forma).getWidth()/2, 
+                        evt.getPoint().y-((Ellipse2D)forma).getHeight()/2, evt.getPoint().x+((Ellipse2D)forma).getWidth()/2,
+                        evt.getPoint().y+((Ellipse2D)forma).getHeight()/2);
+            }
             
         }
         

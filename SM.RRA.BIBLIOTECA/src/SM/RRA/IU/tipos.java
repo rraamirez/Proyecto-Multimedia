@@ -1,4 +1,4 @@
-package practica7;
+package SM.RRA.IU;
 
 /**
  *
@@ -12,5 +12,5 @@ package practica7;
  * 
  */
 public enum tipos {
-    LINEA, RECTANGULO, ELIPSE
+    LINEA, RECTANGULO, ELIPSE, CURVA
 }

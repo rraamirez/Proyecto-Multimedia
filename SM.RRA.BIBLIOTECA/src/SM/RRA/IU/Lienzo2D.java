@@ -1,4 +1,4 @@
-package practica7;
+package SM.RRA.IU;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,11 +6,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 
@@ -18,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author raul
  */
-public class Lienzo extends javax.swing.JPanel{
+public class Lienzo2D extends javax.swing.JPanel{
     
     //*************DECLARACION DE VARIABLES***************//
     
@@ -29,6 +32,8 @@ public class Lienzo extends javax.swing.JPanel{
     Shape forma = new Line2D.Float(0,0,0,0); 
     ArrayList<Shape> vShape = new ArrayList<>(); 
     Color color = Color.BLACK;
+    BufferedImage imagen;
+    Stroke trazo;
     
     /**
      * Para movimiento de figuras
@@ -37,10 +42,15 @@ public class Lienzo extends javax.swing.JPanel{
     Point puntoTmp;
     double anchura, altura;
     
+    /**
+     * Para la curva
+     */
+    Point punto1, punto2, puntoControl;
+    
     
     //************************CONSTRUCTOR**********************//
     
-    public Lienzo() {
+    public Lienzo2D() {
         initComponents();
         
     }
@@ -118,8 +128,16 @@ public class Lienzo extends javax.swing.JPanel{
     public void setPuntoInicial(Point puntoInicial) {
         this.puntoInicial = puntoInicial;
     }
+
+    public BufferedImage getImagen() {
+        return imagen;
+    }
     
-    
+
+    public void setImagen(BufferedImage imagen) {
+        this.imagen = imagen;
+    }
+
     
     
     //**************** MÉTODO PAINT ******************//
@@ -135,8 +153,13 @@ public class Lienzo extends javax.swing.JPanel{
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setPaint(color);
         
+        if(imagen != null){
+            g2d.drawImage(imagen, 0, 0, this);
+        }
+        
+        g2d.setPaint(color);
+        //g2d.setStroke(trazo);
         for(Shape forma:vShape){
             if(relleno){
                 g2d.fill(forma);
@@ -144,6 +167,7 @@ public class Lienzo extends javax.swing.JPanel{
             
             g2d.draw(forma);
         }
+        
     }
     
     /**
@@ -221,11 +245,30 @@ public class Lienzo extends javax.swing.JPanel{
 
             if(tipo == tipos.RECTANGULO){
                 forma = new Rectangle2D.Float(evt.getPoint().x, evt.getPoint().y, 0, 0);     
-            }    
+            }   
             
-            puntoInicial = evt.getPoint();
-            vShape.add(forma);
+            if(tipo == tipos.CURVA){
+                   if (punto1 == null) {
+                        punto1 = evt.getPoint();
+                    } else if (punto2 == null) {
+                        punto2 = evt.getPoint();
+                    } else {
+                        puntoControl = evt.getPoint();
+                        // Dibujar la curva usando los puntos y el punto de control
+                        QuadCurve2D curva = new QuadCurve2D.Double(punto1.getX(), punto1.getY(),
+                            puntoControl.getX(), puntoControl.getY(), punto2.getX(), punto2.getY());
+                        // Agregar la curva al conjunto de figuras
+                        vShape.add(curva);
+                        // Reiniciar los puntos para poder dibujar una nueva curva
+                        punto1 = null;
+                        punto2 = null;
+                        puntoControl = null;
+                    }
+            }
         }
+            
+        puntoInicial = evt.getPoint();
+        vShape.add(forma);
         
     }//GEN-LAST:event_formMousePressed
 
@@ -252,6 +295,11 @@ public class Lienzo extends javax.swing.JPanel{
                         evt.getPoint().y+((Ellipse2D)forma).getHeight()/2);
             }
             
+            if(forma != null && forma instanceof QuadCurve2D){
+                ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(), evt.getPoint(), ((QuadCurve2D)forma).getP2());
+            }
+            
+            
         }
         
         if(!mover){
@@ -272,6 +320,25 @@ public class Lienzo extends javax.swing.JPanel{
                 anchura = abs(-evt.getX() + puntoInicial.x);
                 altura = abs(-evt.getY() + puntoInicial.y);
             }
+            
+            if (tipo == tipos.CURVA) {
+                if (punto1 == null) {
+                    punto1 = evt.getPoint();
+                    } else if (punto2 == null) {
+                        punto2 = evt.getPoint();
+                    } else {
+                        puntoControl = evt.getPoint();
+                        // Dibujar la curva usando los puntos y el punto de control
+                        QuadCurve2D curva = new QuadCurve2D.Double(punto1.getX(), punto1.getY(),
+                                puntoControl.getX(), puntoControl.getY(), punto2.getX(), punto2.getY());
+                        // Reemplazar la figura de la posición anterior por la nueva curva
+                        vShape.set(vShape.size() - 1, curva);
+                        // Reiniciar los puntos para poder dibujar una nueva curva
+                        punto1 = null;
+                        punto2 = null;
+                        puntoControl = null;
+                    }
+            }    
         }
         
         this.repaint();

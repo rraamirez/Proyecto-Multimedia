@@ -1,5 +1,7 @@
 package practica7;
 
+import SM.RRA.IU.Lienzo2D;
+import SM.RRA.IU.tipos;
 import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -9,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.JColorChooser;
 import javax.tools.JavaFileManager;
 
 /**
@@ -58,9 +61,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         negro1 = new javax.swing.JToggleButton();
         rojo1 = new javax.swing.JToggleButton();
         azul1 = new javax.swing.JToggleButton();
-        blanco1 = new javax.swing.JToggleButton();
         amarillo1 = new javax.swing.JToggleButton();
         verde1 = new javax.swing.JToggleButton();
+        masColores = new javax.swing.JToggleButton();
         relleno2 = new javax.swing.JCheckBox();
         transparencia = new javax.swing.JToggleButton();
         alisar = new javax.swing.JToggleButton();
@@ -172,6 +175,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         curva.setFocusable(false);
         curva.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         curva.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        curva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                curvaActionPerformed(evt);
+            }
+        });
         jToolBar1.add(curva);
 
         smile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/smile.png"))); // NOI18N
@@ -219,15 +227,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         colores1.add(azul1);
 
-        blanco1.setBackground(new java.awt.Color(255, 255, 255));
-        blanco1.setForeground(new java.awt.Color(255, 255, 255));
-        blanco1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blanco1ActionPerformed(evt);
-            }
-        });
-        colores1.add(blanco1);
-
         amarillo1.setBackground(new java.awt.Color(255, 255, 51));
         amarillo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,6 +242,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         colores1.add(verde1);
+
+        masColores.setText("+");
+        masColores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                masColoresActionPerformed(evt);
+            }
+        });
+        colores1.add(masColores);
 
         jToolBar1.add(colores1);
 
@@ -363,7 +370,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 File f = dlg.getSelectedFile();
                 BufferedImage img = ImageIO.read(f);
                 VentanaInterna vi = new VentanaInterna();
-                //vi.getLienzo().setImage(img);
+                vi.getLienzo2D().setImagen(img);
                 this.escritorio.add(vi);
                 vi.setTitle(f.getName());
                 vi.setVisible(true);
@@ -407,9 +414,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * @param evt 
      */
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-        /*VentanaInterna vi=(VentanaInterna) escritorio.getSelectedFrame();
+        VentanaInterna vi=(VentanaInterna) escritorio.getSelectedFrame();
         if (vi != null) {
-            BufferedImage img = vi.getLienzo().getImagen();
+            BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 JFileChooser dlg = new JFileChooser();
                 int resp = dlg.showSaveDialog(this);
@@ -423,13 +430,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
         VentanaInterna vi = new VentanaInterna();
         escritorio.add(vi);
         vi.setVisible(true);
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+        vi.getLienzo2D().setImagen(img);
     }//GEN-LAST:event_menuNuevoActionPerformed
 
     private void negro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negro1ActionPerformed
@@ -444,10 +453,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.getLienzoSeleccionado().setColor(Color.blue);
     }//GEN-LAST:event_azul1ActionPerformed
 
-    private void blanco1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blanco1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.white);
-    }//GEN-LAST:event_blanco1ActionPerformed
-
     private void amarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amarillo1ActionPerformed
         this.getLienzoSeleccionado().setColor(Color.yellow);
     }//GEN-LAST:event_amarillo1ActionPerformed
@@ -461,10 +466,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionActionPerformed
         this.getLienzoSeleccionado().setMover(seleccion.isSelected());    }//GEN-LAST:event_seleccionActionPerformed
+
+    private void masColoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masColoresActionPerformed
+        Color color = JColorChooser.showDialog(this, "Elija un color", Color.red);
+        this.getLienzoSeleccionado().setColor(color);
+    }//GEN-LAST:event_masColoresActionPerformed
+
+    private void curvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvaActionPerformed
+        this.getLienzoSeleccionado().setTipo(tipos.CURVA);
+    }//GEN-LAST:event_curvaActionPerformed
    
-    Lienzo getLienzoSeleccionado(){
+    Lienzo2D getLienzoSeleccionado(){
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
-        return vi!=null ? vi.getLienzo() : null;
+        return vi!=null ? vi.getLienzo2D() : null;
     }
     
     /**
@@ -516,7 +530,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton azul1;
     private javax.swing.JCheckBoxMenuItem barraEstado;
     private javax.swing.JLabel barraEstado2;
-    private javax.swing.JToggleButton blanco1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel colores1;
     private javax.swing.JToggleButton cuadrado;
@@ -533,6 +546,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToggleButton linea;
+    private javax.swing.JToggleButton masColores;
     private javax.swing.JMenuItem menuNuevo;
     private javax.swing.JToggleButton negro1;
     private javax.swing.JButton nuevo;

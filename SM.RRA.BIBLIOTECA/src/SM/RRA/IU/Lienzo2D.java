@@ -1,5 +1,7 @@
 package SM.RRA.IU;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,7 +10,9 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -27,13 +31,18 @@ public class Lienzo2D extends javax.swing.JPanel{
     
     boolean relleno;
     boolean mover;
+    boolean transparente;
     Line2D linea;
     tipos tipo = tipos.LINEA;
     Shape forma = new Line2D.Float(0,0,0,0); 
     ArrayList<Shape> vShape = new ArrayList<>(); 
     Color color = Color.BLACK;
     BufferedImage imagen;
-    Stroke trazo;
+    Stroke stroke = new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    Area smileArea;
+    AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+
+    
     
     /**
      * Para movimiento de figuras
@@ -138,6 +147,22 @@ public class Lienzo2D extends javax.swing.JPanel{
         this.imagen = imagen;
     }
 
+    public void setGrosor(){
+        
+    }
+    
+    public void setAlisado(){
+        
+    }
+
+    public boolean isTransparente() {
+        return transparente;
+    }
+
+    public void setTransparente(boolean transparente) {
+        this.transparente = transparente;
+    }
+    
     
     
     //**************** MÉTODO PAINT ******************//
@@ -159,10 +184,20 @@ public class Lienzo2D extends javax.swing.JPanel{
         }
         
         g2d.setPaint(color);
-        //g2d.setStroke(trazo);
+        g2d.setStroke(stroke);
+        g2d.setComposite(alphaComposite);
+        
         for(Shape forma:vShape){
             if(relleno){
                 g2d.fill(forma);
+            }
+            
+            AlphaComposite alphaComposite1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+            AlphaComposite alphaComposite2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+            if(transparente){
+                this.alphaComposite = alphaComposite1;
+            }else{
+                this.alphaComposite = alphaComposite2;
             }
             
             g2d.draw(forma);
@@ -265,6 +300,29 @@ public class Lienzo2D extends javax.swing.JPanel{
                         puntoControl = null;
                     }
             }
+            
+            if(tipo == tipos.LIBRE){
+                
+            }
+            
+            if(tipo == tipos.SMILE){
+                Point mousePosition = evt.getPoint();
+
+                    // Crear el objeto Area que contiene el smile
+                    Point2D p1 = new Point2D.Double(mousePosition.getX() - 50, mousePosition.getY() - 50);
+                    Point2D p2 = new Point2D.Double(mousePosition.getX() + 50, mousePosition.getY() - 50);
+                    Point2D cp = new Point2D.Double(mousePosition.getX(), mousePosition.getY());
+                    QuadCurve2D smileCurve = new QuadCurve2D.Double(p1.getX(), p1.getY(), cp.getX(), cp.getY(), p2.getX(), p2.getY());
+                    Ellipse2D leftEye = new Ellipse2D.Double(mousePosition.getX() - 40, mousePosition.getY() - 70, 10, 10);
+                    Ellipse2D rightEye = new Ellipse2D.Double(mousePosition.getX() + 20, mousePosition.getY() - 70, 10, 10);
+                    Area smile = new Area(smileCurve);
+                    smile.add(new Area(leftEye));
+                    smile.add(new Area(rightEye));
+
+                    // Agregar el objeto Area al panel y repintar
+                    smileArea = smile;
+                    repaint();
+            }
         }
             
         puntoInicial = evt.getPoint();
@@ -338,7 +396,11 @@ public class Lienzo2D extends javax.swing.JPanel{
                         punto2 = null;
                         puntoControl = null;
                     }
-            }    
+            }
+            
+            if(tipo == tipos.LIBRE){
+                
+            }
         }
         
         this.repaint();

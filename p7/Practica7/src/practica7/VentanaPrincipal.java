@@ -50,7 +50,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         nuevo = new javax.swing.JButton();
         abrir = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
-        trazoLibre = new javax.swing.JToggleButton();
+        dibujoLibre = new javax.swing.JToggleButton();
         linea = new javax.swing.JToggleButton();
         cuadrado = new javax.swing.JToggleButton();
         elipse = new javax.swing.JToggleButton();
@@ -78,6 +78,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Salir = new javax.swing.JMenuItem();
         menuNuevo = new javax.swing.JMenuItem();
         Imagen = new javax.swing.JMenu();
+        abreImagen = new javax.swing.JMenuItem();
         Edicion = new javax.swing.JMenu();
         barraEstado = new javax.swing.JCheckBoxMenuItem();
 
@@ -115,25 +116,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/nuevo.png"))); // NOI18N
+        nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoActionPerformed(evt);
+            }
+        });
         jToolBar1.add(nuevo);
 
         abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/abrir.png"))); // NOI18N
         abrir.setFocusable(false);
         abrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         abrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirActionPerformed(evt);
+            }
+        });
         jToolBar1.add(abrir);
 
         guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/guardar.png"))); // NOI18N
         guardar.setFocusable(false);
         guardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         guardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(guardar);
 
-        trazoLibre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/trazo.png"))); // NOI18N
-        trazoLibre.setFocusable(false);
-        trazoLibre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        trazoLibre.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(trazoLibre);
+        dibujoLibre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/trazo.png"))); // NOI18N
+        dibujoLibre.setFocusable(false);
+        dibujoLibre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        dibujoLibre.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        dibujoLibre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dibujoLibreActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(dibujoLibre);
 
         buttonGroup1.add(linea);
         linea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/linea.png"))); // NOI18N
@@ -172,7 +193,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBar1.add(elipse);
 
         curva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/curva.png"))); // NOI18N
-        curva.setFocusable(false);
         curva.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         curva.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         curva.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +206,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         smile.setFocusable(false);
         smile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         smile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        smile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smileActionPerformed(evt);
+            }
+        });
         jToolBar1.add(smile);
 
         seleccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/seleccion.png"))); // NOI18N
@@ -253,6 +278,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jToolBar1.add(colores1);
 
+        relleno2.setBackground(new java.awt.Color(102, 255, 204));
         relleno2.setFocusable(false);
         relleno2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         relleno2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rellenar.png"))); // NOI18N
@@ -268,6 +294,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         transparencia.setFocusable(false);
         transparencia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         transparencia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        transparencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transparenciaActionPerformed(evt);
+            }
+        });
         jToolBar1.add(transparencia);
 
         alisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/alisar.png"))); // NOI18N
@@ -335,6 +366,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(Archivo);
 
         Imagen.setText("Imagen");
+
+        abreImagen.setText("Abrir imagen");
+        abreImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abreImagenActionPerformed(evt);
+            }
+        });
+        Imagen.add(abreImagen);
+
         jMenuBar1.add(Imagen);
 
         Edicion.setText("Edicion");
@@ -475,10 +515,90 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void curvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvaActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.CURVA);
     }//GEN-LAST:event_curvaActionPerformed
+
+    private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
+        VentanaInterna vi = new VentanaInterna();
+        escritorio.add(vi);
+        vi.setVisible(true);
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+        vi.getLienzo2D().setImagen(img);
+    }//GEN-LAST:event_nuevoActionPerformed
+
+    private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
+        JFileChooser dlg = new JFileChooser();
+        int resp = dlg.showOpenDialog(this);
+        if( resp == JFileChooser.APPROVE_OPTION) {
+            try{
+                File f = dlg.getSelectedFile();
+                BufferedImage img = ImageIO.read(f);
+                VentanaInterna vi = new VentanaInterna();
+                vi.getLienzo2D().setImagen(img);
+                this.escritorio.add(vi);
+                vi.setTitle(f.getName());
+                vi.setVisible(true);
+            }catch(Exception ex){
+                System.err.println("Error al leer la imagen");      
+            }
+        }
+    }//GEN-LAST:event_abrirActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        VentanaInterna vi=(VentanaInterna) escritorio.getSelectedFrame();
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                JFileChooser dlg = new JFileChooser();
+                int resp = dlg.showSaveDialog(this);
+                if (resp == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File f = dlg.getSelectedFile();
+                        ImageIO.write(img, "jpg", f);
+                        vi.setTitle(f.getName());
+                        } catch (Exception ex) {
+                        System.err.println("Error al guardar la imagen");
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_guardarActionPerformed
+
+    private void smileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smileActionPerformed
+        this.getLienzoSeleccionado().setTipo(tipos.SMILE);
+    }//GEN-LAST:event_smileActionPerformed
+
+    private void abreImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abreImagenActionPerformed
+        JFileChooser dlg = new JFileChooser();
+        int resp = dlg.showOpenDialog(this);
+        if( resp == JFileChooser.APPROVE_OPTION) {
+            try{
+                File f = dlg.getSelectedFile();
+                BufferedImage img = ImageIO.read(f);
+                VentanaInterna vi = new VentanaInterna();
+                vi.getLienzo2D().setImagen(img);
+                this.escritorio.add(vi);
+                vi.setTitle(f.getName());
+                vi.setVisible(true);
+            }catch(Exception ex){
+                System.err.println("Error al leer la imagen");      
+            }
+        }
+    }//GEN-LAST:event_abreImagenActionPerformed
+
+    private void dibujoLibreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dibujoLibreActionPerformed
+        this.getLienzoSeleccionado().setTipo(tipos.LIBRE);
+    }//GEN-LAST:event_dibujoLibreActionPerformed
+
+    private void transparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparenciaActionPerformed
+        this.getLienzoSeleccionado().setTransparente(transparencia.isSelected());
+    }//GEN-LAST:event_transparenciaActionPerformed
    
     Lienzo2D getLienzoSeleccionado(){
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         return vi!=null ? vi.getLienzo2D() : null;
+    }
+    
+    public int getGrosor(java.awt.event.ActionEvent evt){
+        return spinner.countComponents();
     }
     
     /**
@@ -524,6 +644,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu Imagen;
     private javax.swing.JMenuItem Nuevo;
     private javax.swing.JMenuItem Salir;
+    private javax.swing.JMenuItem abreImagen;
     private javax.swing.JButton abrir;
     private javax.swing.JToggleButton alisar;
     private javax.swing.JToggleButton amarillo1;
@@ -534,6 +655,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel colores1;
     private javax.swing.JToggleButton cuadrado;
     private javax.swing.JToggleButton curva;
+    private javax.swing.JToggleButton dibujoLibre;
     private javax.swing.JToggleButton elipse;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JButton guardar;
@@ -556,7 +678,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton smile;
     private javax.swing.JSpinner spinner;
     private javax.swing.JToggleButton transparencia;
-    private javax.swing.JToggleButton trazoLibre;
     private javax.swing.JToggleButton verde1;
     // End of variables declaration//GEN-END:variables
 }

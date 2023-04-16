@@ -12,5 +12,5 @@ package SM.RRA.IU;
  * 
  */
 public enum tipos {
-    LINEA, RECTANGULO, ELIPSE, CURVA
+    LINEA, RECTANGULO, ELIPSE, CURVA, LIBRE, SMILE
 }

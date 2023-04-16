@@ -39,7 +39,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
 
         lienzo2D = new SM.RRA.IU.Lienzo2D();
 
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout lienzo2DLayout = new javax.swing.GroupLayout(lienzo2D);
         lienzo2D.setLayout(lienzo2DLayout);

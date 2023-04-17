@@ -145,6 +145,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(guardar);
 
+        buttonGroup1.add(dibujoLibre);
         dibujoLibre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/trazo.png"))); // NOI18N
         dibujoLibre.setFocusable(false);
         dibujoLibre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -192,6 +193,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(elipse);
 
+        buttonGroup1.add(curva);
         curva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/curva.png"))); // NOI18N
         curva.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         curva.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -202,6 +204,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(curva);
 
+        buttonGroup1.add(smile);
         smile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/smile.png"))); // NOI18N
         smile.setFocusable(false);
         smile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

@@ -451,14 +451,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     private void elipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elipseActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.ELIPSE);
+        barraEstado2.setText("Elipse");
     }//GEN-LAST:event_elipseActionPerformed
 
     private void lineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineaActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.LINEA);
+        barraEstado2.setText("Línea");
     }//GEN-LAST:event_lineaActionPerformed
 
     private void cuadradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.RECTANGULO);
+        barraEstado2.setText("Rectángulo");
     }//GEN-LAST:event_cuadradoActionPerformed
 //*******************************************************************************//
     
@@ -528,9 +531,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void curvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvaActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.CURVA);
-        System.out.print("Pintando curva");
+        barraEstado2.setText("Curva");
     }//GEN-LAST:event_curvaActionPerformed
 
+    /**
+     * @brief Creamos una ventana interna que se añade a nuestro escritorio y creamos
+     * una imagen vacía en blanco.
+     * @param evt el evento
+     */
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
         VentanaInterna vi = new VentanaInterna();
         escritorio.add(vi);
@@ -583,6 +591,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void smileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smileActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.SMILE);
+        barraEstado2.setText("Smile");
     }//GEN-LAST:event_smileActionPerformed
 
     private void abreImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abreImagenActionPerformed
@@ -605,6 +614,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void dibujoLibreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dibujoLibreActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.LIBRE);
+        barraEstado2.setText("Trazo libre");
     }//GEN-LAST:event_dibujoLibreActionPerformed
 
     private void transparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparenciaActionPerformed

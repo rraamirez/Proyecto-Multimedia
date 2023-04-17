@@ -12,6 +12,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -50,18 +51,33 @@ public class Lienzo2D extends javax.swing.JPanel{
     
     
     /**
-     * Para movimiento de figuras (las tres iniciales
+     * Para movimiento de figuras (las tres iniciales)
      */
     Point puntoInicial = new Point();
-    Point puntoTmp;
+    Point puntoTmp = new Point();
     double anchura, altura;
     
     /**
-     * Para la curva
+     * Para la curva necesitamos su punto de inicio, fin y el control.
+     * El booleano setPuntoControl está hecho para saber si estamos en el momento de trazar la línea
+     * o marcar el punto de control en nuestro lienzo.
      */
-    Point2D punto1, punto2, puntoControl;
+    Point punto1 = new Point();
+    Point punto2 = new Point();
+    Point puntoControl = new Point();
     boolean setPuntoControl = false;
+    Point pauxC = new Point();
     
+    /**
+     * Para mover el trazo
+     */
+    Point pauxTl = new Point();
+    
+    /**
+     * Para mover el smilenecesitamos un punto auxiliar que
+     * guarde la posición del area.
+     */
+    Point pauxSmile = new Point();
     
     //************************CONSTRUCTOR**********************//
     
@@ -151,7 +167,10 @@ public class Lienzo2D extends javax.swing.JPanel{
         return imagen;
     }
     
-
+    /**
+     * @brief Asignamos imagen pasada como parámetro
+     * @param imagen Imagen que pasamos.
+     */
     public void setImagen(BufferedImage imagen) {
         if(imagen!=null) {
             setPreferredSize(new Dimension(imagen.getWidth(),imagen.getHeight()));
@@ -215,24 +234,28 @@ public class Lienzo2D extends javax.swing.JPanel{
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
         
+        //Si hay imagen la pintamos
         if(imagen != null){
             g2d.drawImage(imagen, 0, 0, this);
         }
         
+        //Establecemos nuestro trazo
         this.setStroke(new BasicStroke(grosor, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ));
         
         for(Shape forma:vShape){
             if(relleno){
                 g2d.fill(forma);
             }
-
-            if(transparente){
+            
+            //En función  a si es transparente o no, le damos un alfa distinto.
+            if(isTransparente()){
                 this.setAlphaComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
             }else{
                 this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
             
-            if(liso){
+            //Si el bool es true, activamos antialiasing
+            if(isLiso()){
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             }
             
@@ -272,7 +295,7 @@ public class Lienzo2D extends javax.swing.JPanel{
     }
      
     /**
-     * 
+     * @brief Se encarga de "coger" la imagen con sus dibujos.
      * @param pintaVector Si hemos dibujado encima de la imagen para poder guardar los dibujos.
      * @return nuestra imagen final de salida
      */ 
@@ -345,6 +368,7 @@ public class Lienzo2D extends javax.swing.JPanel{
             if(tipo == tipos.CURVA){
                 if (setPuntoControl) {        
                     puntoControl = evt.getPoint();
+                    pauxC = evt.getPoint();
                 } else {
                     forma = new QuadCurve2D.Double(evt.getPoint().getX(), evt.getPoint().getY(), evt.getPoint().getX(),
                             evt.getPoint().getY(), evt.getPoint().getX(), evt.getPoint().getY());
@@ -362,14 +386,15 @@ public class Lienzo2D extends javax.swing.JPanel{
                 Point punto = evt.getPoint();
                 Area cara = new Area(new Ellipse2D.Float(punto.x-10,punto.y-10,20,20));
 
-                //Creamos los ojos y la boca para añadirlo despues
                 Shape ojoIzda = new Ellipse2D.Float(punto.x-6,punto.y-5,2,4);
                 Shape ojoDcha = new Ellipse2D.Float(punto.x+4,punto.y-5,2,4);
                 Shape boca = new QuadCurve2D.Double(punto.x-5, punto.y+2, punto.x, punto.y+6, punto.x+5, punto.y+2);
                 cara.subtract(new Area(ojoIzda));
                 cara.subtract(new Area(ojoDcha));
                 cara.subtract(new Area(boca));
-
+                
+                pauxSmile = evt.getPoint();
+                
                 vShape.add(cara);
                 this.repaint();
             }
@@ -403,10 +428,48 @@ public class Lienzo2D extends javax.swing.JPanel{
                         evt.getPoint().y+((Ellipse2D)forma).getHeight()/2);
             }
             
-            /*if(forma != null && forma instanceof QuadCurve2D){
-                ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(), evt.getPoint(), ((QuadCurve2D)forma).getP2());
-            }*/
             
+            /**
+             * IMPORTANTE
+             * Por el motivo que sea, esta implementación no termina de funcionar en todos los casos, ya que 
+             * genera una nullpointerexception si tenemos varias curvas juntas y queremos mover una.
+             */
+            if(forma != null && forma instanceof QuadCurve2D){
+                int disX = evt.getX() - pauxC.x;
+                int disY = evt.getY() - pauxC.y;
+
+                QuadCurve2D curva = (QuadCurve2D)forma;
+                Point2D.Double ini = (Point2D.Double)curva.getP1();
+                Point2D.Double fin = (Point2D.Double)curva.getP2();
+                Point2D.Double control = (Point2D.Double)curva.getCtrlPt();
+
+                ini.x += disX;
+                ini.y += disY;
+                fin.x += disX;
+                fin.y += disY;
+                control.x += disX;
+                control.y += disY;
+
+                curva.setCurve(ini, control, fin);
+
+                pauxC = evt.getPoint();
+            }
+            
+            if(forma != null && forma instanceof GeneralPath){
+                int disX = evt.getX() - pauxTl.x;
+                int disY = evt.getY() - pauxTl.y;
+                GeneralPath dibujo = (GeneralPath)forma;
+                AffineTransform at = AffineTransform.getTranslateInstance(disX, disY);
+                dibujo.transform(at);
+                pauxTl = evt.getPoint();
+            }
+            
+            if(forma != null && forma instanceof Area){
+                int disX = evt.getX() - pauxSmile.x;
+                int disY = evt.getY() - pauxSmile.y;
+                ((Area)forma).transform(AffineTransform.getTranslateInstance(disX, disY));
+                pauxSmile = evt.getPoint();
+            }
             
         }
         
@@ -432,19 +495,19 @@ public class Lienzo2D extends javax.swing.JPanel{
             if (tipo == tipos.CURVA){
                 if(setPuntoControl){
                     puntoControl = evt.getPoint();
-                    ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),puntoControl, ((QuadCurve2D)forma).getP2());
-                    repaint();
+                    ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),puntoControl, ((QuadCurve2D)forma).getP2()); 
+                    pauxC = evt.getPoint();
                 }else{ 
                     ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),((QuadCurve2D)forma).getP1(), evt.getPoint());
                     punto2 = evt.getPoint();
-                    repaint();
                 }
                 
-                this.repaint();
+                
             }
             
             if(tipo == tipos.LIBRE){
                 ((GeneralPath)forma).lineTo(evt.getX(), evt.getY());  
+                pauxTl = evt.getPoint();
             }
         }
         

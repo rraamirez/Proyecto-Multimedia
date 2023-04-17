@@ -3,10 +3,12 @@ package SM.RRA.IU;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
@@ -14,6 +16,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
@@ -32,20 +35,22 @@ public class Lienzo2D extends javax.swing.JPanel{
     boolean relleno;
     boolean mover;
     boolean transparente;
+    boolean liso;
+    int grosor = 1;
     Line2D linea;
     tipos tipo = tipos.LINEA;
-    Shape forma = new Line2D.Float(0,0,0,0); 
-    ArrayList<Shape> vShape = new ArrayList<>(); 
+    Shape forma; 
+    ArrayList<Shape> vShape; 
     Color color = Color.BLACK;
     BufferedImage imagen;
-    Stroke stroke = new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    Stroke stroke;
     Area smileArea;
-    AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+    AlphaComposite alphaComposite;
 
     
     
     /**
-     * Para movimiento de figuras
+     * Para movimiento de figuras (las tres iniciales
      */
     Point puntoInicial = new Point();
     Point puntoTmp;
@@ -55,13 +60,17 @@ public class Lienzo2D extends javax.swing.JPanel{
      * Para la curva
      */
     Point punto1, punto2, puntoControl;
+    boolean segundoPaso = false;
     
     
     //************************CONSTRUCTOR**********************//
     
     public Lienzo2D() {
         initComponents();
-        
+        stroke = new BasicStroke();
+        alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+        vShape = new ArrayList<>();
+        forma = new Line2D.Float(0,0,0,0);
     }
     
     //*************************GETTERS AND SETTERS*************************//
@@ -144,16 +153,12 @@ public class Lienzo2D extends javax.swing.JPanel{
     
 
     public void setImagen(BufferedImage imagen) {
+        if(imagen!=null) {
+            setPreferredSize(new Dimension(imagen.getWidth(),imagen.getHeight()));
+        }
         this.imagen = imagen;
     }
-
-    public void setGrosor(){
-        
-    }
     
-    public void setAlisado(){
-        
-    }
 
     public boolean isTransparente() {
         return transparente;
@@ -162,7 +167,38 @@ public class Lienzo2D extends javax.swing.JPanel{
     public void setTransparente(boolean transparente) {
         this.transparente = transparente;
     }
-    
+
+    public int getGrosor() {
+        return grosor;
+    }
+
+    public void setGrosor(int grosor) {
+        this.grosor = grosor;
+    }
+
+    public boolean isLiso() {
+        return liso;
+    }
+
+    public void setLiso(boolean liso) {
+        this.liso = liso;
+    }
+
+    public Stroke getStroke() {
+        return stroke;
+    }
+
+    public void setStroke(Stroke stroke) {
+        this.stroke = stroke;
+    }
+
+    public AlphaComposite getAlphaComposite() {
+        return alphaComposite;
+    }
+
+    public void setAlphaComposite(AlphaComposite alphaComposite) {
+        this.alphaComposite = alphaComposite;
+    }
     
     
     //**************** MÉTODO PAINT ******************//
@@ -170,7 +206,7 @@ public class Lienzo2D extends javax.swing.JPanel{
     /**
      * El metodo paint será el encargado de (solo y exclusivamente)
      * pintar la forma que tengamos.
-     * No es correcto declarar objetos forma dentro ni modificarlos.
+     * 
      * @param g Se le hace casting para que funcione como si fuese de Graphics2D
      */
   
@@ -183,23 +219,26 @@ public class Lienzo2D extends javax.swing.JPanel{
             g2d.drawImage(imagen, 0, 0, this);
         }
         
-        g2d.setPaint(color);
-        g2d.setStroke(stroke);
-        g2d.setComposite(alphaComposite);
+        this.setStroke(new BasicStroke(grosor, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ));
         
         for(Shape forma:vShape){
             if(relleno){
                 g2d.fill(forma);
             }
-            
-            AlphaComposite alphaComposite1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
-            AlphaComposite alphaComposite2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+
             if(transparente){
-                this.alphaComposite = alphaComposite1;
+                this.setAlphaComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
             }else{
-                this.alphaComposite = alphaComposite2;
+                this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
             
+            if(liso){
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            }
+            
+            g2d.setPaint(color);
+            g2d.setStroke(stroke);
+            g2d.setComposite(alphaComposite);
             g2d.draw(forma);
         }
         
@@ -230,7 +269,20 @@ public class Lienzo2D extends javax.swing.JPanel{
             }
         }
         return null;        
-}
+    }
+     
+    public BufferedImage getImagen(boolean pintaVector){
+        if (pintaVector) {
+            BufferedImage imgout = new BufferedImage(imagen.getWidth(),
+            imagen.getHeight(),
+            imagen.getType());
+            Graphics2D g2dImagen = imgout.createGraphics();
+            this.paint(imgout.createGraphics());
+            return(imgout);
+        }else{
+            return imagen;
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -249,6 +301,9 @@ public class Lienzo2D extends javax.swing.JPanel{
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
             }
         });
 
@@ -283,45 +338,35 @@ public class Lienzo2D extends javax.swing.JPanel{
             }   
             
             if(tipo == tipos.CURVA){
-                   if (punto1 == null) {
-                        punto1 = evt.getPoint();
-                    } else if (punto2 == null) {
-                        punto2 = evt.getPoint();
-                    } else {
-                        puntoControl = evt.getPoint();
-                        // Dibujar la curva usando los puntos y el punto de control
-                        QuadCurve2D curva = new QuadCurve2D.Double(punto1.getX(), punto1.getY(),
-                            puntoControl.getX(), puntoControl.getY(), punto2.getX(), punto2.getY());
-                        // Agregar la curva al conjunto de figuras
-                        vShape.add(curva);
-                        // Reiniciar los puntos para poder dibujar una nueva curva
-                        punto1 = null;
-                        punto2 = null;
-                        puntoControl = null;
-                    }
+              if (segundoPaso) {        
+                    puntoControl = evt.getPoint();
+                    this.repaint();
+                } else {
+                    forma = new QuadCurve2D.Double(evt.getPoint().getX(), evt.getPoint().getY(), evt.getPoint().getX(),
+                            evt.getPoint().getY(), evt.getPoint().getX(), evt.getPoint().getY());
+                    punto1 = evt.getPoint();
+                }
             }
             
             if(tipo == tipos.LIBRE){
-                
+                forma = new GeneralPath(Path2D.WIND_EVEN_ODD);
+                ((GeneralPath)forma).moveTo(evt.getX(),evt.getY());
             }
             
             if(tipo == tipos.SMILE){
-                Point mousePosition = evt.getPoint();
+                Point punto = evt.getPoint();
+                Area cara = new Area(new Ellipse2D.Float(punto.x-10,punto.y-10,20,20));
 
-                    // Crear el objeto Area que contiene el smile
-                    Point2D p1 = new Point2D.Double(mousePosition.getX() - 50, mousePosition.getY() - 50);
-                    Point2D p2 = new Point2D.Double(mousePosition.getX() + 50, mousePosition.getY() - 50);
-                    Point2D cp = new Point2D.Double(mousePosition.getX(), mousePosition.getY());
-                    QuadCurve2D smileCurve = new QuadCurve2D.Double(p1.getX(), p1.getY(), cp.getX(), cp.getY(), p2.getX(), p2.getY());
-                    Ellipse2D leftEye = new Ellipse2D.Double(mousePosition.getX() - 40, mousePosition.getY() - 70, 10, 10);
-                    Ellipse2D rightEye = new Ellipse2D.Double(mousePosition.getX() + 20, mousePosition.getY() - 70, 10, 10);
-                    Area smile = new Area(smileCurve);
-                    smile.add(new Area(leftEye));
-                    smile.add(new Area(rightEye));
+                //Creamos los ojos y la boca para añadirlo despues
+                Shape ojoIzda = new Ellipse2D.Float(punto.x-6,punto.y-5,2,4);
+                Shape ojoDcha = new Ellipse2D.Float(punto.x+4,punto.y-5,2,4);
+                Shape boca = new QuadCurve2D.Double(punto.x-5, punto.y+2, punto.x, punto.y+6, punto.x+5, punto.y+2);
+                cara.subtract(new Area(ojoIzda));
+                cara.subtract(new Area(ojoDcha));
+                cara.subtract(new Area(boca));
 
-                    // Agregar el objeto Area al panel y repintar
-                    smileArea = smile;
-                    repaint();
+                vShape.add(cara);
+                this.repaint();
             }
         }
             
@@ -353,9 +398,9 @@ public class Lienzo2D extends javax.swing.JPanel{
                         evt.getPoint().y+((Ellipse2D)forma).getHeight()/2);
             }
             
-            if(forma != null && forma instanceof QuadCurve2D){
+            /*if(forma != null && forma instanceof QuadCurve2D){
                 ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(), evt.getPoint(), ((QuadCurve2D)forma).getP2());
-            }
+            }*/
             
             
         }
@@ -379,33 +424,37 @@ public class Lienzo2D extends javax.swing.JPanel{
                 altura = abs(-evt.getY() + puntoInicial.y);
             }
             
-            if (tipo == tipos.CURVA) {
-                if (punto1 == null) {
-                    punto1 = evt.getPoint();
-                    } else if (punto2 == null) {
-                        punto2 = evt.getPoint();
-                    } else {
+            if (tipo == tipos.CURVA){
+                if(segundoPaso){
                         puntoControl = evt.getPoint();
-                        // Dibujar la curva usando los puntos y el punto de control
-                        QuadCurve2D curva = new QuadCurve2D.Double(punto1.getX(), punto1.getY(),
-                                puntoControl.getX(), puntoControl.getY(), punto2.getX(), punto2.getY());
-                        // Reemplazar la figura de la posición anterior por la nueva curva
-                        vShape.set(vShape.size() - 1, curva);
-                        // Reiniciar los puntos para poder dibujar una nueva curva
-                        punto1 = null;
-                        punto2 = null;
-                        puntoControl = null;
+                        ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),puntoControl, ((QuadCurve2D)forma).getP2());
+                        repaint();
+                    }else{ 
+                        ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),((QuadCurve2D)forma).getP1(), evt.getPoint());
+                        punto2 = evt.getPoint();
+                        repaint();
                     }
             }
             
             if(tipo == tipos.LIBRE){
-                
+                ((GeneralPath)forma).lineTo(evt.getX(), evt.getY());  
             }
         }
         
         this.repaint();
         
     }//GEN-LAST:event_formMouseDragged
+
+    
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+        if(segundoPaso == false){
+            segundoPaso = true;
+        }
+        
+        if(segundoPaso = true){
+            segundoPaso = false;
+        }
+    }//GEN-LAST:event_formMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

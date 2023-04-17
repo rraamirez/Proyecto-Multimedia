@@ -305,7 +305,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         alisar.setFocusable(false);
         alisar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         alisar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        alisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alisarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(alisar);
+
+        spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerStateChanged(evt);
+            }
+        });
         jToolBar1.add(spinner);
 
         jPanel5.add(jToolBar1);
@@ -456,7 +467,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         VentanaInterna vi=(VentanaInterna) escritorio.getSelectedFrame();
         if (vi != null) {
-            BufferedImage img = vi.getLienzo2D().getImagen();
+            BufferedImage img = vi.getLienzo2D().getImagen(true);
             if (img != null) {
                 JFileChooser dlg = new JFileChooser();
                 int resp = dlg.showSaveDialog(this);
@@ -520,7 +531,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         VentanaInterna vi = new VentanaInterna();
         escritorio.add(vi);
         vi.setVisible(true);
-        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+        BufferedImage img;
+        img = new BufferedImage(800,800,BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = img.createGraphics();
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, img.getWidth(), img.getHeight());
         vi.getLienzo2D().setImagen(img);
     }//GEN-LAST:event_nuevoActionPerformed
 
@@ -533,8 +548,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 BufferedImage img = ImageIO.read(f);
                 VentanaInterna vi = new VentanaInterna();
                 vi.getLienzo2D().setImagen(img);
+                vi.setTitle(f.getName()); // Agregar esta línea para establecer el título de la ventana interna
                 this.escritorio.add(vi);
-                vi.setTitle(f.getName());
                 vi.setVisible(true);
             }catch(Exception ex){
                 System.err.println("Error al leer la imagen");      
@@ -545,7 +560,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         VentanaInterna vi=(VentanaInterna) escritorio.getSelectedFrame();
         if (vi != null) {
-            BufferedImage img = vi.getLienzo2D().getImagen();
+            BufferedImage img = vi.getLienzo2D().getImagen(true);
             if (img != null) {
                 JFileChooser dlg = new JFileChooser();
                 int resp = dlg.showSaveDialog(this);
@@ -591,14 +606,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void transparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparenciaActionPerformed
         this.getLienzoSeleccionado().setTransparente(transparencia.isSelected());
     }//GEN-LAST:event_transparenciaActionPerformed
+
+    private void spinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerStateChanged
+        this.getLienzoSeleccionado().setGrosor(Integer.parseInt(spinner.getValue().toString()));
+    }//GEN-LAST:event_spinnerStateChanged
+
+    private void alisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alisarActionPerformed
+        this.getLienzoSeleccionado().setLiso(alisar.isSelected());
+    }//GEN-LAST:event_alisarActionPerformed
    
     Lienzo2D getLienzoSeleccionado(){
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         return vi!=null ? vi.getLienzo2D() : null;
-    }
-    
-    public int getGrosor(java.awt.event.ActionEvent evt){
-        return spinner.countComponents();
     }
     
     /**

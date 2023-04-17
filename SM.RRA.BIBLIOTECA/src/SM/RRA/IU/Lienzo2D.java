@@ -59,8 +59,8 @@ public class Lienzo2D extends javax.swing.JPanel{
     /**
      * Para la curva
      */
-    Point punto1, punto2, puntoControl;
-    boolean segundoPaso = false;
+    Point2D punto1, punto2, puntoControl;
+    boolean setPuntoControl = false;
     
     
     //************************CONSTRUCTOR**********************//
@@ -271,6 +271,11 @@ public class Lienzo2D extends javax.swing.JPanel{
         return null;        
     }
      
+    /**
+     * 
+     * @param pintaVector Si hemos dibujado encima de la imagen para poder guardar los dibujos.
+     * @return nuestra imagen final de salida
+     */ 
     public BufferedImage getImagen(boolean pintaVector){
         if (pintaVector) {
             BufferedImage imgout = new BufferedImage(imagen.getWidth(),
@@ -338,14 +343,14 @@ public class Lienzo2D extends javax.swing.JPanel{
             }   
             
             if(tipo == tipos.CURVA){
-              if (segundoPaso) {        
+                if (setPuntoControl) {        
                     puntoControl = evt.getPoint();
-                    this.repaint();
                 } else {
                     forma = new QuadCurve2D.Double(evt.getPoint().getX(), evt.getPoint().getY(), evt.getPoint().getX(),
                             evt.getPoint().getY(), evt.getPoint().getX(), evt.getPoint().getY());
                     punto1 = evt.getPoint();
                 }
+                this.repaint();
             }
             
             if(tipo == tipos.LIBRE){
@@ -425,15 +430,17 @@ public class Lienzo2D extends javax.swing.JPanel{
             }
             
             if (tipo == tipos.CURVA){
-                if(segundoPaso){
-                        puntoControl = evt.getPoint();
-                        ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),puntoControl, ((QuadCurve2D)forma).getP2());
-                        repaint();
-                    }else{ 
-                        ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),((QuadCurve2D)forma).getP1(), evt.getPoint());
-                        punto2 = evt.getPoint();
-                        repaint();
-                    }
+                if(setPuntoControl){
+                    puntoControl = evt.getPoint();
+                    ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),puntoControl, ((QuadCurve2D)forma).getP2());
+                    repaint();
+                }else{ 
+                    ((QuadCurve2D)forma).setCurve(((QuadCurve2D)forma).getP1(),((QuadCurve2D)forma).getP1(), evt.getPoint());
+                    punto2 = evt.getPoint();
+                    repaint();
+                }
+                
+                this.repaint();
             }
             
             if(tipo == tipos.LIBRE){
@@ -447,13 +454,9 @@ public class Lienzo2D extends javax.swing.JPanel{
 
     
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        if(segundoPaso == false){
-            segundoPaso = true;
-        }
-        
-        if(segundoPaso = true){
-            segundoPaso = false;
-        }
+        if(!setPuntoControl){
+            setPuntoControl = true;
+        }else setPuntoControl = false;
     }//GEN-LAST:event_formMouseReleased
 
 

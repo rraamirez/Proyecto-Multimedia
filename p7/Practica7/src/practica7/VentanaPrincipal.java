@@ -528,6 +528,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void curvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvaActionPerformed
         this.getLienzoSeleccionado().setTipo(tipos.CURVA);
+        System.out.print("Pintando curva");
     }//GEN-LAST:event_curvaActionPerformed
 
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed

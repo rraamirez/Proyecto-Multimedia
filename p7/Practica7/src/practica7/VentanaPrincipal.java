@@ -327,8 +327,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel1.add(jPanel5);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
-        escritorio.setLayout(new javax.swing.BoxLayout(escritorio, javax.swing.BoxLayout.LINE_AXIS));
         getContentPane().add(escritorio, java.awt.BorderLayout.CENTER);
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));

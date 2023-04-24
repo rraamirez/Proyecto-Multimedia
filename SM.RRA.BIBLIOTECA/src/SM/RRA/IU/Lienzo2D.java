@@ -276,7 +276,6 @@ public class Lienzo2D extends javax.swing.JPanel{
         this.repaint();
     }
     
-    
     /**
      * Este metodo devuelve la figura seleccionada dado un punto
      */
@@ -521,6 +520,10 @@ public class Lienzo2D extends javax.swing.JPanel{
             setPuntoControl = true;
         }else setPuntoControl = false;
     }//GEN-LAST:event_formMouseReleased
+
+    public BufferedImage getImage() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

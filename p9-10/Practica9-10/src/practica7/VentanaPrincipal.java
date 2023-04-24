@@ -6,7 +6,9 @@ import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -69,6 +71,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         alisar = new javax.swing.JToggleButton();
         spinner = new javax.swing.JSpinner();
         escritorio = new javax.swing.JDesktopPane();
+        jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         Nuevo = new javax.swing.JMenuItem();
@@ -102,8 +106,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         barraEstado2.setBackground(new java.awt.Color(153, 153, 153));
         barraEstado2.setText("Barra de Estado");
         jPanel2.add(barraEstado2, java.awt.BorderLayout.PAGE_END);
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(31, 31));
         jPanel1.setMinimumSize(new java.awt.Dimension(29, 29));
@@ -326,10 +328,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
         escritorio.setLayout(new javax.swing.BoxLayout(escritorio, javax.swing.BoxLayout.LINE_AXIS));
-        getContentPane().add(escritorio, java.awt.BorderLayout.CENTER);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jButton1)
+                .addContainerGap(508, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(28, 28, 28))
+        );
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setForeground(new java.awt.Color(0, 0, 0));
@@ -405,6 +428,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(Edicion);
 
         setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(370, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(20, Short.MAX_VALUE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -628,6 +676,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void alisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alisarActionPerformed
         this.getLienzoSeleccionado().setLiso(alisar.isSelected());
     }//GEN-LAST:event_alisarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if(img!=null){
+                try{
+                    AffineTransform at = AffineTransform.getScaleInstance(1.5,1.5);
+                    AffineTransformOp atop = new AffineTransformOp(at,null);
+                    BufferedImage imgdest = atop.filter(img, null);
+                    vi.getLienzo2D().setImagen(imgdest);
+                    vi.getLienzo2D().repaint();
+                } catch(IllegalArgumentException e){
+            System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
    
     Lienzo2D getLienzoSeleccionado(){
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
@@ -692,10 +758,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton elipse;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JButton guardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu.Separator jSeparator1;

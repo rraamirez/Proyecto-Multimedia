@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="Practica9-10" default="default" basedir=".">
-    <description>Builds, tests, and runs the project Practica9-10.</description>
+<project name="Practica7" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Practica7.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -58,7 +58,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="Practica9-10-impl.jar">
+        <target name="run" depends="Practica7-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
@@ -70,4 +70,15 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="-post-jar">
+<property name="pack.jar" value="dist/${application.title}.pack.jar"/>
+<echo message="Packaging into a single JAR at ${pack.jar}"/>
+<jar jarfile="${pack.jar}">
+<zipfileset src="${dist.jar}" excludes="META-INF/*" />
+<zipgroupfileset dir="dist/lib" includes="*.jar" excludes="META-INF/*"/>
+<manifest>
+<attribute name="Main-Class" value="${main.class}"/>
+</manifest>
+</jar>
+</target>
 </project>

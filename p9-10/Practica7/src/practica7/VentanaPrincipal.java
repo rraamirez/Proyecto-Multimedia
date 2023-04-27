@@ -6,9 +6,7 @@ import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -71,8 +69,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         alisar = new javax.swing.JToggleButton();
         spinner = new javax.swing.JSpinner();
         escritorio = new javax.swing.JDesktopPane();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         Nuevo = new javax.swing.JMenuItem();
@@ -106,6 +102,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         barraEstado2.setBackground(new java.awt.Color(153, 153, 153));
         barraEstado2.setText("Barra de Estado");
         jPanel2.add(barraEstado2, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(31, 31));
         jPanel1.setMinimumSize(new java.awt.Dimension(29, 29));
@@ -328,31 +326,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5);
 
-        escritorio.setLayout(new javax.swing.BoxLayout(escritorio, javax.swing.BoxLayout.LINE_AXIS));
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jButton1)
-                .addContainerGap(508, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(28, 28, 28))
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(escritorio, java.awt.BorderLayout.CENTER);
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setForeground(new java.awt.Color(0, 0, 0));
@@ -429,31 +404,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(370, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(20, Short.MAX_VALUE)))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -498,18 +448,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_NuevoActionPerformed
     
     private void elipseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elipseActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.ELIPSE);
-        barraEstado2.setText("Elipse");
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTipo(tipos.ELIPSE);
+            barraEstado2.setText("Elipse");
+        }
     }//GEN-LAST:event_elipseActionPerformed
 
     private void lineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineaActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.LINEA);
-        barraEstado2.setText("Línea");
+        if (hayLienzo()) {
+            this.getLienzoSeleccionado().setTipo(tipos.LINEA);
+            barraEstado2.setText("Línea");
+        }
     }//GEN-LAST:event_lineaActionPerformed
 
     private void cuadradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.RECTANGULO);
-        barraEstado2.setText("Rectángulo");
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTipo(tipos.RECTANGULO);
+            barraEstado2.setText("Rectángulo");
+        }
     }//GEN-LAST:event_cuadradoActionPerformed
 //*******************************************************************************//
     
@@ -547,38 +503,58 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuNuevoActionPerformed
 
     private void negro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negro1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.black);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setColor(Color.black);
+        }
     }//GEN-LAST:event_negro1ActionPerformed
 
     private void rojo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rojo1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.red);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setColor(Color.red);
+        }
     }//GEN-LAST:event_rojo1ActionPerformed
 
     private void azul1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azul1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.blue);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setColor(Color.blue);
+        }
     }//GEN-LAST:event_azul1ActionPerformed
 
     private void amarillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amarillo1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.yellow);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setColor(Color.yellow);
+        }
     }//GEN-LAST:event_amarillo1ActionPerformed
 
     private void verde1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verde1ActionPerformed
-        this.getLienzoSeleccionado().setColor(Color.green);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setColor(Color.green);
+        }
     }//GEN-LAST:event_verde1ActionPerformed
 
     private void relleno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relleno2ActionPerformed
-        this.getLienzoSeleccionado().setRelleno(relleno2.isSelected());    }//GEN-LAST:event_relleno2ActionPerformed
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setRelleno(relleno2.isSelected());
+        }    
+        }//GEN-LAST:event_relleno2ActionPerformed
 
     private void seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionActionPerformed
-        this.getLienzoSeleccionado().setMover(seleccion.isSelected());    }//GEN-LAST:event_seleccionActionPerformed
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setMover(seleccion.isSelected());
+        }    
+       }//GEN-LAST:event_seleccionActionPerformed
 
     private void masColoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masColoresActionPerformed
-        Color color = JColorChooser.showDialog(this, "Elija un color", Color.red);
-        this.getLienzoSeleccionado().setColor(color);
+        if (hayLienzo()) {
+            Color color = JColorChooser.showDialog(this, "Elija un color", Color.red);
+            this.getLienzoSeleccionado().setColor(color);
+        }
     }//GEN-LAST:event_masColoresActionPerformed
 
     private void curvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curvaActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.CURVA);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTipo(tipos.CURVA);
+        }
         barraEstado2.setText("Curva");
     }//GEN-LAST:event_curvaActionPerformed
 
@@ -638,7 +614,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_guardarActionPerformed
 
     private void smileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smileActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.SMILE);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTipo(tipos.SMILE);
+        }
         barraEstado2.setText("Smile");
     }//GEN-LAST:event_smileActionPerformed
 
@@ -661,43 +639,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_abreImagenActionPerformed
 
     private void dibujoLibreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dibujoLibreActionPerformed
-        this.getLienzoSeleccionado().setTipo(tipos.LIBRE);
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTipo(tipos.LIBRE);
+        }
         barraEstado2.setText("Trazo libre");
     }//GEN-LAST:event_dibujoLibreActionPerformed
 
     private void transparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparenciaActionPerformed
-        this.getLienzoSeleccionado().setTransparente(transparencia.isSelected());
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setTransparente(transparencia.isSelected());
+        }
     }//GEN-LAST:event_transparenciaActionPerformed
 
     private void spinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerStateChanged
-        this.getLienzoSeleccionado().setGrosor(Integer.parseInt(spinner.getValue().toString()));
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setGrosor(Integer.parseInt(spinner.getValue().toString()));
+        }
     }//GEN-LAST:event_spinnerStateChanged
 
     private void alisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alisarActionPerformed
-        this.getLienzoSeleccionado().setLiso(alisar.isSelected());
-    }//GEN-LAST:event_alisarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
-        if (vi != null) {
-            BufferedImage img = vi.getLienzo2D().getImagen();
-            if(img!=null){
-                try{
-                    AffineTransform at = AffineTransform.getScaleInstance(1.5,1.5);
-                    AffineTransformOp atop = new AffineTransformOp(at,null);
-                    BufferedImage imgdest = atop.filter(img, null);
-                    vi.getLienzo2D().setImagen(imgdest);
-                    vi.getLienzo2D().repaint();
-                } catch(IllegalArgumentException e){
-            System.err.println(e.getLocalizedMessage());
-                }
-            }
+        if(hayLienzo()){
+            this.getLienzoSeleccionado().setLiso(alisar.isSelected());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_alisarActionPerformed
    
     Lienzo2D getLienzoSeleccionado(){
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         return vi!=null ? vi.getLienzo2D() : null;
+    }
+    
+    boolean hayLienzo(){
+        return this.getLienzoSeleccionado() != null;
     }
     
     /**
@@ -758,12 +730,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton elipse;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JButton guardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu.Separator jSeparator1;

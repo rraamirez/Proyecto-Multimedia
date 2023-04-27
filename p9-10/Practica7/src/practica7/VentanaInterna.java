@@ -17,6 +17,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
      */
     public VentanaInterna() {
         initComponents();
+        this.setSize(500,500);
         this.setClosable(true);
         this.setIconifiable(true);
         this.setResizable(true);

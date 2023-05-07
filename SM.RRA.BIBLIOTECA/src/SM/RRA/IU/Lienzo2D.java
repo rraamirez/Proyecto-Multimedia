@@ -282,14 +282,7 @@ public class Lienzo2D extends javax.swing.JPanel{
      * @return true o false si tenemos una figura cerca de nuestro pressed
      */
     public boolean hayFiguraCerca(Point2D p) {
-        boolean hayFigura = false;
-        for (int i = vShape.size() - 1; i >= 0; i--) {
-            Shape s = vShape.get(i);
-            if (s.contains(p) || s instanceof Line2D && ((Line2D) s).ptLineDist(p) <= 2.0) {
-                hayFigura = true;
-            }
-        }
-        return hayFigura;
+        return getFiguraSeleccionada(p) != null;
     }
     
     /**
@@ -306,7 +299,7 @@ public class Lienzo2D extends javax.swing.JPanel{
                 return s;
             }
         }
-        return this.forma;      
+        return null;      
     }
      
     /**
@@ -363,8 +356,8 @@ public class Lienzo2D extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        Point2D aux = evt.getPoint();
-        if(mover && hayFiguraCerca(aux)){
+
+        if(mover && hayFiguraCerca(evt.getPoint())){
             forma = getFiguraSeleccionada(evt.getPoint());
         }
         

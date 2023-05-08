@@ -167,7 +167,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-6,0,0,3,23"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,56,0,0,5,33"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -240,16 +240,18 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="iluminada" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="oscurecer" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="cuadratica" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lineal" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSlider2" pref="100" max="32767" attributes="0"/>
-                                  <Component id="jSlider1" pref="0" max="32767" attributes="0"/>
-                              </Group>
                           </Group>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jSlider2" pref="100" max="32767" attributes="0"/>
+                          <Component id="jSlider1" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -263,7 +265,7 @@
                           </Group>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="500" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -303,21 +305,24 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="contrasteBoton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="iluminada" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cuadratica" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lineal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="rotar" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="aumento" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="disminucion" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cuadratica" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="contrasteBoton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="iluminada" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="oscurecer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lineal" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -407,14 +412,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="iluminadaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="cuadratica">
+            <Component class="javax.swing.JButton" name="oscurecer">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ICONOS/cuadratica.png"/>
+                  <Image iconType="3" name="/ICONOS/oscurecer.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuadraticaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="oscurecerActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="lineal">
@@ -460,6 +465,13 @@
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Rotaci&#xf3;n Y escalado"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="cuadratica">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ICONOS/cuadratica.png"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -805,12 +817,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="449" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="777" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="333" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="651" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

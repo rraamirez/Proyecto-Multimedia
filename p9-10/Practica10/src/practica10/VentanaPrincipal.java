@@ -72,7 +72,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         contrasteBoton = new javax.swing.JButton();
         iluminada = new javax.swing.JButton();
-        cuadratica = new javax.swing.JButton();
+        oscurecer = new javax.swing.JButton();
         lineal = new javax.swing.JButton();
         jSlider1 = new javax.swing.JSlider();
         jSlider2 = new javax.swing.JSlider();
@@ -81,6 +81,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         aumento = new javax.swing.JButton();
         disminucion = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        cuadratica = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -205,10 +206,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        cuadratica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/cuadratica.png"))); // NOI18N
-        cuadratica.addActionListener(new java.awt.event.ActionListener() {
+        oscurecer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/oscurecer.png"))); // NOI18N
+        oscurecer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cuadraticaActionPerformed(evt);
+                oscurecerActionPerformed(evt);
             }
         });
 
@@ -228,6 +229,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         disminucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/disminuir.png"))); // NOI18N
 
         jLabel5.setText("Rotación Y escalado");
+
+        cuadratica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/cuadratica.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -255,14 +258,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(iluminada)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(oscurecer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cuadratica)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lineal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(lineal))
                     .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -273,7 +278,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(disminucion))
                     .addComponent(jLabel5))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 500, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,18 +310,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(contrasteBoton)
-                                    .addComponent(iluminada)
-                                    .addComponent(cuadratica)
-                                    .addComponent(lineal))
-                                .addGap(28, 28, 28))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(rotar)
                                     .addComponent(aumento)
                                     .addComponent(disminucion))
-                                .addGap(29, 29, 29))))))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cuadratica)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(contrasteBoton)
+                                        .addComponent(iluminada)
+                                        .addComponent(oscurecer)
+                                        .addComponent(lineal)))
+                                .addGap(28, 28, 28))))))
         );
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -554,11 +561,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGap(0, 777, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -994,7 +1001,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_brilloStateChanged
 
     private void ContrasteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteStateChanged
-        // TODO add your handling code here:
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null && imgFuente != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    float c = ((float) this.Contraste.getValue() / 100.0f);
+                    RescaleOp rop = new RescaleOp(c, 0, null);
+                    rop.filter(imgFuente, img);
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
     }//GEN-LAST:event_ContrasteStateChanged
 
     private void brilloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_brilloFocusGained
@@ -1013,7 +1033,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_brilloFocusLost
 
     private void ContrasteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ContrasteFocusGained
-        // TODO add your handling code here:
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            ColorModel cm = vi.getLienzo2D().getImagen().getColorModel();
+            WritableRaster raster = vi.getLienzo2D().getImagen().copyData(null);
+            boolean alfaPre = vi.getLienzo2D().getImagen().isAlphaPremultiplied();
+            imgFuente = new BufferedImage(cm, raster, alfaPre, null);
+        }
     }//GEN-LAST:event_ContrasteFocusGained
 
     private Kernel getKernel(int seleccion) {
@@ -1069,7 +1095,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_filtroActionPerformed
 
     private void ContrasteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ContrasteFocusLost
-        // TODO add your handling code here:
+        imgFuente = null;
+        this.Contraste.setValue(0);
     }//GEN-LAST:event_ContrasteFocusLost
 
     private void lookUpOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookUpOpActionPerformed
@@ -1161,26 +1188,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_iluminadaActionPerformed
 
-    private static LookupTable createPowerLookupTable(double factorContraste, double factorOscurecimiento) {
-        double gamma = 1.0 / factorContraste;
-        byte[] lutData = new byte[256];
-        for (int i = 0; i < lutData.length; i++) {
-            double value = 255.0 * Math.pow((double) i / 255.0, gamma) * Math.pow(factorOscurecimiento, 2.0) * 255.0;
-            lutData[i] = (byte) (value + 0.5);
-        }
-        return new ByteLookupTable(0, lutData);
-    }
-
-    private void cuadraticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadraticaActionPerformed
+    private void oscurecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oscurecerActionPerformed
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 try {
-                    // Ajuste de contraste con iluminación utilizando función potencial
-                    double factorContraste = 2.0;
-                    double factorOscurecimiento = 0.5;
-                    LookupTable lt = createPowerLookupTable(factorContraste, factorOscurecimiento);
+                    LookupTable lt = LookupTableProducer.createLookupTable(LookupTableProducer.TYPE_POWER);
                     LookupOp lop = new LookupOp(lt, null);
                     lop.filter(img, img); // Imagen origen y destino iguales
                     vi.getLienzo2D().repaint();
@@ -1189,7 +1203,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_cuadraticaActionPerformed
+    }//GEN-LAST:event_oscurecerActionPerformed
 
     //todo
     private void rotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotarActionPerformed
@@ -1198,7 +1212,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 try {
-                    AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(180), img.getWidth()/2, img.getHeight()/2);
+                    AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(180), img.getWidth() / 2, img.getHeight() / 2);
                     AffineTransformOp atop;
                     atop = new AffineTransformOp(at, null);
                     BufferedImage imgdest = atop.filter(img, null);
@@ -1224,7 +1238,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         public void shapeAdded(LienzoEvent evt) {
             Shape s = evt.getForma();
-            ((DefaultListModel)listaLateral.getModel()).addElement(s);
+            ((DefaultListModel) listaLateral.getModel()).addElement(s);
         }
     }
 
@@ -1238,11 +1252,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
 
         public void internalFrameClosing(InternalFrameEvent evt) {
-            ((DefaultListModel)listaLateral.getModel()).removeAllElements();
+            ((DefaultListModel) listaLateral.getModel()).removeAllElements();
         }
     }
-
-   
 
     /**
      * @param args the command line arguments
@@ -1337,6 +1349,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuNuevo;
     private javax.swing.JToggleButton negro1;
     private javax.swing.JButton nuevo;
+    private javax.swing.JButton oscurecer;
     private javax.swing.JSplitPane panelDividido;
     private javax.swing.JMenuItem reescalado;
     private javax.swing.JCheckBox relleno2;

@@ -16,6 +16,8 @@ import javax.swing.event.InternalFrameEvent;
  */
 public class VentanaInterna extends javax.swing.JInternalFrame {
 
+    MiManejadorLienzo manejador;
+    
     /**
      * Creates new form VentanaInterna
      */
@@ -25,9 +27,8 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         this.setClosable(true);
         this.setIconifiable(true);
         this.setResizable(true);
-        MiManejadorLienzo manejador = new MiManejadorLienzo();
-        Lienzo2D lienzo = this.getLienzo2D();
-        lienzo.addLienzoListener(manejador);
+        manejador = new MiManejadorLienzo();
+        this.getLienzo2D().addLienzoListener(manejador);
     }
 
     public Lienzo2D getLienzo2D() {

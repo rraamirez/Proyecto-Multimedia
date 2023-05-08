@@ -1198,12 +1198,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 try {
-                    double r = Math.toRadians(180);
-                    Point p = new Point(imgFuente.getWidth() / 2, imgFuente.getHeight() / 2);
-                    AffineTransform at = AffineTransform.getRotateInstance(r, p.x, p.y);
+                    AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(180), img.getWidth()/2, img.getHeight()/2);
                     AffineTransformOp atop;
-                    atop = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-                    BufferedImage imgdest = atop.filter(imgFuente, null);
+                    atop = new AffineTransformOp(at, null);
+                    BufferedImage imgdest = atop.filter(img, null);
                     vi.getLienzo2D().setImagen(imgdest);
                     vi.getLienzo2D().repaint();
                 } catch (Exception e) {
@@ -1237,7 +1235,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             DefaultListModel modelo = new DefaultListModel();
             modelo.addAll(vi.getLienzo2D().getShapeList());
             listaLateral.setModel(modelo);
-            listaLateral.toString();
         }
 
         public void internalFrameClosing(InternalFrameEvent evt) {

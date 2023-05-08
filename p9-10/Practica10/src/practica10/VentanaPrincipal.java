@@ -17,7 +17,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ByteLookupTable;
 import java.awt.image.ColorConvertOp;
 import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
 import java.awt.image.ConvolveOp;
+import java.awt.image.DataBuffer;
 import java.awt.image.Kernel;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
@@ -85,8 +87,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         cuadratica = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        banda = new javax.swing.JButton();
+        cambioEspColor = new javax.swing.JComboBox<>();
+        muestraBanda = new javax.swing.JButton();
         lineal = new javax.swing.JToggleButton();
         combiar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -248,12 +250,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel5.setText("Rotación Y escalado");
 
         cuadratica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/cuadratica.png"))); // NOI18N
+        cuadratica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuadraticaActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Color");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "sRGB" }));
+        cambioEspColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "sRGB", "YCC", "GREY" }));
+        cambioEspColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambioEspColorActionPerformed(evt);
+            }
+        });
 
-        banda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/bandas.png"))); // NOI18N
+        muestraBanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/bandas.png"))); // NOI18N
+        muestraBanda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                muestraBandaActionPerformed(evt);
+            }
+        });
 
         lineal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/lineal.png"))); // NOI18N
         lineal.addActionListener(new java.awt.event.ActionListener() {
@@ -299,31 +316,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rotar)))
+                            .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rotar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(aumento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(disminucion)
-                        .addGap(0, 32, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(banda)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(muestraBanda)
+                        .addGap(24, 24, 24)
+                        .addComponent(cambioEspColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(combiar))
                     .addComponent(jLabel6))
-                .addGap(0, 316, Short.MAX_VALUE))
+                .addGap(0, 198, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,41 +362,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                         .addComponent(Contraste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(aumento)
-                                            .addComponent(disminucion))
-                                        .addGap(29, 29, 29))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(cuadratica)
-                                                .addComponent(contrasteBoton)
-                                                .addComponent(iluminada)
-                                                .addComponent(oscurecer)
-                                                .addComponent(lineal)
-                                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(rotar)
-                                                .addGap(10, 10, 10)))
-                                        .addGap(28, 28, 28))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
+                                .addGap(14, 14, 14)
+                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(banda)
+                            .addComponent(aumento)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cuadratica)
+                                    .addComponent(contrasteBoton)
+                                    .addComponent(iluminada)
+                                    .addComponent(oscurecer)
+                                    .addComponent(lineal))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(rotar)
+                                    .addGap(10, 10, 10)))
+                            .addComponent(disminucion)
+                            .addComponent(muestraBanda)
+                            .addComponent(cambioEspColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(combiar))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(28, 28, 28))))
         );
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -618,11 +629,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 777, Short.MAX_VALUE)
+            .addGap(0, 1050, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
+            .addGap(0, 584, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -1242,7 +1253,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
 
     private void iluminadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iluminadaActionPerformed
-        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        /*VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
@@ -1251,6 +1262,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     double a = 255.0 / Math.log(256);
                     double b = 255.0 / Math.log(1.0 + a);
                     LookupTable lt = createLogarithmicLookupTable(a, b);
+                    LookupOp lop = new LookupOp(lt, null);
+                    lop.filter(img, img); // Imagen origen y destino iguales
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }*/
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    LookupTable lt = LookupTableProducer.createLookupTable(LookupTableProducer.TYPE_GAMMA_CORRECTION);
                     LookupOp lop = new LookupOp(lt, null);
                     lop.filter(img, img); // Imagen origen y destino iguales
                     vi.getLienzo2D().repaint();
@@ -1278,7 +1303,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_oscurecerActionPerformed
 
-    
+
     private void rotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotarActionPerformed
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1304,9 +1329,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 try {
-                    float[][] matriz = {{1.0F, 0.0F, 0.0F},
-                    {0.0F, 0.0F, 1.0F},
-                    {0.0F, 1.0F, 0.0F}};
+                    float[][] matriz = {
+                        {0.0F, 0.5F, 0.5F},
+                        {0.5F, 0.0F, 0.5F},
+                        {0.5F, 0.5F, 0.0F}
+                    };
                     BandCombineOp bcop = new BandCombineOp(matriz, null);
                     bcop.filter(img.getRaster(), img.getRaster());
                     vi.getLienzo2D().repaint();
@@ -1370,21 +1397,134 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     System.err.println(e.getLocalizedMessage());
                 }
             }
-            }
+        }
     }//GEN-LAST:event_disminucionActionPerformed
 
     private void linealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linealActionPerformed
-        if(lineal.isSelected()){
+        if (lineal.isSelected()) {
             slider1.setVisible(true);
             slider2.setVisible(true);
         }
-        
-        if(!lineal.isSelected()){
+
+        if (!lineal.isSelected()) {
             slider1.setVisible(false);
             slider2.setVisible(false);
         }
     }//GEN-LAST:event_linealActionPerformed
-    
+
+    /**
+     * Función cuadrática f(x) = 1/100(x-m)² siendo 0 <= m <= 255
+     *
+     * @param m
+     * @return
+     */
+    private LookupTable cuadratica(double m) {
+        double k = 100.0 * 255.0;
+        byte[] data = new byte[256];
+        for (int i = 0; i < 256; i++) {
+            int v = (int) (((i - m) * (i - m) / k) * 255.0);
+            if (v < 0) {
+                v = 0;
+            }
+            if (v > 255) {
+                v = 255;
+            }
+            data[i] = (byte) v;
+        }
+        return new ByteLookupTable(0, data);
+    }
+
+
+    private void cuadraticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadraticaActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    double m = 128.0;
+                    LookupTable lt = cuadratica(m);
+                    LookupOp lop = new LookupOp(lt, null);
+                    lop.filter(img, img);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_cuadraticaActionPerformed
+
+    private BufferedImage getImageBand(BufferedImage img, int banda) {
+        //Creamos el modelo de color de la nueva imagen basado en un espcio de color GRAY
+        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+        ComponentColorModel cm = new ComponentColorModel(cs, false, false,
+                Transparency.OPAQUE,
+                DataBuffer.TYPE_BYTE);
+        //Creamos el nuevo raster a partir del raster de la imagen original
+        int vband[] = {banda};
+        WritableRaster bRaster = (WritableRaster) img.getRaster().createWritableChild(0, 0,
+                img.getWidth(), img.getHeight(), 0, 0, vband);
+        //Creamos una nueva imagen que contiene como raster el correspondiente a la banda
+        return new BufferedImage(cm, bRaster, false, null);
+    }
+
+
+    private void muestraBandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_muestraBandaActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    for (int i = 0; i < img.getRaster().getNumBands(); ++i) {
+                        BufferedImage imgBanda = getImageBand(img, i);
+                        vi = new VentanaInterna();
+                        vi.getLienzo2D().setImagen(imgBanda);
+                        escritorio.add(vi);
+                        vi.setVisible(true);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_muestraBandaActionPerformed
+
+    //TODO
+    private void cambioEspColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambioEspColorActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                ColorSpace cs = null;
+                int seleccion = this.cambioEspColor.getSelectedIndex();
+                switch (seleccion) {
+                    default:
+                        break;
+                    case 0:
+                        cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                        break;
+                    case 1:
+                        cs = ColorSpace.getInstance(ColorSpace.CS_PYCC);
+                        break;
+                    case 2:
+                        cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                        break;
+
+                }
+                try {
+                    ColorConvertOp op = new ColorConvertOp(cs, null);
+                    BufferedImage imgdest = op.filter(img, null);
+                    vi = new VentanaInterna();
+                    vi.getLienzo2D().setImagen(imgdest);
+                    escritorio.add(vi);
+                    vi.setVisible(true);
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_cambioEspColorActionPerformed
+
     Lienzo2D getLienzoSeleccionado() {
         VentanaInterna vi = (VentanaInterna) escritorio.getSelectedFrame();
         return vi != null ? vi.getLienzo2D() : null;
@@ -1468,11 +1608,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton amarillo1;
     private javax.swing.JButton aumento;
     private javax.swing.JToggleButton azul1;
-    private javax.swing.JButton banda;
     private javax.swing.JCheckBoxMenuItem barraEstado;
     private javax.swing.JLabel barraEstado2;
     private javax.swing.JSlider brillo;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cambioEspColor;
     private javax.swing.JMenuItem colorConvertOp;
     private javax.swing.JPanel colores1;
     private javax.swing.JButton combiar;
@@ -1488,7 +1628,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> filtro;
     private javax.swing.JButton guardar;
     private javax.swing.JButton iluminada;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1511,6 +1650,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem lookUpOp;
     private javax.swing.JToggleButton masColores;
     private javax.swing.JMenuItem menuNuevo;
+    private javax.swing.JButton muestraBanda;
     private javax.swing.JToggleButton negro1;
     private javax.swing.JButton nuevo;
     private javax.swing.JButton oscurecer;

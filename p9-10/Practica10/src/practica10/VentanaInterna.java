@@ -5,6 +5,10 @@
 package practica10;
 
 import SM.RRA.IU.Lienzo2D;
+import SM.RRA.IU.MiManejadorLienzo;
+import javax.swing.DefaultListModel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 /**
  *
@@ -17,17 +21,18 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
      */
     public VentanaInterna() {
         initComponents();
-        this.setSize(500,500);
+        this.setSize(500, 500);
         this.setClosable(true);
         this.setIconifiable(true);
         this.setResizable(true);
+        MiManejadorLienzo manejador = new MiManejadorLienzo();
+        Lienzo2D lienzo = this.getLienzo2D();
+        lienzo.addLienzoListener(manejador);
     }
 
     public Lienzo2D getLienzo2D() {
         return lienzo2D;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

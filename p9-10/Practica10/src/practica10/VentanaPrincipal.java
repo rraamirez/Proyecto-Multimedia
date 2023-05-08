@@ -6,13 +6,16 @@ import SM.RRA.IU.LienzoEvent;
 import SM.RRA.IU.tipos;
 import javax.swing.JFileChooser;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BandCombineOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.ByteLookupTable;
+import java.awt.image.ColorConvertOp;
 import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
@@ -73,15 +76,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         contrasteBoton = new javax.swing.JButton();
         iluminada = new javax.swing.JButton();
         oscurecer = new javax.swing.JButton();
-        lineal = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
-        jSlider2 = new javax.swing.JSlider();
+        slider2 = new javax.swing.JSlider();
+        slider1 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         rotar = new javax.swing.JButton();
         aumento = new javax.swing.JButton();
         disminucion = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cuadratica = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        banda = new javax.swing.JButton();
+        lineal = new javax.swing.JToggleButton();
+        combiar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -124,6 +131,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         convolucion = new javax.swing.JMenuItem();
         affineTransform = new javax.swing.JMenuItem();
         lookUpOp = new javax.swing.JMenuItem();
+        BandCombineOp = new javax.swing.JMenuItem();
+        colorConvertOp = new javax.swing.JMenuItem();
         Edicion = new javax.swing.JMenu();
         barraEstado = new javax.swing.JCheckBoxMenuItem();
 
@@ -213,8 +222,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        lineal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/lineal.png"))); // NOI18N
-
         jLabel4.setText("Transformaciones");
 
         rotar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rotacion180.png"))); // NOI18N
@@ -225,12 +232,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         aumento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/aumentar.png"))); // NOI18N
+        aumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aumentoActionPerformed(evt);
+            }
+        });
 
         disminucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/disminuir.png"))); // NOI18N
+        disminucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disminucionActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Rotación Y escalado");
 
         cuadratica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/cuadratica.png"))); // NOI18N
+
+        jLabel6.setText("Color");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "sRGB" }));
+
+        banda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/bandas.png"))); // NOI18N
+
+        lineal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/lineal.png"))); // NOI18N
+        lineal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                linealActionPerformed(evt);
+            }
+        });
+
+        combiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/combinar.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -253,6 +285,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(contrasteBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -261,69 +294,93 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(oscurecer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cuadratica)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lineal))
-                    .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lineal)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(rotar)
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rotar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(aumento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(disminucion)
+                        .addGap(0, 32, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(banda)
                         .addGap(18, 18, 18)
-                        .addComponent(disminucion))
-                    .addComponent(jLabel5))
-                .addGap(0, 500, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(combiar))
+                    .addComponent(jLabel6))
+                .addGap(0, 316, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel5)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(filtro)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(brillo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Contraste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rotar)
-                                    .addComponent(aumento)
-                                    .addComponent(disminucion))
-                                .addGap(29, 29, 29))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cuadratica)
+                                    .addComponent(filtro)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(contrasteBoton)
-                                        .addComponent(iluminada)
-                                        .addComponent(oscurecer)
-                                        .addComponent(lineal)))
-                                .addGap(28, 28, 28))))))
+                                        .addComponent(brillo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Contraste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(aumento)
+                                            .addComponent(disminucion))
+                                        .addGap(29, 29, 29))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(cuadratica)
+                                                .addComponent(contrasteBoton)
+                                                .addComponent(iluminada)
+                                                .addComponent(oscurecer)
+                                                .addComponent(lineal)
+                                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(rotar)
+                                                .addGap(10, 10, 10)))
+                                        .addGap(28, 28, 28))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(banda)
+                            .addComponent(combiar))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -565,7 +622,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 651, Short.MAX_VALUE)
+            .addGap(0, 435, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -665,6 +722,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         Imagen.add(lookUpOp);
+
+        BandCombineOp.setText("BandCombineOp");
+        BandCombineOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BandCombineOpActionPerformed(evt);
+            }
+        });
+        Imagen.add(BandCombineOp);
+
+        colorConvertOp.setText("ColorConvertOp");
+        colorConvertOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorConvertOpActionPerformed(evt);
+            }
+        });
+        Imagen.add(colorConvertOp);
 
         jMenuBar1.add(Imagen);
 
@@ -1205,7 +1278,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_oscurecerActionPerformed
 
-    //todo
+    
     private void rotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotarActionPerformed
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1225,6 +1298,93 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rotarActionPerformed
 
+    private void BandCombineOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BandCombineOpActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    float[][] matriz = {{1.0F, 0.0F, 0.0F},
+                    {0.0F, 0.0F, 1.0F},
+                    {0.0F, 1.0F, 0.0F}};
+                    BandCombineOp bcop = new BandCombineOp(matriz, null);
+                    bcop.filter(img.getRaster(), img.getRaster());
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_BandCombineOpActionPerformed
+
+    private void colorConvertOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorConvertOpActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                    ColorConvertOp op = new ColorConvertOp(cs, null);
+                    BufferedImage imgdest = op.filter(img, null);
+                    vi.getLienzo2D().setImagen(imgdest);
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_colorConvertOpActionPerformed
+
+    private void aumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aumentoActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    AffineTransform at = AffineTransform.getScaleInstance(1.25, 1.25);
+                    AffineTransformOp atop;
+                    atop = new AffineTransformOp(at, null);
+                    BufferedImage imgdest = atop.filter(img, null);
+                    vi.getLienzo2D().setImagen(imgdest);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_aumentoActionPerformed
+
+    private void disminucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disminucionActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    AffineTransform at = AffineTransform.getScaleInstance(0.75, 0.75);
+                    AffineTransformOp atop;
+                    atop = new AffineTransformOp(at, null);
+                    BufferedImage imgdest = atop.filter(img, null);
+                    vi.getLienzo2D().setImagen(imgdest);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+            }
+    }//GEN-LAST:event_disminucionActionPerformed
+
+    private void linealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linealActionPerformed
+        if(lineal.isSelected()){
+            slider1.setVisible(true);
+            slider2.setVisible(true);
+        }
+        
+        if(!lineal.isSelected()){
+            slider1.setVisible(false);
+            slider2.setVisible(false);
+        }
+    }//GEN-LAST:event_linealActionPerformed
+    
     Lienzo2D getLienzoSeleccionado() {
         VentanaInterna vi = (VentanaInterna) escritorio.getSelectedFrame();
         return vi != null ? vi.getLienzo2D() : null;
@@ -1294,6 +1454,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Abrir;
     private javax.swing.JMenu Archivo;
+    private javax.swing.JMenuItem BandCombineOp;
     private javax.swing.JSlider Contraste;
     private javax.swing.JMenu Edicion;
     private javax.swing.JMenuItem Guardar;
@@ -1307,11 +1468,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton amarillo1;
     private javax.swing.JButton aumento;
     private javax.swing.JToggleButton azul1;
+    private javax.swing.JButton banda;
     private javax.swing.JCheckBoxMenuItem barraEstado;
     private javax.swing.JLabel barraEstado2;
     private javax.swing.JSlider brillo;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JMenuItem colorConvertOp;
     private javax.swing.JPanel colores1;
+    private javax.swing.JButton combiar;
     private javax.swing.JButton contrasteBoton;
     private javax.swing.JMenuItem convolucion;
     private javax.swing.JToggleButton cuadrado;
@@ -1324,11 +1488,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> filtro;
     private javax.swing.JButton guardar;
     private javax.swing.JButton iluminada;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1338,11 +1504,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToggleButton linea;
-    private javax.swing.JButton lineal;
+    private javax.swing.JToggleButton lineal;
     private javax.swing.JList<Shape> listaLateral;
     private javax.swing.JMenuItem lookUpOp;
     private javax.swing.JToggleButton masColores;
@@ -1356,6 +1520,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton rojo1;
     private javax.swing.JButton rotar;
     private javax.swing.JToggleButton seleccion;
+    private javax.swing.JSlider slider1;
+    private javax.swing.JSlider slider2;
     private javax.swing.JToggleButton smile;
     private javax.swing.JSpinner spinner;
     private javax.swing.JToggleButton transparencia;

@@ -115,6 +115,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         transparencia = new javax.swing.JToggleButton();
         alisar = new javax.swing.JToggleButton();
         spinner = new javax.swing.JSpinner();
+        volcar = new javax.swing.JToggleButton();
         panelDividido = new javax.swing.JSplitPane();
         escritorio = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -224,6 +225,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        slider2.setMaximum(255);
+        slider2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider2StateChanged(evt);
+            }
+        });
+        slider2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                slider2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                slider2FocusLost(evt);
+            }
+        });
+
+        slider1.setMaximum(255);
+        slider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider1StateChanged(evt);
+            }
+        });
+        slider1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                slider1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                slider1FocusLost(evt);
+            }
+        });
+
         jLabel4.setText("Transformaciones");
 
         rotar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rotacion180.png"))); // NOI18N
@@ -280,6 +311,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         combiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/combinar.png"))); // NOI18N
+        combiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -339,7 +375,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(combiar))
                     .addComponent(jLabel6))
-                .addGap(0, 198, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,9 +399,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addGap(12, 12, 12)
                                 .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(8, 8, 8)
                                 .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -374,7 +410,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(aumento)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -615,6 +650,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(spinner);
 
+        volcar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/volcar.png"))); // NOI18N
+        volcar.setFocusable(false);
+        volcar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        volcar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(volcar);
+
         jPanel5.add(jToolBar1);
 
         jPanel1.add(jPanel5);
@@ -629,11 +670,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1050, Short.MAX_VALUE)
+            .addGap(0, 854, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 390, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -1400,15 +1441,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_disminucionActionPerformed
 
+    private LookupOp linealConInflexion(double a, double b) {
+        final int valorMax = 255;
+        final int valorMin = 0;
+
+        double m = 0;
+        if (a != valorMax) {
+            m = (valorMax - b) / (valorMax - a);
+        }
+
+        byte funcionL[] = new byte[256];
+        for (int x = 0; x < 256; ++x) {
+            if (x < a) {
+                funcionL[x] = (byte) ((b / a) * x);
+            }
+            if (x >= a) {
+                funcionL[x] = (byte) (m * (x - a) + b);
+            }
+        }
+        LookupTable tabla = new ByteLookupTable(0, funcionL);
+        return new LookupOp(tabla, null);
+    }
+
+
     private void linealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linealActionPerformed
         if (lineal.isSelected()) {
-            slider1.setVisible(true);
-            slider2.setVisible(true);
+            slider1.setEnabled(true);
+            slider2.setEnabled(true);
         }
 
         if (!lineal.isSelected()) {
-            slider1.setVisible(false);
-            slider2.setVisible(false);
+            slider1.setEnabled(false);
+            slider2.setEnabled(false);
         }
     }//GEN-LAST:event_linealActionPerformed
 
@@ -1524,6 +1588,93 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cambioEspColorActionPerformed
+
+    private void combiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combiarActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+
+            if (img != null) {
+                try {
+                    float[][] matriz = {
+                        {0.0F, 0.5F, 0.5F},
+                        {0.5F, 0.0F, 0.5F},
+                        {0.5F, 0.5F, 0.0F}
+                    };
+                    BandCombineOp bcop = new BandCombineOp(matriz, null);
+                    bcop.filter(img.getRaster(), img.getRaster());
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_combiarActionPerformed
+
+    
+    private void slider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider1StateChanged
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    LookupOp lop = linealConInflexion(slider1.getValue(), slider2.getValue());
+                    lop.filter(imgFuente, img);
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+        System.out.println("v1 cambia");
+    }//GEN-LAST:event_slider1StateChanged
+
+    private void slider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider2StateChanged
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    LookupOp lop = linealConInflexion(slider1.getValue(), slider2.getValue());
+                    lop.filter(imgFuente, img);
+                    vi.getLienzo2D().repaint();
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+        System.out.println("v2 cambia");
+    }//GEN-LAST:event_slider2StateChanged
+
+    
+    
+    private void slider1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider1FocusGained
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            ColorModel cm = vi.getLienzo2D().getImagen().getColorModel();
+            WritableRaster raster = vi.getLienzo2D().getImagen().copyData(null);
+            boolean alfaPre = vi.getLienzo2D().getImagen().isAlphaPremultiplied();
+            imgFuente = new BufferedImage(cm, raster, alfaPre, null);
+        }
+    }//GEN-LAST:event_slider1FocusGained
+
+    private void slider1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider1FocusLost
+        imgFuente = null;
+    }//GEN-LAST:event_slider1FocusLost
+
+    private void slider2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider2FocusGained
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            ColorModel cm = vi.getLienzo2D().getImagen().getColorModel();
+            WritableRaster raster = vi.getLienzo2D().getImagen().copyData(null);
+            boolean alfaPre = vi.getLienzo2D().getImagen().isAlphaPremultiplied();
+            imgFuente = new BufferedImage(cm, raster, alfaPre, null);
+        }
+    }//GEN-LAST:event_slider2FocusGained
+
+    private void slider2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider2FocusLost
+        imgFuente = null;
+    }//GEN-LAST:event_slider2FocusLost
 
     Lienzo2D getLienzoSeleccionado() {
         VentanaInterna vi = (VentanaInterna) escritorio.getSelectedFrame();
@@ -1666,5 +1817,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner spinner;
     private javax.swing.JToggleButton transparencia;
     private javax.swing.JToggleButton verde1;
+    private javax.swing.JToggleButton volcar;
     // End of variables declaration//GEN-END:variables
 }

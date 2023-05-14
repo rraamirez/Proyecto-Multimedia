@@ -826,12 +826,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 File f = dlg.getSelectedFile();
                 BufferedImage img = ImageIO.read(f);
                 VentanaInterna vi = new VentanaInterna();
+                vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
+                vi.addInternalFrameListener(new ManejadorVentanaInterna());
                 vi.getLienzo2D().setImagen(img);
                 this.escritorio.add(vi);
                 vi.setTitle(f.getName());
                 vi.setVisible(true);
-                vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
-                vi.addInternalFrameListener(new ManejadorVentanaInterna());
+
             } catch (Exception ex) {
                 System.err.println("Error al leer la imagen");
             }
@@ -971,6 +972,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
         VentanaInterna vi = new VentanaInterna();
+        vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
+        vi.addInternalFrameListener(new ManejadorVentanaInterna());
         escritorio.add(vi);
         vi.setVisible(true);
         BufferedImage img;
@@ -979,8 +982,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, img.getWidth(), img.getHeight());
         vi.getLienzo2D().setImagen(img);
-        vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
-        vi.addInternalFrameListener(new ManejadorVentanaInterna());
+
     }//GEN-LAST:event_nuevoActionPerformed
 
     private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
@@ -1611,7 +1613,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_combiarActionPerformed
 
-    
+
     private void slider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider1StateChanged
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1646,8 +1648,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         System.out.println("v2 cambia");
     }//GEN-LAST:event_slider2StateChanged
 
-    
-    
+
     private void slider1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider1FocusGained
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {

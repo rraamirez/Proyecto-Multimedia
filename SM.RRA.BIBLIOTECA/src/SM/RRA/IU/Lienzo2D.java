@@ -213,6 +213,8 @@ public class Lienzo2D extends javax.swing.JPanel {
     public void setAlphaComposite(AlphaComposite alphaComposite) {
         this.alphaComposite = alphaComposite;
     }
+    
+    
 
     //**************** MÉTODO PAINT ******************//
     /**
@@ -310,6 +312,15 @@ public class Lienzo2D extends javax.swing.JPanel {
         } else {
             return imagen;
         }
+    }
+    
+    public BufferedImage getImagen(int numFigura) {
+            BufferedImage imgout = new BufferedImage(imagen.getWidth(),
+                imagen.getHeight(),
+                imagen.getType());
+            Graphics2D g2dImagen = imgout.createGraphics();
+            g2dImagen.draw(vShape.get(numFigura));
+            return (imgout);
     }
 
     /**

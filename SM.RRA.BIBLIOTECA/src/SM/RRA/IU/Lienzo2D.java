@@ -411,12 +411,16 @@ public class Lienzo2D extends javax.swing.JPanel {
                 this.repaint();
             }
             puntoInicial = evt.getPoint();
-            notifyShapeAddedEvent( new LienzoEvent(this,forma,color) );
-            if(tipo == tipos.CURVA){
+            
+            /*if(tipo == tipos.CURVA){
                 if(setPuntoControl){
                     vShape.add(forma);
                 }
-            }else vShape.add(forma);
+            }else vShape.add(forma);*/
+            if(!setPuntoControl){
+                vShape.add(forma);
+                notifyShapeAddedEvent( new LienzoEvent(this,forma,color) );
+            }
         }
 
 
@@ -533,10 +537,9 @@ public class Lienzo2D extends javax.swing.JPanel {
 
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        if (!setPuntoControl) {
-            setPuntoControl = true;
-        } else
-            setPuntoControl = false;
+        if (tipo==tipos.CURVA){
+            setPuntoControl = !setPuntoControl;
+        }
     }//GEN-LAST:event_formMouseReleased
 
     /**

@@ -30,12 +30,13 @@ public class PosterizarOp extends BufferedImageOpAdapter {
         WritableRaster srcRaster = src.getRaster();
         WritableRaster destRaster = dest.getRaster();
         int sample;
+        float k = 256.0f / niveles;
         for (int x = 0; x < src.getWidth(); x++) {
             for (int y = 0; y < src.getHeight(); y++) {
                 for (int band = 0; band < srcRaster.getNumBands(); band++) {
                     sample = srcRaster.getSample(x, y, band);
                     
-                    //Por hacer: efecto posterizar
+                    sample = (int) (k * (int)(sample / k));
                     
                     destRaster.setSample(x, y, band, sample);
                 }

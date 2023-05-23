@@ -411,8 +411,12 @@ public class Lienzo2D extends javax.swing.JPanel {
                 this.repaint();
             }
             puntoInicial = evt.getPoint();
-            vShape.add(forma);
             notifyShapeAddedEvent( new LienzoEvent(this,forma,color) );
+            if(tipo == tipos.CURVA){
+                if(setPuntoControl){
+                    vShape.add(forma);
+                }
+            }else vShape.add(forma);
         }
 
 

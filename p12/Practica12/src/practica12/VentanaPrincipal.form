@@ -411,13 +411,17 @@
             <Component class="javax.swing.JComboBox" name="filtro">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="6">
+                  <StringArray count="10">
                     <StringItem index="0" value="Media"/>
                     <StringItem index="1" value="Binomial"/>
                     <StringItem index="2" value="Enfoque"/>
                     <StringItem index="3" value="Relive"/>
                     <StringItem index="4" value="Laplaciano"/>
-                    <StringItem index="5" value="Horizontal"/>
+                    <StringItem index="5" value="Horizontal 5x1"/>
+                    <StringItem index="6" value="Medio 5x5"/>
+                    <StringItem index="7" value="Medio 7x7"/>
+                    <StringItem index="8" value="Horizontal 7x1"/>
+                    <StringItem index="9" value="Horizontal 10x1"/>
                   </StringArray>
                 </Property>
               </Properties>

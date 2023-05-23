@@ -224,7 +224,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Media", "Binomial", "Enfoque", "Relive", "Laplaciano", "Horizontal" }));
+        filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Media", "Binomial", "Enfoque", "Relive", "Laplaciano", "Horizontal 5x1", "Medio 5x5", "Medio 7x7", "Horizontal 7x1", "Horizontal 10x1" }));
         filtro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filtroActionPerformed(evt);
@@ -1436,9 +1436,48 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 filtro = KernelProducer.MASCARA_LAPLACIANA_3x3;
                 k = new Kernel(3, 3, filtro);
                 break;
-            case 5:
+            case 5: //5x1
                 filtro = new float[]{0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
                 k = new Kernel(1, 5, filtro);
+                break;
+            case 6:
+                //medio 5x5
+                filtro = new float[]{
+                    0.04f, 0.04f, 0.04f, 0.04f, 0.04f,
+                    0.04f, 0.04f, 0.04f, 0.04f, 0.04f,
+                    0.04f, 0.04f, 0.04f, 0.04f, 0.04f,
+                    0.04f, 0.04f, 0.04f, 0.04f, 0.04f,
+                    0.04f, 0.04f, 0.04f, 0.04f, 0.04f
+                };
+                k = new Kernel(5, 5, filtro);
+                break;
+            case 7:
+                //medio 7x7 
+                filtro = new float[]{
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f,
+                    0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f, 0.02f
+                };
+                k = new Kernel(7, 7, filtro);
+                break;
+            case 8:
+                // Emborronamiento horizontal 7x1
+                filtro = new float[]{
+                    0.143f, 0.143f, 0.143f, 0.143f, 0.143f, 0.143f, 0.143f
+                };
+                k = new Kernel(1, 7, filtro);
+                break;
+
+            case 9:
+                // Emborronamiento horizontal 10x1
+                filtro = new float[]{
+                    0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f
+                };
+                k = new Kernel(1, 10, filtro);
                 break;
 
         }
@@ -1988,7 +2027,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void sliderVariaTonoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVariaTonoStateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_sliderVariaTonoStateChanged
-
 
 
     private void sliderPosterizarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderPosterizarStateChanged

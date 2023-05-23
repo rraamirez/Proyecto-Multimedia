@@ -57,6 +57,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private BufferedImage imgFuente = null;
     private SMClipPlayer player = null;
     private SMSoundRecorder recorder = null;
+    /**
+     *Booleanos para el control de la reproducción del sonido. 
+     */
+    private boolean isPlaying = false;
+    private boolean isPaused = false;
     private Timer timer;
 
     /**
@@ -141,10 +146,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         sonidos = new javax.swing.JComboBox<>();
         play = new javax.swing.JButton();
         stop = new javax.swing.JButton();
-        grabar = new javax.swing.JButton();
         pause = new javax.swing.JButton();
         tiempo = new javax.swing.JLabel();
         volcar = new javax.swing.JButton();
+        grabar = new javax.swing.JButton();
         panelDividido = new javax.swing.JSplitPane();
         escritorio = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -506,7 +511,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -794,16 +799,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        grabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/record24x24.png"))); // NOI18N
-        grabar.setPreferredSize(new java.awt.Dimension(20, 20));
-        grabar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                grabarActionPerformed(evt);
-            }
-        });
-
         pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/pausa24x24.png"))); // NOI18N
         pause.setPreferredSize(new java.awt.Dimension(20, 20));
+        pause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pauseActionPerformed(evt);
+            }
+        });
 
         tiempo.setText("00:00");
 
@@ -813,6 +815,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         volcar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 volcarActionPerformed(evt);
+            }
+        });
+
+        grabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/record24x24.png"))); // NOI18N
+        grabar.setPreferredSize(new java.awt.Dimension(20, 20));
+        grabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grabarActionPerformed(evt);
             }
         });
 
@@ -827,27 +837,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sonidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sonidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(tiempo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 345, Short.MAX_VALUE)
                 .addComponent(volcar))
         );
         panelSonidoLayout.setVerticalGroup(
             panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSonidoLayout.createSequentialGroup()
                 .addGroup(panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sonidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(sonidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(play, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(stop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(pause, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(tiempo)
-                        .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelSonidoLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(tiempo))
                     .addComponent(volcar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -872,7 +884,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 618, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -2078,6 +2090,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if (player != null) {
                 player.addLineListener(new ManejadorAudio());
                 player.play();
+                isPlaying = true;
             }
         }
     }//GEN-LAST:event_playActionPerformed
@@ -2094,24 +2107,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_stopActionPerformed
 
-
-    private void grabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grabarActionPerformed
-        JFileChooser dlg = new JFileChooser();
-        int resp = dlg.showSaveDialog(this);
-        if (resp == JFileChooser.APPROVE_OPTION) {
-            try {
-                File f = dlg.getSelectedFile();
-                recorder = new SMSoundRecorder(f);
-
-                if (recorder != null) {
-                    recorder.record();
-
-                }
-            } catch (Exception ex) {
-                System.err.print("Error al guardar el sonido");
-            }
-        }
-    }//GEN-LAST:event_grabarActionPerformed
 
     private void sliderPosterizarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderPosterizarFocusGained
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
@@ -2156,6 +2151,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         imgFuente = null;
     }//GEN-LAST:event_sliderVariaTonoFocusLost
 
+    private void grabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grabarActionPerformed
+        JFileChooser dlg = new JFileChooser();
+        int resp = dlg.showSaveDialog(this);
+        if (resp == JFileChooser.APPROVE_OPTION) {
+            try {
+                File f = dlg.getSelectedFile();
+                recorder = new SMSoundRecorder(f);
+
+                if (recorder != null) {
+                    recorder.record();
+
+                }
+            } catch (Exception ex) {
+                System.err.print("Error al guardar el sonido");
+            }
+        }
+    }//GEN-LAST:event_grabarActionPerformed
+
+    private void pauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseActionPerformed
+        if (player != null) {
+            if (isPlaying) {
+                if (isPaused) {
+                    player.resume();
+                    isPaused = false;
+                } else {
+                    player.pause();
+                    isPaused = true;
+                }
+            } else {
+                player.play();
+                isPlaying = true;
+            }
+        }
+    }//GEN-LAST:event_pauseActionPerformed
+
     class ManejadorAudio implements LineListener {
 
         @Override
@@ -2191,6 +2221,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     boolean hayLienzo() {
         return this.getLienzoSeleccionado() != null;
+
     }
 
     public class ManejadorLienzo extends LienzoAdapter {
@@ -2229,16 +2260,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

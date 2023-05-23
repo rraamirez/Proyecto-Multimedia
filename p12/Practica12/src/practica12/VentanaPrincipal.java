@@ -2,6 +2,7 @@ package practica12;
 
 import SM.RRA.IMAGENES.PosterizarOp;
 import SM.RRA.IMAGENES.RojoOp;
+import SM.RRA.IMAGENES.TonoOp;
 import SM.RRA.IU.Lienzo2D;
 import SM.RRA.IU.LienzoAdapter;
 import SM.RRA.IU.LienzoEvent;
@@ -136,7 +137,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         transparencia = new javax.swing.JToggleButton();
         alisar = new javax.swing.JToggleButton();
         spinner = new javax.swing.JSpinner();
-        volcar = new javax.swing.JButton();
         panelSonido = new javax.swing.JPanel();
         sonidos = new javax.swing.JComboBox<>();
         play = new javax.swing.JButton();
@@ -144,6 +144,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         grabar = new javax.swing.JButton();
         pause = new javax.swing.JButton();
         tiempo = new javax.swing.JLabel();
+        volcar = new javax.swing.JButton();
         panelDividido = new javax.swing.JSplitPane();
         escritorio = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -389,6 +390,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 sliderVariaTonoStateChanged(evt);
             }
         });
+        sliderVariaTono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                sliderVariaTonoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sliderVariaTonoFocusLost(evt);
+            }
+        });
 
         sliderPosterizar.setMaximum(20);
         sliderPosterizar.setMinimum(2);
@@ -497,7 +506,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -767,16 +776,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(spinner);
 
-        volcar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/volcar.png"))); // NOI18N
-        volcar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        volcar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        volcar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                volcarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(volcar);
-
         sonidos.setPreferredSize(new java.awt.Dimension(72, 20));
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/play24x24.png"))); // NOI18N
@@ -808,6 +807,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         tiempo.setText("00:00");
 
+        volcar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/volcar.png"))); // NOI18N
+        volcar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        volcar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        volcar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volcarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelSonidoLayout = new javax.swing.GroupLayout(panelSonido);
         panelSonido.setLayout(panelSonidoLayout);
         panelSonidoLayout.setHorizontalGroup(
@@ -825,7 +833,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tiempo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                .addComponent(volcar))
         );
         panelSonidoLayout.setVerticalGroup(
             panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,7 +847,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(pause, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelSonidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(tiempo)
-                        .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(volcar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -862,7 +872,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
+            .addGap(0, 618, Short.MAX_VALUE)
         );
 
         panelDividido.setLeftComponent(escritorio);
@@ -2009,7 +2019,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_recalcaRojosActionPerformed
 
     private void sliderVariaTonoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVariaTonoStateChanged
-        // TODO add your handling code here:
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    TonoOp tono = new TonoOp(sliderVariaTono.getValue());
+                    tono.filter(img, img);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
     }//GEN-LAST:event_sliderVariaTonoStateChanged
 
 
@@ -2119,6 +2141,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         listaLateral.setModel(modelo);
     }//GEN-LAST:event_volcarActionPerformed
+
+    private void sliderVariaTonoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderVariaTonoFocusGained
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            ColorModel cm = vi.getLienzo2D().getImagen().getColorModel();
+            WritableRaster raster = vi.getLienzo2D().getImagen().copyData(null);
+            boolean alfaPre = vi.getLienzo2D().getImagen().isAlphaPremultiplied();
+            imgFuente = new BufferedImage(cm, raster, alfaPre, null);
+        }
+    }//GEN-LAST:event_sliderVariaTonoFocusGained
+
+    private void sliderVariaTonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderVariaTonoFocusLost
+        imgFuente = null;
+    }//GEN-LAST:event_sliderVariaTonoFocusLost
 
     class ManejadorAudio implements LineListener {
 

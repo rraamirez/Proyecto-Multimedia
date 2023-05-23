@@ -132,11 +132,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         amarillo1 = new javax.swing.JToggleButton();
         verde1 = new javax.swing.JToggleButton();
         masColores = new javax.swing.JToggleButton();
-        relleno2 = new javax.swing.JCheckBox();
+        relleno2 = new javax.swing.JToggleButton();
         transparencia = new javax.swing.JToggleButton();
         alisar = new javax.swing.JToggleButton();
         spinner = new javax.swing.JSpinner();
-        volcar = new javax.swing.JToggleButton();
+        volcar = new javax.swing.JButton();
         panelSonido = new javax.swing.JPanel();
         sonidos = new javax.swing.JComboBox<>();
         play = new javax.swing.JButton();
@@ -453,32 +453,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(25, 25, 25)
-                        .addComponent(jLabel3))
+                        .addComponent(jLabel3)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(brillo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(contrasteBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(iluminada)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(oscurecer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cuadratica)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lineal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(rotar)
@@ -523,30 +521,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(9, 9, 9)
                                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lineal)
-                                    .addComponent(cuadratica)
                                     .addComponent(oscurecer)
                                     .addComponent(iluminada)
                                     .addComponent(contrasteBoton)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lineal)
+                                        .addComponent(cuadratica))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(disminucion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(aumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(rotar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(muestraBanda, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(disminucion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(aumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(rotar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(muestraBanda, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cambioEspColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cambioEspColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -733,16 +730,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jToolBar1.add(colores1);
 
-        relleno2.setBackground(new java.awt.Color(102, 255, 204));
+        relleno2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rellenar.png"))); // NOI18N
         relleno2.setFocusable(false);
         relleno2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        relleno2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/rellenar.png"))); // NOI18N
         relleno2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        relleno2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                relleno2ActionPerformed(evt);
-            }
-        });
         jToolBar1.add(relleno2);
 
         transparencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/transparencia.png"))); // NOI18N
@@ -777,7 +768,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBar1.add(spinner);
 
         volcar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/volcar.png"))); // NOI18N
-        volcar.setFocusable(false);
         volcar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         volcar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         volcar.addActionListener(new java.awt.event.ActionListener() {
@@ -1162,12 +1152,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.getLienzoSeleccionado().setColor(Color.green);
         }
     }//GEN-LAST:event_verde1ActionPerformed
-
-    private void relleno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relleno2ActionPerformed
-        if (hayLienzo()) {
-            this.getLienzoSeleccionado().setRelleno(relleno2.isSelected());
-        }
-        }//GEN-LAST:event_relleno2ActionPerformed
 
     private void seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionActionPerformed
         if (hayLienzo()) {
@@ -2045,22 +2029,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sliderPosterizarStateChanged
 
-    private void volcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volcarActionPerformed
-        if (volcar.isSelected()) {
-            var elementos = listaLateral.getSelectedValuesList();
-            for (int i = 0; i < this.getLienzoSeleccionado().getvShape().size(); ++i) {
-                for (int j = 0; j < elementos.size(); ++j) {
-                    if (this.getLienzoSeleccionado().getvShape().get(i) == elementos.get(j)) {
-                        BufferedImage imgout = this.getLienzoSeleccionado().getImagen(j);
-                        this.getLienzoSeleccionado().setImagen(imgout);
-                        this.getLienzoSeleccionado().getvShape().remove(i);
-                        elementos.remove(j);
-                    }
-                }
-            }
-        }
-    }//GEN-LAST:event_volcarActionPerformed
-
     private void abrirSonidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirSonidoActionPerformed
         JFileChooser dlg = new JFileChooser();
         int resp = dlg.showOpenDialog(this);
@@ -2136,6 +2104,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void sliderPosterizarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderPosterizarFocusLost
         imgFuente = null;
     }//GEN-LAST:event_sliderPosterizarFocusLost
+
+    private void volcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volcarActionPerformed
+        int formasBorrar[];
+        DefaultListModel modelo = (DefaultListModel) listaLateral.getModel();
+        formasBorrar = listaLateral.getSelectedIndices();
+        //Es MUY importante interar del fin al inicio para no afectar a los otros 
+        // indices del vector
+        for (int i = formasBorrar.length - 1; i >= 0; i--) {
+            int indiceBorrar = formasBorrar[i] - i;
+            this.getLienzoSeleccionado().vuelca(indiceBorrar);
+            modelo.remove(indiceBorrar);
+        }
+
+        listaLateral.setModel(modelo);
+    }//GEN-LAST:event_volcarActionPerformed
 
     class ManejadorAudio implements LineListener {
 
@@ -2304,7 +2287,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton play;
     private javax.swing.JButton recalcaRojos;
     private javax.swing.JMenuItem reescalado;
-    private javax.swing.JCheckBox relleno2;
+    private javax.swing.JToggleButton relleno2;
     private javax.swing.JToggleButton rojo1;
     private javax.swing.JButton rotar;
     private javax.swing.JToggleButton seleccion;
@@ -2321,6 +2304,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton tintar;
     private javax.swing.JToggleButton transparencia;
     private javax.swing.JToggleButton verde1;
-    private javax.swing.JToggleButton volcar;
+    private javax.swing.JButton volcar;
     // End of variables declaration//GEN-END:variables
 }

@@ -213,8 +213,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     public void setAlphaComposite(AlphaComposite alphaComposite) {
         this.alphaComposite = alphaComposite;
     }
-    
-    
 
     //**************** MÉTODO PAINT ******************//
     /**
@@ -304,8 +302,8 @@ public class Lienzo2D extends javax.swing.JPanel {
     public BufferedImage getImagen(boolean pintaVector) {
         if (pintaVector) {
             BufferedImage imgout = new BufferedImage(imagen.getWidth(),
-                imagen.getHeight(),
-                imagen.getType());
+                    imagen.getHeight(),
+                    imagen.getType());
             Graphics2D g2dImagen = imgout.createGraphics();
             this.paint(imgout.createGraphics());
             return (imgout);
@@ -313,14 +311,36 @@ public class Lienzo2D extends javax.swing.JPanel {
             return imagen;
         }
     }
-    
-    public BufferedImage getImagen(int numFigura) {
-            BufferedImage imgout = new BufferedImage(imagen.getWidth(),
-                imagen.getHeight(),
-                imagen.getType());
-            Graphics2D g2dImagen = imgout.createGraphics();
+
+    /**
+     * Para el volcado.
+     * Debemos tener en cuenta el relleno, el antialiasing, la transparencia 
+     * y el color de nuestra figura a volcar.
+     * @param numFigura La figura que vamos a volcar
+     */
+    public void vuelca(int numFigura) {
+        if (imagen != null) {
+            Graphics2D g2dImagen = imagen.createGraphics();
+            g2dImagen.setPaint(color);
+
+            if (relleno) {
+                g2dImagen.fill(vShape.get(numFigura));
+            }
+            if (isTransparente()) {
+                this.setAlphaComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            } else {
+                this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            }
+            if (isLiso()) {
+                g2dImagen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            }
+            g2dImagen.setPaint(color);
+            g2dImagen.setStroke(stroke);
+            g2dImagen.setComposite(alphaComposite);
             g2dImagen.draw(vShape.get(numFigura));
-            return (imgout);
+        }
+
+        this.getvShape().remove(numFigura);
     }
 
     /**
@@ -411,15 +431,15 @@ public class Lienzo2D extends javax.swing.JPanel {
                 this.repaint();
             }
             puntoInicial = evt.getPoint();
-            
+
             /*if(tipo == tipos.CURVA){
                 if(setPuntoControl){
                     vShape.add(forma);
                 }
             }else vShape.add(forma);*/
-            if(!setPuntoControl){
+            if (!setPuntoControl) {
                 vShape.add(forma);
-                notifyShapeAddedEvent( new LienzoEvent(this,forma,color) );
+                notifyShapeAddedEvent(new LienzoEvent(this, forma, color));
             }
         }
 
@@ -537,7 +557,7 @@ public class Lienzo2D extends javax.swing.JPanel {
 
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        if (tipo==tipos.CURVA){
+        if (tipo == tipos.CURVA) {
             setPuntoControl = !setPuntoControl;
         }
     }//GEN-LAST:event_formMouseReleased
@@ -573,7 +593,6 @@ public class Lienzo2D extends javax.swing.JPanel {
         return vShape;
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

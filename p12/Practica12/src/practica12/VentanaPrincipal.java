@@ -7,6 +7,7 @@ import SM.RRA.IU.Lienzo2D;
 import SM.RRA.IU.LienzoAdapter;
 import SM.RRA.IU.LienzoEvent;
 import SM.RRA.IU.tipos;
+import SM.RRA.SONIDO.Cronometro;
 import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -62,7 +63,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     private boolean isPlaying = false;
     private boolean isPaused = false;
-    private Timer timer;
+    private Cronometro cronometro = null;
 
     /**
      * Creates new form VentanaPrincipal Titulo y tamaño personalizados
@@ -2158,11 +2159,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             try {
                 File f = dlg.getSelectedFile();
                 recorder = new SMSoundRecorder(f);
+                cronometro = new Cronometro();
 
                 if (recorder != null) {
                     recorder.record();
+                    cronometro.play();
+                    while(cronometro.isIsRunning()){
+                        System.out.println(cronometro.actualizarTiempo());
+                    }
 
                 }
+                cronometro.stop();
             } catch (Exception ex) {
                 System.err.print("Error al guardar el sonido");
             }

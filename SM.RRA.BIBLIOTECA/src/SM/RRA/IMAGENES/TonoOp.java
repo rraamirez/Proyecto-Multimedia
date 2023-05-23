@@ -6,6 +6,7 @@ package SM.RRA.IMAGENES;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import sm.image.BufferedImageOpAdapter;
 
 /**
@@ -26,31 +27,33 @@ public class TonoOp extends BufferedImageOpAdapter {
             dest = createCompatibleDestImage(src, null);
         }
 
-        int ancho = src.getWidth();
-        int alto = src.getHeight();
+        WritableRaster srcRaster = src.getRaster();
+        WritableRaster destRaster = dest.getRaster();
 
-        int[] srcPixels = src.getRGB(0, 0, ancho, alto, null, 0, ancho);
-        int[] destPixels = new int[srcPixels.length];
+        int[] srcPixels = new int[srcRaster.getNumBands()];
+        int[] destPixels = new int[srcRaster.getNumBands()];
 
         float[] hsb = new float[3];
-        float phi = tono / 360.0f;
 
-        for (int i = 0; i < srcPixels.length; i++) {
-            int srcPixel = srcPixels[i];
-            int r = (srcPixel >> 16) & 0xFF;
-            int g = (srcPixel >> 8) & 0xFF;
-            int b = srcPixel & 0xFF;
-
-            Color.RGBtoHSB(r, g, b, hsb);
-
-            float hue = (hsb[0] * 360 + tono) % 360;
-            hsb[0] = hue / 360.0f;
-
-            int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
-            destPixels[i] = (srcPixel & 0xFF000000) | (rgb & 0x00FFFFFF);
+        for (int i = 0; i < src.getWidth(); ++i) {
+            for (int j = 0; j < src.getHeight(); ++j) {
+                //Convertimos de RGB a HSB
+                srcRaster.getPixel(i, j, srcPixels);
+                Color.RGBtoHSB(srcPixels[0], srcPixels[1], srcPixels[2], hsb);
+                
+                //Transformación a aplicar
+                hsb[0] = (((hsb[0] * 360) + tono) % 360) / 360;
+                
+                //COnvertimos de nuevo a RGB (estabamos en HSB)
+                int vueltaRGB = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+                destPixels[0] = (vueltaRGB >> 16) & 0xFF;
+                destPixels[1] = (vueltaRGB >> 8) & 0xFF;
+                destPixels[2] = vueltaRGB & 0xFF;
+                
+                destRaster.setPixel(i, j, destPixels);
+            }
         }
 
-        dest.setRGB(0, 0, ancho, alto, destPixels, 0, ancho);
         return dest;
     }
 

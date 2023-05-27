@@ -13,6 +13,7 @@ public class Cronometro {
     private long startTime;
     private long pausedTime;
     private boolean isRunning;
+    private Thread thread;
 
     public long getStartTime() {
         return startTime;
@@ -40,13 +41,14 @@ public class Cronometro {
 
     
     
-    public void play() {
+     public void play() {
         if (!isRunning) {
             startTime = System.currentTimeMillis();
             isRunning = true;
+            thread = new Thread(this::actualizarTiempo);
+            thread.start();
         }
     }
-    
     
 
     public void pause() {

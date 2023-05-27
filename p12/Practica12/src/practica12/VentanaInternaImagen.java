@@ -14,14 +14,14 @@ import javax.swing.event.InternalFrameEvent;
  *
  * @author raul
  */
-public class VentanaInterna extends javax.swing.JInternalFrame {
+public class VentanaInternaImagen extends javax.swing.JInternalFrame {
 
     MiManejadorLienzo manejador;
     
     /**
      * Creates new form VentanaInterna
      */
-    public VentanaInterna() {
+    public VentanaInternaImagen() {
         initComponents();
         this.setSize(500, 500);
         this.setClosable(true);

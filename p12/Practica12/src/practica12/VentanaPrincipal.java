@@ -2324,6 +2324,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BufferedImage img = vc.getImage();
             VentanaInternaImagen vi = new VentanaInternaImagen();
             vi.getLienzo2D().setImagen(img);
+            vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
+            vi.addInternalFrameListener(new ManejadorVentanaInterna());
             escritorio.add(vi);
             vi.setVisible(true);
 

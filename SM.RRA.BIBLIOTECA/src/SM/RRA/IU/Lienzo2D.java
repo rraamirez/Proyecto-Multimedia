@@ -32,7 +32,11 @@ import java.util.Collection;
  */
 public class Lienzo2D extends javax.swing.JPanel {
 
-    //*************DECLARACION DE VARIABLES***************//
+    //////////////////////////////////////////////////
+    //              Practica Final 
+    
+
+//*************DECLARACION DE VARIABLES***************//
     boolean relleno;
     boolean mover;
     boolean transparente;

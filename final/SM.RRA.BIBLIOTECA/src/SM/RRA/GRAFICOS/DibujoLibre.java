@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
@@ -90,5 +91,10 @@ public class DibujoLibre extends Forma {
     @Override
     public String toString() {
         return "GeneralPathForma";
+    }
+
+    @Override
+    public Shape figura() {
+        return path;
     }
 }

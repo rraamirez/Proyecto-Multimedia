@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.PathIterator;
@@ -138,6 +139,11 @@ public class Linea extends Forma {
     public boolean contains(Point2D p)
     {
         return isNear(p);
+    }
+
+    @Override
+    public Shape figura() {
+        return linea;
     }
 
 }

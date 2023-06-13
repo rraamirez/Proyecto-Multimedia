@@ -116,6 +116,8 @@ public abstract class Forma {
         this.alphaComposite = alphaComposite;
     }
     
+    public abstract Shape figura();
+    
     public abstract void pintar(Graphics g);
     
     public abstract void setLocation(Point2D p);

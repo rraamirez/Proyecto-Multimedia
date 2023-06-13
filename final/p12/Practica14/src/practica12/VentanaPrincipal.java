@@ -1,5 +1,6 @@
 package practica12;
 
+import SM.RRA.GRAFICOS.Forma;
 import SM.RRA.IMAGENES.PosterizarOp;
 import SM.RRA.IMAGENES.RojoOp;
 import SM.RRA.IMAGENES.TonoOp;
@@ -2749,7 +2750,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          * @param evt
          */
         public void shapeAdded(LienzoEvent evt) {
-            Shape s = evt.getForma();
+            Forma s = evt.getFigura();
             ((DefaultListModel) listaLateral.getModel()).addElement(s);
         }
     }
@@ -2885,7 +2886,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToggleButton linea;
     private javax.swing.JToggleButton lineal;
-    private javax.swing.JList<Shape> listaLateral;
+    private javax.swing.JList<Forma> listaLateral;
     private javax.swing.JMenuItem lookUpOp;
     private javax.swing.JToggleButton masColores;
     private javax.swing.JToggleButton masColores1;

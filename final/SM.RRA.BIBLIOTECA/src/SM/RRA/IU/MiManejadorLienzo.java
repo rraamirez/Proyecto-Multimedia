@@ -13,7 +13,7 @@ import java.awt.Shape;
 public class MiManejadorLienzo extends LienzoAdapter {
       
         public void shapeAdded(LienzoEvent evt) {
-            String forma = evt.getForma().toString();
+            String forma = evt.getFigura().toString();
             System.out.println("Figura " + forma + " añadida");
         }
     

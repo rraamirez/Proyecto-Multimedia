@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -97,5 +98,10 @@ public class Rectangulo extends Forma {
     @Override
     public String toString() {
         return "Rectangulo";
+    }
+
+    @Override
+    public Shape figura() {
+        return rectangulo;
     }
 }

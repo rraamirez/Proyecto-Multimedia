@@ -4,6 +4,7 @@
  */
 package SM.RRA.IU;
 
+import SM.RRA.GRAFICOS.Forma;
 import java.awt.Color;
 import java.awt.Shape;
 import java.util.EventObject;
@@ -15,11 +16,12 @@ import java.util.EventObject;
 public class LienzoEvent extends EventObject {
 
     private Shape forma;
+    private Forma figura;
     private Color color;
 
-    public LienzoEvent(Object source, Shape forma, Color color) {
+    public LienzoEvent(Object source, Forma forma, Color color) {
         super(source);
-        this.forma = forma;
+        this.figura = forma;
         this.color = color;
     }
 
@@ -27,6 +29,16 @@ public class LienzoEvent extends EventObject {
         return forma;
     }
 
+    public Forma getFigura() {
+        return figura;
+    }
+
+    public void setFigura(Forma figura) {
+        this.figura = figura;
+    }
+
+    
+    
     public Color getColor() {
         return color;
     }

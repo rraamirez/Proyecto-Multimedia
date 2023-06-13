@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -97,6 +98,11 @@ public class Elipse extends Forma{
     @Override
     public String toString() {
         return "Elipse";
+    }
+
+    @Override
+    public Shape figura() {
+        return elipse;
     }
     
 }

@@ -64,4 +64,14 @@ public class Smile extends Forma {
     public boolean contains(Point2D p) {
         return cara.contains(p);
     }
+
+    @Override
+    public Shape figura() {
+        return cara;
+    }
+    
+    @Override
+    public String toString(){
+        return "Carita sonriente";
+    }
 }

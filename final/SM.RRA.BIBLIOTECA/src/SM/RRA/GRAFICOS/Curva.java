@@ -78,4 +78,14 @@ public class Curva extends Forma {
         return curva.contains(p);
     }
 
+    @Override
+    public Shape figura() {
+        return curva;
+    }
+    
+    @Override
+    public String toString(){
+        return "Curva";
+    }
+
 }

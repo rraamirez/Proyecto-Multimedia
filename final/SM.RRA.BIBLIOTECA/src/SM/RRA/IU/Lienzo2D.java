@@ -55,6 +55,14 @@ public class Lienzo2D extends javax.swing.JPanel {
         this.figura = figura;
     }
 
+    public ArrayList<Forma> getFormas() {
+        return formas;
+    }
+
+    public void setFormas(ArrayList<Forma> formas) {
+        this.formas = formas;
+    }
+
     //*************DECLARACION DE VARIABLES***************//
     boolean relleno;
     boolean mover;
@@ -119,14 +127,13 @@ public class Lienzo2D extends javax.swing.JPanel {
         forma = new Line2D.Float(0, 0, 0, 0);
         figura = new Linea();
         statusBar = new JLabel();
-        
+
     }
 
     //*************************GETTERS AND SETTERS*************************//
     /*public MouseEvent getLastMouseEvent() {
         return lastMouseEvent;
     }*/
-
     public JLabel getStatusBar() {
         return statusBar;
     }
@@ -297,7 +304,7 @@ public class Lienzo2D extends javax.swing.JPanel {
         }
 
     }
-    
+
     /**
      * Este metodo al ser invocado se encarga de dejar "la pizarra en blanco".
      * Para eso, limpiamos el vector de shape.
@@ -358,26 +365,39 @@ public class Lienzo2D extends javax.swing.JPanel {
      */
     public void vuelca(int numFigura) {
         if (imagen != null) {
-            Graphics2D g2dImagen = imagen.createGraphics();
-            g2dImagen.setPaint(color);
 
-            if (relleno) {
-                g2dImagen.fill(vShape.get(numFigura));
+            Graphics2D g2dImagen = imagen.createGraphics();
+            g2dImagen.setPaint(formas.get(numFigura).getColorRelleno());
+
+            if (formas.get(numFigura).isRelleno()) {
+                g2dImagen.fill(formas.get(numFigura).figura());
             }
-            if (isTransparente()) {
-                this.setAlphaComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            BasicStroke lineStroke;
+            if (getDiscontinuidad() > 0) {
+                // Multiplica la discontinuidad por 5 para hacerla más notable
+                float[] dashPattern = {getDiscontinuidad() * 5, getDiscontinuidad() * 5};
+                lineStroke = new BasicStroke(getGrosor(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, dashPattern, 0);
+            } else {
+                lineStroke = new BasicStroke(getGrosor(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+            }
+
+            g2dImagen.setStroke(lineStroke);
+
+            if (formas.get(numFigura).isTransparente()) {
+                this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
             } else {
                 this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
             if (isLiso()) {
                 g2dImagen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             }
-            g2dImagen.setPaint(color);
-            g2dImagen.setStroke(stroke);
-            g2dImagen.setComposite(alphaComposite);
-            g2dImagen.draw(vShape.get(numFigura));
+            g2dImagen.setPaint(formas.get(numFigura).getColor());
+            
+            g2dImagen.setComposite(formas.get(numFigura).getAlphaComposite());
+            g2dImagen.draw(formas.get(numFigura).figura());
         }
 
+        this.getFormas().remove(numFigura);
         this.getvShape().remove(numFigura);
     }
 
@@ -466,7 +486,7 @@ public class Lienzo2D extends javax.swing.JPanel {
 
             if (!setPuntoControl) {
                 vShape.add(forma);
-                notifyShapeAddedEvent(new LienzoEvent(this, forma, color));
+                notifyShapeAddedEvent(new LienzoEvent(this, figura, color));
                 formas.add(figura);
             }
         }
@@ -623,7 +643,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     public ArrayList getShapeList() {
         return vShape;
     }
-    
+
     /**
      *
      * @return vector de formas nuevo
@@ -631,7 +651,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     public ArrayList getNewShapeList() {
         return formas;
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -118,14 +118,6 @@ public class Linea extends Forma {
         g2d.draw(linea);
     }
 
-    @Override
-    public void setLocation(Point2D p) {
-        double dx = p.getX() - this.getLinea().getX1();
-        double dy = p.getY() - this.getLinea().getY1();
-        Point2D newp2 = new Point2D.Double(this.getLinea().getX2() + dx, this.getLinea().getY2() + dy);
-        this.getLinea().setLine(p, newp2);
-    }
-
     public String toString() {
         return "Linea";
     }

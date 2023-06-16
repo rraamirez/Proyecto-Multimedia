@@ -21,9 +21,12 @@ import javax.swing.event.InternalFrameEvent;
 public class VentanaInternaImagen extends javax.swing.JInternalFrame {
 
     MiManejadorLienzo manejador;
-    
+
     /**
-     * Creates new form VentanaInterna
+     * Este es el constructor de la clase VentanaInternaImagen que crea una
+     * nueva instancia de la ventana interna para mostrar una imagen. Realiza
+     * varias configuraciones iniciales y asigna un MiManejadorLienzo a la
+     * ventana interna.
      */
     public VentanaInternaImagen() {
         initComponents();
@@ -31,25 +34,16 @@ public class VentanaInternaImagen extends javax.swing.JInternalFrame {
         this.setClosable(true);
         this.setIconifiable(true);
         this.setResizable(true);
-        
+
         manejador = new MiManejadorLienzo();
         this.getLienzo2D().addLienzoListener(manejador);
-        /*addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                Point p = e.getPoint();
-                if (p.x < getLienzo2D().getImagen().getWidth() && p.y < getLienzo2D().getImagen().getHeight()) {
-                    Color color = new Color(getLienzo2D().getImagen().getRGB(p.x, p.y));
-                    String statusText = String.format("Posición: (%d, %d), Color: (R=%d, G=%d, B=%d)",
-                            p.x, p.y, color.getRed(), color.getGreen(), color.getBlue());
-                    
-                    //statusBar.setText(statusText);
-
-                }
-            }
-        });*/
     }
 
+    /**
+     * Getter de lienzo
+     *
+     * @return Lienzo2D
+     */
     public Lienzo2D getLienzo2D() {
         return lienzo2D;
     }

@@ -30,11 +30,20 @@ public class VentanaInternaVideo extends javax.swing.JInternalFrame {
         vlcplayer = aVisual.getMediaPlayer();
     }
 
+    /**
+     * Méotod de clase que devuelve la instancia de la clase 
+     * @param f archivo pasado
+     * @return instancia la ventana
+     */
     public static VentanaInternaVideo getInstance(File f) {
         VentanaInternaVideo v = new VentanaInternaVideo(f);
         return (v.vlcplayer != null ? v : null);
     }
     
+    /**
+     * Devuelve una captura de pantalla del video actual como un objeto
+     * @return Captura de pantalla del video que se reproduzca en el momento.
+     */
     public BufferedImage getImage(){
         return vlcplayer != null ? vlcplayer.getSnapshot() : null;
     }

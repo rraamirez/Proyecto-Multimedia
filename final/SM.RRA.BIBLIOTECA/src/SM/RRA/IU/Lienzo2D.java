@@ -42,11 +42,11 @@ import javax.swing.JLabel;
  */
 public class Lienzo2D extends javax.swing.JPanel {
 
-    /////PRACTICA FINAL/////////////
+    //Atributos de Shape//
     Forma figura;
-    Linea linea;
     ArrayList<Forma> formas;
 
+    //////GETTERS Y SETTERS DEL SHAPE////
     public Forma getFigura() {
         return figura;
     }
@@ -70,10 +70,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     boolean liso;
     int grosor = 1;
     int discontinuidad = 0;
-    //Line2D linea;
     tipos tipo = tipos.LINEA;
-    Shape forma;
-    ArrayList<Shape> vShape;
     Color color = Color.BLACK;
     Color colorRelleno = Color.BLACK;
     BufferedImage imagen;
@@ -82,7 +79,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     AlphaComposite alphaComposite;
 
     /**
-     * Para movimiento de figuras (las tres iniciales)
+     * Para movimiento de figuras.
      */
     Point puntoInicial = new Point();
     Point puntoTmp = new Point();
@@ -100,7 +97,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     Point pauxC = new Point();
 
     /**
-     * Para mover el trazo
+     * Para mover el trazo libre
      */
     Point pauxTl = new Point();
 
@@ -114,34 +111,19 @@ public class Lienzo2D extends javax.swing.JPanel {
      * ************************************************************
      */
     ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
-    private javax.swing.JLabel statusBar;
-    //private MouseEvent lastMouseEvent;
 
     //************************CONSTRUCTOR**********************//
     public Lienzo2D() {
         initComponents();
         stroke = new BasicStroke();
         alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
-        vShape = new ArrayList<>();
         formas = new ArrayList<>();
-        forma = new Line2D.Float(0, 0, 0, 0);
         figura = new Linea();
-        statusBar = new JLabel();
 
     }
 
     //*************************GETTERS AND SETTERS*************************//
-    /*public MouseEvent getLastMouseEvent() {
-        return lastMouseEvent;
-    }*/
-    public JLabel getStatusBar() {
-        return statusBar;
-    }
-
-    public void setStatusBar(JLabel statusBar) {
-        this.statusBar = statusBar;
-    }
-
+    /////////////////ATRIBUTOS DEL LIENZO QUE COGERÁN NUESTRAS FORMAS/////////
     public tipos getTipo() {
         return tipo;
     }
@@ -182,28 +164,12 @@ public class Lienzo2D extends javax.swing.JPanel {
         this.mover = mover;
     }
 
-    public Shape getForma() {
-        return forma;
-    }
-
-    public void setForma(Shape forma) {
-        this.forma = forma;
-    }
-
     public Point getInicial() {
         return puntoInicial;
     }
 
     public void setInicial(Point inicial) {
         this.puntoInicial = inicial;
-    }
-
-    public ArrayList<Shape> getvShape() {
-        return vShape;
-    }
-
-    public void setvShape(ArrayList<Shape> vShape) {
-        this.vShape = vShape;
     }
 
     public Point getPuntoInicial() {
@@ -279,8 +245,8 @@ public class Lienzo2D extends javax.swing.JPanel {
 
     //**************** MÉTODO PAINT ******************//
     /**
-     * El metodo paint será el encargado de (solo y exclusivamente) pintar la
-     * forma que tengamos.
+     * El metodo paint será el encargado de pintar la forma que tengamos.
+     * Invocamos al método pintar implementado en nuestras formas a dibujar.
      *
      * @param g Se le hace casting para que funcione como si fuese de Graphics2D
      */
@@ -291,18 +257,11 @@ public class Lienzo2D extends javax.swing.JPanel {
 
         //Si hay imagen la pintamos
         if (imagen != null) {
-            //Shape oldClip = g2d.getClip();  // guarda el antiguo clip
-            //g2d.setClip(0, 0, imagen.getWidth(), imagen.getHeight());  // establece el nuevo clip
-
             g2d.drawImage(imagen, 0, 0, this);
-
             for (Forma f : formas) {
                 f.pintar(g2d);
             }
-
-            //g2d.setClip(oldClip);  // restaura el antiguo clip solo después de terminar de dibujar
         }
-
     }
 
     /**
@@ -310,7 +269,7 @@ public class Lienzo2D extends javax.swing.JPanel {
      * Para eso, limpiamos el vector de shape.
      */
     public void nuevoLienzo() {
-        vShape.clear();
+        formas.clear();
         this.repaint();
     }
 
@@ -359,7 +318,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     /**
      * Implementación extremadamente sencilla para el volcado de figuras. Se ha
      * tenido en cuenta el relleno, el antialiasing, la transparencia y el color
-     * de nuestra figura a volcar.
+     * de nuestra figura a volcar. Uso de Graphics2D.
      *
      * @param numFigura La figura que vamos a volcar
      */
@@ -374,7 +333,6 @@ public class Lienzo2D extends javax.swing.JPanel {
             }
             BasicStroke lineStroke;
             if (getDiscontinuidad() > 0) {
-                // Multiplica la discontinuidad por 5 para hacerla más notable
                 float[] dashPattern = {getDiscontinuidad() * 5, getDiscontinuidad() * 5};
                 lineStroke = new BasicStroke(getGrosor(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, dashPattern, 0);
             } else {
@@ -384,21 +342,20 @@ public class Lienzo2D extends javax.swing.JPanel {
             g2dImagen.setStroke(lineStroke);
 
             if (formas.get(numFigura).isTransparente()) {
-                this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+                g2dImagen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
             } else {
-                this.setAlphaComposite(alphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                g2dImagen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
+
             if (isLiso()) {
                 g2dImagen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             }
+
             g2dImagen.setPaint(formas.get(numFigura).getColor());
-            
-            g2dImagen.setComposite(formas.get(numFigura).getAlphaComposite());
             g2dImagen.draw(formas.get(numFigura).figura());
         }
 
         this.getFormas().remove(numFigura);
-        this.getvShape().remove(numFigura);
     }
 
     /**
@@ -437,34 +394,41 @@ public class Lienzo2D extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-
+        // Si se quiere mover una figura y hay una cerca del punto donde se hizo click
         if (mover && hayFiguraCerca(evt.getPoint())) {
+            // Selecciona la figura más cercana al punto de click
             figura = getFiguraSeleccionada(evt.getPoint());
         }
 
+        // Si no se quiere mover una figura
         if (!mover) {
+            // Crea una nueva línea si el tipo seleccionado es Línea
             if (tipo == tipos.LINEA) {
-                //forma = new Line2D.Float(evt.getPoint(), evt.getPoint());
                 figura = new Linea(evt.getPoint(), evt.getPoint(), this.getColor(),
                         this.isTransparente(), this.isLiso(), this.getGrosor(), this.getDiscontinuidad());
 
             }
 
+            // Crea una nueva elipse si el tipo seleccionado es Elipse
             if (tipo == tipos.ELIPSE) {
                 figura = new Elipse(evt.getPoint(), evt.getPoint(), this.getColor(),
                         this.getColorRelleno(), this.isRelleno(), this.isTransparente(), this.isLiso(), this.getGrosor(), this.getDiscontinuidad());
             }
 
+            // Crea un nuevo rectángulo si el tipo seleccionado es Rectángulo
             if (tipo == tipos.RECTANGULO) {
                 figura = new Rectangulo(evt.getPoint(), evt.getPoint(), this.getColor(),
                         this.getColorRelleno(), this.isRelleno(), this.isTransparente(), this.isLiso(), this.getGrosor(), this.getDiscontinuidad());
             }
 
+            // Crea una nueva curva si el tipo seleccionado es Curva
             if (tipo == tipos.CURVA) {
+                // Si el punto de control está establecido, guarda el punto de control
                 if (setPuntoControl) {
                     puntoControl = evt.getPoint();
                     pauxC = evt.getPoint();
                 } else {
+                    // Si el punto de control no está establecido, crea una nueva curva
                     figura = new Curva(evt.getPoint(), evt.getPoint(), evt.getPoint(), this.getColor(),
                             this.isTransparente(), this.isLiso(), this.getGrosor(), this.getDiscontinuidad());
                     punto1 = evt.getPoint();
@@ -472,11 +436,13 @@ public class Lienzo2D extends javax.swing.JPanel {
                 this.repaint();
             }
 
+            // Crea un nuevo dibujo libre si el tipo seleccionado es Libre
             if (tipo == tipos.LIBRE) {
                 figura = new DibujoLibre(this.getColor(), this.isRelleno(), this.isTransparente(), this.isLiso(), this.getGrosor(), this.getDiscontinuidad());
                 ((DibujoLibre) figura).getPath().moveTo(evt.getX(), evt.getY());
             }
 
+            // Crea una nueva cara sonriente si el tipo seleccionado es Smile
             if (tipo == tipos.SMILE) {
                 figura = new Smile(evt.getPoint(), this.getColor());
 
@@ -484,49 +450,64 @@ public class Lienzo2D extends javax.swing.JPanel {
             }
             puntoInicial = evt.getPoint();
 
+            // Si el punto de control no está establecido, añade la nueva figura a la lista de figuras
             if (!setPuntoControl) {
-                vShape.add(forma);
                 notifyShapeAddedEvent(new LienzoEvent(this, figura, color));
                 formas.add(figura);
             }
         }
-
-
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
 
         if (mover) {
+            // Si la figura seleccionada es una línea
             if (figura instanceof Linea) {
-
+                // Se calcula la anchura y la altura de la línea actual
                 anchura = ((Linea) figura).getLinea().getX2() - ((Linea) figura).getLinea().getX1();
                 altura = ((Linea) figura).getLinea().getY2() - ((Linea) figura).getLinea().getY1();
+
+                // Se crea una nueva línea que comienza en el punto donde se ha arrastrado el ratón
+                // y termina en un punto que mantiene la misma anchura y altura respecto al punto inicial
                 Line2D linea_temp = new Line2D.Double(evt.getPoint().getX(), evt.getPoint().getY(),
                         evt.getPoint().getX() + anchura, evt.getPoint().getY() + altura);
+
+                // Se actualiza la línea original con la nueva línea
                 ((Linea) figura).getLinea().setLine(linea_temp);
             }
 
+            // Si la figura seleccionada es un rectángulo
             if (figura instanceof Rectangulo) {
+                // Se establece una nueva posición para el rectángulo
+                // El punto central del rectángulo se coloca en el punto donde se ha arrastrado el ratón
                 ((Rectangulo) figura).getRectangulo().setRect(evt.getPoint().x - ((Rectangulo) figura).getRectangulo().getWidth() / 2,
                         evt.getPoint().y - ((Rectangulo) figura).getRectangulo().getHeight() / 2, ((Rectangulo) figura).getRectangulo().getWidth(),
                         ((Rectangulo) figura).getRectangulo().getHeight());
             }
 
+            // Si la figura seleccionada es una elipse
             if (figura instanceof Elipse) {
+                // Se establece una nueva posición para la elipse
+                // El punto central de la elipse se coloca en el punto donde se ha arrastrado el ratón
                 ((Elipse) figura).getElipse().setFrameFromDiagonal(evt.getPoint().x - ((Elipse) figura).getElipse().getWidth() / 2,
                         evt.getPoint().y - ((Elipse) figura).getElipse().getHeight() / 2, evt.getPoint().x + ((Elipse) figura).getElipse().getWidth() / 2,
                         evt.getPoint().y + ((Elipse) figura).getElipse().getHeight() / 2);
             }
 
             if (figura instanceof Curva) {
+                // Se calcula la distancia en X y en Y que el ratón ha sido arrastrado desde la última posición
                 int disX = evt.getX() - pauxC.x;
                 int disY = evt.getY() - pauxC.y;
 
+                // Se obtiene la curva actual
                 QuadCurve2D curva = ((Curva) figura).getCurva();
+
+                // Se obtienen los puntos de la curva
                 Point2D.Float ini = (Point2D.Float) curva.getP1();
                 Point2D.Float fin = (Point2D.Float) curva.getP2();
                 Point2D.Float control = (Point2D.Float) curva.getCtrlPt();
 
+                // Se actualizan las posiciones de los puntos de la curva sumando la distancia que el ratón ha sido arrastrado
                 ini.x += disX;
                 ini.y += disY;
                 fin.x += disX;
@@ -534,24 +515,41 @@ public class Lienzo2D extends javax.swing.JPanel {
                 control.x += disX;
                 control.y += disY;
 
+                // Se actualiza la curva con los nuevos puntos
                 curva.setCurve(ini, control, fin);
 
+                // Se actualiza la última posición conocida del ratón
                 pauxC = evt.getPoint();
             }
 
             if (figura instanceof DibujoLibre) {
+                // Se calcula la distancia en X y en Y que el ratón ha sido arrastrado desde la última posición conocida
                 int disX = evt.getX() - pauxTl.x;
                 int disY = evt.getY() - pauxTl.y;
+
+                // Se obtiene el camino del dibujo libre
                 GeneralPath dibujo = ((DibujoLibre) figura).getPath();
+
+                // Se crea una transformación para mover el camino en la cantidad que el ratón ha sido arrastrado
                 AffineTransform at = AffineTransform.getTranslateInstance(disX, disY);
+
+                // Se aplica la transformación al camino
                 dibujo.transform(at);
+
+                // Se actualiza la última posición conocida del ratón
                 pauxTl = evt.getPoint();
             }
 
+            // Si la figura seleccionada es una sonrisa (Smile)
             if (figura instanceof Smile) {
+                // Se calcula la distancia en X y en Y que el ratón ha sido arrastrado desde la última posición conocida
                 int disX = evt.getX() - pauxSmile.x;
                 int disY = evt.getY() - pauxSmile.y;
+
+                // Se crea una transformación para mover la sonrisa en la cantidad que el ratón ha sido arrastrado
                 ((Smile) figura).getCara().transform(AffineTransform.getTranslateInstance(disX, disY));
+
+                // Se actualiza la última posición conocida del ratón
                 pauxSmile = evt.getPoint();
             }
 
@@ -559,9 +557,6 @@ public class Lienzo2D extends javax.swing.JPanel {
 
         if (!mover) {
             if (tipo == tipos.LINEA) {
-                //((Line2D) forma).setLine(((Line2D) forma).getP1(), evt.getPoint());
-                //anchura = evt.getX() - puntoInicial.x;
-                //altura = evt.getY() - puntoInicial.y;
                 ((Linea) figura).getLinea().setLine(((Linea) figura).getLinea().getP1(), evt.getPoint());
 
             }
@@ -605,8 +600,6 @@ public class Lienzo2D extends javax.swing.JPanel {
         if (tipo == tipos.CURVA) {
             setPuntoControl = !setPuntoControl;
         }
-
-
     }//GEN-LAST:event_formMouseReleased
 
     /**
@@ -620,6 +613,10 @@ public class Lienzo2D extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * 
+     * @param evt 
+     */
     private void notifyShapeAddedEvent(LienzoEvent evt) {
         if (!lienzoEventListeners.isEmpty()) {
             for (LienzoListener listener : lienzoEventListeners) {
@@ -634,14 +631,6 @@ public class Lienzo2D extends javax.swing.JPanel {
                 listener.propertyChange(evt);
             }
         }
-    }
-
-    /**
-     *
-     * @return vector de formas
-     */
-    public ArrayList getShapeList() {
-        return vShape;
     }
 
     /**

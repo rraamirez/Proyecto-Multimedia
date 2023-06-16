@@ -19,7 +19,11 @@ public class VentanaInternaCamara extends javax.swing.JInternalFrame {
     private Webcam camara = null;
 
     /**
-     * Creates new form VentanaInternaCamara
+     * Constructor privado que inicializa una instancia de la clase
+     * VentanaInternaCamara. Configura los componentes gráficos, establece el
+     * tamaño de la ventana, obtiene la cámara predeterminada, ajusta la
+     * resolución de visualización y agrega el panel de visualización al
+     * contenido principal de la ventana interna.
      */
     private VentanaInternaCamara() {
         initComponents();
@@ -37,12 +41,45 @@ public class VentanaInternaCamara extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Este método estático devuelve una instancia de la clase
+     * VentanaInternaCamara. Si la variable camara de la instancia v no es nula,
+     * se devuelve la instancia v. De lo contrario, se devuelve null.
+     *
+     * Parámetros:
+     *
+     * Este método no acepta ningún parámetro.
+     *
+     * Valor de retorno:
+     *
+     * VentanaInternaCamara - una instancia de la clase VentanaInternaCamara si
+     * v.camara no es nula. null - si v.camara es nula.
+     *
+     * @return
+     */
     public static VentanaInternaCamara getInstance() {
         VentanaInternaCamara v = new VentanaInternaCamara();
         return (v.camara != null ? v : null);
     }
-    
-    public BufferedImage getImage(){
+
+    /**
+     * Este método devuelve una imagen capturada por la cámara (camara) como un
+     * objeto BufferedImage. Si camara no es nula, se llama al método getImage()
+     * de la cámara y se devuelve la imagen resultante. De lo contrario, se
+     * devuelve null.
+     *
+     * Parámetros:
+     *
+     * Este método no acepta ningún parámetro.
+     *
+     * Valor de retorno:
+     *
+     * @return BufferedImage - la imagen capturada por la cámara (camara) si
+     * camara no es nula. null - si camara es nula.
+     *
+     *
+     */
+    public BufferedImage getImage() {
         return camara != null ? camara.getImage() : null;
     }
 
@@ -80,6 +117,16 @@ public class VentanaInternaCamara extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Este método es invocado cuando se cierra un marco interno en una
+     * aplicación de interfaz gráfica de usuario (GUI) construida con Swing. El
+     * método maneja el evento de cierre del marco interno.
+     *
+     *
+     *
+     * @param evt (javax.swing.event.InternalFrameEvent): El evento de cierre
+     * del marco interno que desencadena la ejecución del método.
+     */
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         if (camara != null) {
             camara.close();

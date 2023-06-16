@@ -19,9 +19,9 @@ import java.awt.geom.Point2D;
  *
  * @author raul
  */
-public class Elipse extends Forma{
+public class Elipse extends Forma {
 
-        private Ellipse2D elipse;
+    private Ellipse2D elipse;
 
     public Elipse() {
         super();
@@ -48,6 +48,7 @@ public class Elipse extends Forma{
         this.elipse = elipse;
     }
 
+    
     @Override
     public void pintar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -84,13 +85,6 @@ public class Elipse extends Forma{
     }
 
     @Override
-    public void setLocation(Point2D pos) {
-        double dx = pos.getX() - this.getElipse().getX();
-        double dy = pos.getY() - this.getElipse().getY();
-        this.getElipse().setFrame(pos.getX(), pos.getY(), this.getElipse().getWidth() + dx, this.getElipse().getHeight() + dy);
-    }
-
-    @Override
     public boolean contains(Point2D p) {
         return elipse.contains(p);
     }
@@ -104,5 +98,5 @@ public class Elipse extends Forma{
     public Shape figura() {
         return elipse;
     }
-    
+
 }

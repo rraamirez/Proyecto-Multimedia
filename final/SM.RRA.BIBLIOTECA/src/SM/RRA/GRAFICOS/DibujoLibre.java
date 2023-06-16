@@ -79,11 +79,6 @@ public class DibujoLibre extends Forma {
     }
 
     @Override
-    public void setLocation(Point2D pos) {
-        // Este método deberá ser implementado dependiendo de cómo desees mover el GeneralPath.
-    }
-
-    @Override
     public boolean contains(Point2D p) {
         return path.contains(p);
     }

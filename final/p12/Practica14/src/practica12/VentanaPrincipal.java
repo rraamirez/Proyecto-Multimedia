@@ -1,6 +1,7 @@
 package practica12;
 
 import SM.RRA.GRAFICOS.Forma;
+import SM.RRA.IMAGENES.AzulOp;
 import SM.RRA.IMAGENES.PosterizarOp;
 import SM.RRA.IMAGENES.RojoOp;
 import SM.RRA.IMAGENES.TonoOp;
@@ -8,7 +9,6 @@ import SM.RRA.IU.Lienzo2D;
 import SM.RRA.IU.LienzoAdapter;
 import SM.RRA.IU.LienzoEvent;
 import SM.RRA.IU.tipos;
-import SM.RRA.SONIDO.Cronometro;
 import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -75,7 +75,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Creates new form VentanaPrincipal Titulo y tamaño personalizados
      */
     public VentanaPrincipal() {
-        this.setTitle("PAINT MULTIMEDIA");
+        this.setTitle("APLICACIÓN MULTIMEDIA");
         this.setSize(2000, 2000);
         initComponents();
         listaLateral.setModel(new DefaultListModel());
@@ -126,8 +126,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         recalcaRojos = new javax.swing.JButton();
         sliderVariaTono = new javax.swing.JSlider();
         sliderPosterizar = new javax.swing.JSlider();
+        azulOp = new javax.swing.JButton();
         sliderGiro = new javax.swing.JSlider();
         negativo = new javax.swing.JButton();
+        umbralizacionBinaria = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -223,6 +225,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 100));
 
         brillo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        brillo.setToolTipText("Brillo");
         brillo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 brilloStateChanged(evt);
@@ -240,6 +243,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Brillo Y Contraste");
 
         Contraste.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        Contraste.setToolTipText("Contraste");
         Contraste.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 ContrasteStateChanged(evt);
@@ -254,6 +258,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        filtro.setToolTipText("Filtro");
         filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Media", "Binomial", "Enfoque", "Relive", "Laplaciano", "Horizontal 5x1", "Medio 5x5", "Medio 7x7", "Horizontal 7x1", "Horizontal 10x1" }));
         filtro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,6 +269,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel3.setText("Filtro");
 
         contrasteBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/contraste.png"))); // NOI18N
+        contrasteBoton.setToolTipText("Contraste");
         contrasteBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contrasteBotonActionPerformed(evt);
@@ -445,6 +451,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        azulOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONOS/azul.jpg"))); // NOI18N
+        azulOp.setToolTipText("recalca azul");
+        azulOp.setMaximumSize(new java.awt.Dimension(20, 20));
+        azulOp.setMinimumSize(new java.awt.Dimension(20, 20));
+        azulOp.setPreferredSize(new java.awt.Dimension(20, 20));
+        azulOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                azulOpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -457,13 +474,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(sepia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ecualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(recalcaRojos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(azulOp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(recalcaRojos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sliderVariaTono, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sliderPosterizar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(sliderPosterizar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,12 +496,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(recalcaRojos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(sliderVariaTono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(sliderPosterizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(sliderPosterizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(azulOp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
         sliderGiro.setMajorTickSpacing(90);
-        sliderGiro.setMaximum(180);
+        sliderGiro.setMaximum(360);
         sliderGiro.setMinorTickSpacing(10);
         sliderGiro.setValue(0);
         sliderGiro.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -490,11 +510,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 sliderGiroStateChanged(evt);
             }
         });
+        sliderGiro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                sliderGiroFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sliderGiroFocusLost(evt);
+            }
+        });
 
         negativo.setText("-");
+        negativo.setToolTipText("Negativo");
         negativo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 negativoActionPerformed(evt);
+            }
+        });
+
+        umbralizacionBinaria.setToolTipText("Umbralización binaria");
+        umbralizacionBinaria.setText("0/1");
+        umbralizacionBinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umbralizacionBinariaActionPerformed(evt);
             }
         });
 
@@ -528,11 +565,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cuadratica)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lineal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lineal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(umbralizacionBinaria, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(slider1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(slider2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,10 +594,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addGap(90, 90, 90)))
                     .addComponent(sliderGiro, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -591,7 +632,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                         .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(negativo))))
+                                        .addComponent(negativo))
+                                    .addComponent(umbralizacionBinaria)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1007,7 +1049,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(panelSonidoLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(play, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1241,9 +1283,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Muestra diálogo de abrir.
+     * Método de evento que se dispara cuando se selecciona la opción "Abrir".
+     * Abre un cuadro de diálogo de selección de archivo, lee el archivo
+     * seleccionado y realiza acciones según el tipo de archivo.
+     *
+     * @param evt ABRIR
      */
-
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
         JFileChooser dlg = new JFileChooser();
         int resp = dlg.showOpenDialog(this);
@@ -1255,7 +1300,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     BufferedImage img = ImageIO.read(f);
                     VentanaInternaImagen vi = new VentanaInternaImagen();
                     vi.getLienzo2D().setImagen(img);
-                    vi.setTitle(f.getName()); // Agregar esta línea para establecer el título de la ventana interna
+                    vi.setTitle(f.getName());
                     this.escritorio.add(vi);
                     vi.setVisible(true);
                     vi.getLienzo2D().addLienzoListener(new ManejadorLienzo());
@@ -1334,7 +1379,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 //*******************************************************************************//
 
     /**
-     * Dialogo de guardar.
+     * Método de evento que se dispara cuando se selecciona la opción "Guardar".
+     * Guarda la imagen de la ventana interna actual en un archivo seleccionado
+     * por el usuario.
      *
      * @param evt
      */
@@ -1358,6 +1405,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GuardarActionPerformed
 
+    /**
+     * Método de evento que se dispara cuando se selecciona la opción "Nuevo" en
+     * el menú. Crea una nueva ventana interna y establece una imagen en blanco
+     * en el lienzo.
+     *
+     * @param evt
+     */
     private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
         VentanaInternaImagen vi = new VentanaInternaImagen();
         escritorio.add(vi);
@@ -1366,16 +1420,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         vi.getLienzo2D().setImagen(img);
     }//GEN-LAST:event_menuNuevoActionPerformed
 
+    //Colores de los trazos
+
     private void negro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negro1ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColor(Color.black);
         }
     }//GEN-LAST:event_negro1ActionPerformed
 
     private void rojo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rojo1ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.red);
             this.getLienzoSeleccionado().setColor(Color.red);
         }
     }//GEN-LAST:event_rojo1ActionPerformed
@@ -1457,6 +1511,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         vi.getLienzo2D().setImagen(img);
     }//GEN-LAST:event_nuevoActionPerformed
 
+    /**
+     * El método abrirActionPerformed se dispara cuando se selecciona la opción
+     * "Abrir" y permite al usuario seleccionar un archivo de imagen, sonido o
+     * video. Según el tipo de archivo seleccionado, se realiza una acción
+     * correspondiente. Si es un archivo de imagen, se lee y se muestra en una
+     * nueva ventana interna de imagen. Si es un archivo de sonido, se agrega a
+     * un componente de lista desplegable. Si es un archivo de video, se crea
+     * una nueva ventana interna de video y se muestra en el escritorio. El
+     * método gestiona la apertura de diferentes tipos de archivos y realiza
+     * acciones adecuadas en función de cada tipo.
+     *
+     * @param evt
+     */
     private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
         JFileChooser dlg = new JFileChooser();
         // Configurar los filtros de archivos
@@ -1539,6 +1606,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_abrirActionPerformed
 
+    /**
+     * Guardar una imagen.
+     *
+     * @param evt
+     */
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) escritorio.getSelectedFrame();
         if (vi != null) {
@@ -1566,6 +1638,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         barraEstado2.setText("Smile");
     }//GEN-LAST:event_smileActionPerformed
 
+    /**
+     * Abrir una imagen
+     *
+     * @param evt
+     */
     private void abreImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abreImagenActionPerformed
         JFileChooser dlg = new JFileChooser();
         int resp = dlg.showOpenDialog(this);
@@ -1589,7 +1666,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.getLienzoSeleccionado().setTipo(tipos.LIBRE);
         }
         barraEstado2.setText("Trazo libre");
-        //dibujoLibre.setToolTipText("Trazo libre");
     }//GEN-LAST:event_dibujoLibreActionPerformed
 
     private void transparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparenciaActionPerformed
@@ -1598,6 +1674,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_transparenciaActionPerformed
 
+    /**
+     * Spinner encargado de establecer el grosor.
+     *
+     * @param evt
+     */
     private void spinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerStateChanged
         if (hayLienzo()) {
             this.getLienzoSeleccionado().setGrosor(Integer.parseInt(spinner.getValue().toString()));
@@ -1610,6 +1691,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_alisarActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "Reescalado".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica un efecto de
+     * reescalado utilizando la clase RescaleOp. Luego, repinta el lienzo de la
+     * ventana interna.
+     *
+     * @param evt
+     */
     private void reescaladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reescaladoActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1626,6 +1716,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_reescaladoActionPerformed
 
+    /**
+     * Este método se dispara cuando se selecciona la opción "Convolución".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica un efecto de
+     * convolución utilizando la clase ConvolveOp. Se utiliza un kernel
+     * predefinido según la selección del usuario en un componente de lista
+     * desplegable. Luego, establece la imagen resultante en el lienzo de la
+     * ventana interna y repinta el lienzo.
+     *
+     * @param evt
+     */
     private void convolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convolucionActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1645,6 +1746,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_convolucionActionPerformed
 
+    /**
+     * Este método se activa cuando cambia el estado del control deslizante de
+     * brillo. Obtiene la ventana interna de imagen seleccionada y la imagen
+     * fuente original del escritorio. Si ambas existen, aplica un efecto de
+     * ajuste de brillo utilizando la clase RescaleOp. El valor del brillo se
+     * obtiene del control deslizante y se utiliza en la operación de ajuste.
+     * Luego, repinta el lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void brilloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_brilloStateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null && imgFuente != null) {
@@ -1662,6 +1773,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_brilloStateChanged
 
+    /**
+     * Este método se dispara cuando cambia el estado del control deslizante de
+     * contraste. Obtiene la ventana interna de imagen seleccionada y la imagen
+     * fuente original del escritorio. Si ambas existen, aplica un efecto de
+     * ajuste de contraste utilizando la clase RescaleOp. El valor del contraste
+     * se obtiene del control deslizante y se utiliza en la operación de ajuste.
+     * Luego, repinta el lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void ContrasteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteStateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null && imgFuente != null) {
@@ -1679,6 +1800,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ContrasteStateChanged
 
+    /**
+     * Este método se activa cuando el control de brillo gana el foco. Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe, crea una copia de la imagen original para guardarla en
+     * imgFuente. Esta copia se utiliza más adelante para restablecer los
+     * valores de brillo.
+     *
+     * @param evt
+     */
     private void brilloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_brilloFocusGained
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1688,12 +1818,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             imgFuente = new BufferedImage(cm, raster, alfaPre, null);
         }
     }//GEN-LAST:event_brilloFocusGained
-
+    /**
+     * Este método se activa cuando el control de brillo pierde el foco.
+     * Restablece imgFuente a null y establece el valor del control deslizante
+     * de brillo en 0.
+     *
+     * @param evt
+     */
     private void brilloFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_brilloFocusLost
         imgFuente = null;
         this.brillo.setValue(0);
     }//GEN-LAST:event_brilloFocusLost
-
+    /**
+     * Este método se activa cuando el control de contraste gana el foco.
+     * Funciona de manera similar a brilloFocusGained, creando una copia de la
+     * imagen original para guardarla en imgFuente.
+     *
+     * @param evt
+     */
     private void ContrasteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ContrasteFocusGained
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1704,6 +1846,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ContrasteFocusGained
 
+    /**
+     * Este método recibe un índice de selección y devuelve un objeto Kernel
+     * correspondiente. Dependiendo del índice, se selecciona un kernel
+     * predefinido utilizando valores de filtro específicos.
+     *
+     * @param seleccion
+     * @return
+     */
     private Kernel getKernel(int seleccion) {
         Kernel k = null;
         float filtro[] = null;
@@ -1776,6 +1926,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return k;
     }
 
+    /**
+     * Este método se activa cuando se selecciona una opción de filtro. Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica un efecto de filtrado
+     * utilizando la clase ConvolveOp. El tipo de filtro se selecciona según el
+     * índice del componente de lista desplegable. Se utiliza el método
+     * getKernel para obtener el kernel correspondiente. Luego, establece la
+     * imagen resultante en el lienzo de la ventana interna y repinta el lienzo.
+     *
+     * @param evt
+     */
     private void filtroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1795,11 +1956,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_filtroActionPerformed
 
+    /**
+     * Este método se activa cuando el control de contraste pierde el foco.
+     * Restablece imgFuente a null y establece el valor del control deslizante
+     * de contraste en 0.
+     *
+     * @param evt
+     */
     private void ContrasteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ContrasteFocusLost
         imgFuente = null;
         this.Contraste.setValue(0);
     }//GEN-LAST:event_ContrasteFocusLost
 
+    /**
+     * Este método se dispara cuando se selecciona la opción "LookUpOp". Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica un efecto de LookupOp
+     * para obtener el negativo de la imagen. Luego, establece la imagen
+     * resultante en el lienzo de la ventana interna y repinta el lienzo.
+     *
+     * @param evt
+     */
     private void lookUpOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookUpOpActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1821,7 +1998,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_lookUpOpActionPerformed
-
+    /**
+     * Este método se activa cuando se selecciona la opción "AffineTransform".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica una
+     * transformación de afinidad para escalar la imagen. Luego, establece la
+     * imagen resultante en el lienzo de la ventana interna y repinta el lienzo.
+     *
+     * @param evt
+     */
     private void affineTransformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_affineTransformActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1840,6 +2025,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_affineTransformActionPerformed
 
+    /**
+     * Este método se dispara cuando se selecciona la opción "Contraste".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica un efecto de
+     * ajuste de contraste utilizando una LookupTable predefinida. La imagen
+     * resultante se aplica directamente a la imagen original. Luego, repinta el
+     * lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void contrasteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasteBotonActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1858,6 +2053,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_contrasteBotonActionPerformed
 
+    /**
+     * Este método crea y devuelve una lookup table utilizada para el ajuste
+     * logarítmico de una imagen. Toma dos factores como parámetros, uno para el
+     * contraste y otro para la iluminación. Utiliza estos factores para
+     * calcular los valores de la lt basados en una fórmula logarítmica.
+     *
+     * @param factorContraste
+     * @param factorIluminacion
+     * @return
+     */
     private static LookupTable createLogarithmicLookupTable(double factorContraste, double factorIluminacion) {
         double gamma = 1.0 / factorContraste;
         byte[] lutData = new byte[256];
@@ -1868,25 +2073,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return new ByteLookupTable(0, lutData);
     }
 
-
+    /**
+     * Este método se activa cuando se selecciona la opción "Iluminada". Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica un efecto de corrección
+     * gamma utilizando una lt creada con LookupTableProducer.createLookupTable.
+     * El efecto se aplica directamente a la imagen original y se repinta el
+     * lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void iluminadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iluminadaActionPerformed
-        /*VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
-        if (vi != null) {
-            BufferedImage img = vi.getLienzo2D().getImagen();
-            if (img != null) {
-                try {
-                    // Ajuste de contraste con iluminación utilizando función logarítmica
-                    double a = 255.0 / Math.log(256);
-                    double b = 255.0 / Math.log(1.0 + a);
-                    LookupTable lt = createLogarithmicLookupTable(a, b);
-                    LookupOp lop = new LookupOp(lt, null);
-                    lop.filter(img, img); // Imagen origen y destino iguales
-                    vi.getLienzo2D().repaint();
-                } catch (Exception e) {
-                    System.err.println(e.getLocalizedMessage());
-                }
-            }
-        }*/
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
             BufferedImage img = vi.getLienzo2D().getImagen();
@@ -1903,6 +2100,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_iluminadaActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "Oscurecer". Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica un efecto de potencia
+     * utilizando una lt creada con LookupTableProducer.createLookupTable. El
+     * efecto se aplica directamente a la imagen original y se repinta el lienzo
+     * de la ventana interna.
+     *
+     * @param evt
+     */
     private void oscurecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oscurecerActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1920,7 +2127,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_oscurecerActionPerformed
 
-
+    /**
+     * Este método se activa cuando se selecciona la opción "Rotar". Obtiene la
+     * ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica una transformación de
+     * rotación utilizando AffineTransform. La imagen se rota 180 grados
+     * alrededor del centro de la imagen y se establece la imagen resultante en
+     * el lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void rotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotarActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1940,6 +2156,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rotarActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "BandCombineOp".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica un efecto de
+     * combinación de bandas utilizando BandCombineOp. Se utiliza una matriz de
+     * valores predefinidos para la combinación de las bandas RGB de la imagen.
+     * El efecto se aplica directamente al raster de la imagen y se repinta el
+     * lienzo de la ventana interna.
+     *
+     * @param evt
+     */
     private void BandCombineOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BandCombineOpActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1961,6 +2188,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BandCombineOpActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "ColorConvertOp".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, realiza una conversión
+     * de espacio de color a escala de grises utilizando ColorConvertOp
+     *
+     * @param evt
+     */
     private void colorConvertOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorConvertOpActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1979,6 +2214,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_colorConvertOpActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "Aumento". Obtiene
+     * la ventana interna de imagen seleccionada del escritorio. Si la ventana
+     * interna existe y tiene una imagen válida, aplica una transformación de
+     * escala para aumentar el tamaño de la imagen en un 25%.
+     *
+     * @param evt
+     */
     private void aumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aumentoActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1998,6 +2241,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_aumentoActionPerformed
 
+    /**
+     * Este método se activa cuando se selecciona la opción "Disminución".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, aplica una
+     * transformación de escala para disminuir el tamaño de la imagen en un 25%
+     *
+     * @param evt
+     */
     private void disminucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disminucionActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2017,6 +2268,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_disminucionActionPerformed
 
+    /**
+     * Este método crea y devuelve una operación de LookupOp para aplicar una
+     * transformación lineal con un punto de inflexión. Toma dos parámetros a y
+     * b, que representan los puntos de inflexión en los valores de píxeles de
+     * entrada y salida. Calcula una lookuptable basada en una función lineal
+     * que mapea los valores de píxeles de entrada a los valores de píxeles de
+     * salida correspondientes.
+     *
+     * @param a slider1
+     * @param b slider2
+     * @return
+     */
     private LookupOp linealConInflexion(double a, double b) {
         final int valorMax = 255;
         final int valorMin = 0;
@@ -2039,7 +2302,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return new LookupOp(tabla, null);
     }
 
-
+    /**
+     * Este método se activa cuando se selecciona la opción "Lineal". Habilita o
+     * deshabilita los controles deslizantes (slider1 y slider2) según si la
+     * opción "Lineal" está seleccionada o no.
+     *
+     * @param evt
+     */
     private void linealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linealActionPerformed
         if (lineal.isSelected()) {
             slider1.setEnabled(true);
@@ -2053,7 +2322,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_linealActionPerformed
 
     /**
-     * Función cuadrática f(x) = 1/100(x-m)² siendo 0 <= m <= 255
+     * Función cuadrática f(x) = 1/100(x-m)² siendo 0 <= m <= 255 Esta función
+     * recibe un parámetro m y crea y devuelve una lookup table utilizada para
+     * aplicar una transformación cuadrática a los valores de los píxeles.
+     * Utiliza una fórmula cuadrática para calcular los nuevos valores de los
+     * píxeles basados en el parámetro m y los valores originales de los
+     * píxeles.
      *
      * @param m
      * @return
@@ -2074,7 +2348,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return new ByteLookupTable(0, data);
     }
 
-
+    /**
+     * Activa transformación cuadrática.
+     *
+     * @param evt
+     */
     private void cuadraticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadraticaActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2093,6 +2371,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cuadraticaActionPerformed
 
+    /**
+     * Método que devuelve una nueva imagen que contiene solo una banda
+     * específica de la imagen original. La nueva imagen se representa en el
+     * espacio de color GRAY.
+     *
+     * @param img (BufferedImage): La imagen original de la cual se extraerá la
+     * banda.
+     * @param banda (int): El número de la banda a extraer de la imagen
+     * original.
+     * @return una nueva imagen que representa la banda específica extraída de
+     * la imagen original.
+     */
     private BufferedImage getImageBand(BufferedImage img, int banda) {
         //Creamos el modelo de color de la nueva imagen basado en un espcio de color GRAY
         ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
@@ -2107,7 +2397,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return new BufferedImage(cm, bRaster, false, null);
     }
 
-
+    /**
+     * Este método se activa cuando se selecciona la opción "Muestra Banda".
+     * Obtiene la ventana interna de imagen seleccionada del escritorio. Si la
+     * ventana interna existe y tiene una imagen válida, itera a través de las
+     * bandas de la imagen. En cada iteración, llama al método getImageBand para
+     * obtener una nueva imagen que representa la banda actual. Luego, crea una
+     * nueva ventana interna de imagen, establece la imagen de la banda en su
+     * lienzo y la agrega al escritorio
+     */
     private void muestraBandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_muestraBandaActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2128,6 +2426,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_muestraBandaActionPerformed
 
+    /**
+     * Método de evento que se dispara cuando se realiza un cambio en la
+     * selección del JComboBox cambioEspColor. Convierte la imagen de la ventana
+     * interna actual a un espacio de color seleccionado por el usuario.
+     * Mediante una estructura de switch-case, se asigna el espacio de color
+     * correspondiente al objeto ColorSpace cs según el índice de selección. Se
+     * utiliza la clase ColorConvertOp para convertir la imagen original (img)
+     * al espacio de color especificado (cs).
+     *
+     * @param evt
+     */
     private void cambioEspColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambioEspColorActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2164,6 +2473,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cambioEspColorActionPerformed
 
+    /**
+     * Utiliza la operación BandCombineOp para aplicar la combinación de bandas
+     * a la imagen original.
+     *
+     * @param evt
+     */
     private void combinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combinarActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2186,7 +2501,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_combinarActionPerformed
 
-
+    /**
+     * Para la función lineal
+     *
+     * @param evt
+     */
     private void slider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider1StateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2201,9 +2520,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("v1 cambia");
     }//GEN-LAST:event_slider1StateChanged
 
+    /**
+     * Para la función lineal
+     *
+     * @param evt
+     */
     private void slider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider2StateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2218,10 +2541,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("v2 cambia");
     }//GEN-LAST:event_slider2StateChanged
 
-
+    /**
+     * Este método se activa cuando el foco se coloca en el control deslizante
+     * slider1. Obtiene la ventana interna de imagen seleccionada del
+     * escritorio. Si la ventana interna existe, crea una copia de la imagen
+     * actual, incluyendo el modelo de color, el raster y la información de
+     * alfa. Esta copia se almacena en la variable imgFuente, que se utilizará
+     * posteriormente en otros métodos.
+     */
     private void slider1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider1FocusGained
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2236,6 +2565,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         imgFuente = null;
     }//GEN-LAST:event_slider1FocusLost
 
+    /**
+     * Este método se activa cuando el foco se coloca en el control deslizante
+     * slider2. Obtiene la ventana interna de imagen seleccionada del
+     * escritorio. Si la ventana interna existe, crea una copia de la imagen
+     * actual, incluyendo el modelo de color, el raster y la información de
+     * alfa. Esta copia se almacena en la variable imgFuente, que se utilizará
+     * posteriormente en otros métodos.
+     */
     private void slider2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_slider2FocusGained
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2250,6 +2587,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         imgFuente = null;
     }//GEN-LAST:event_slider2FocusLost
 
+    /**
+     * El método tintarActionPerformed aplica un efecto de tinte a la imagen
+     * seleccionada en la ventana interna. Obtiene la imagen de la ventana
+     * interna seleccionada y, si existe, obtiene el color de tinte del lienzo
+     * seleccionado. Luego, se crea una instancia de TintOp con el color de
+     * tinte y un nivel de opacidad de 0.5. Esta operación de tinte se aplica a
+     * la imagen utilizando el método filter, y luego se repinta el lienzo para
+     * mostrar la imagen modificada
+     *
+     * @param evt
+     */
     private void tintarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tintarActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2267,6 +2615,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tintarActionPerformed
 
+    /**
+     * Aplica un efecto de sepia a la imagen seleccionada en la ventana interna.
+     * Al igual que en el método anterior, se obtiene la imagen de la ventana
+     * interna seleccionada y, si existe, se crea una instancia de SepiaOp. Esta
+     * operación de sepia se aplica a la imagen utilizando el método filter, y
+     * luego se repinta el lienzo.
+     *
+     * @param evt
+     */
     private void sepiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sepiaActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2283,6 +2640,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sepiaActionPerformed
 
+    /**
+     * El método ecualizarActionPerformed aplica una operación de ecualización
+     * de histograma a la imagen seleccionada en la ventana interna. Se sigue un
+     * proceso similar a los métodos anteriores: se obtiene la imagen de la
+     * ventana interna seleccionada, se crea una instancia de EqualizationOp y
+     * se aplica la operación de ecualización utilizando el método filter. Luego
+     * se repinta el lienzo.
+     *
+     * @param evt
+     */
     private void ecualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ecualizarActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2299,6 +2666,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ecualizarActionPerformed
 
+    /**
+     * El método recalcaRojosActionPerformed recalca los tonos rojos en la
+     * imagen seleccionada en la ventana interna. Se obtiene la imagen de la
+     * ventana interna seleccionada y, si existe, se crea una instancia de
+     * RojoOp con un umbral predefinido. Esta operación de recalcar tonos rojos
+     * se aplica a la imagen utilizando el método filter, y luego se repinta el
+     * lienzo.
+     *
+     * @param evt
+     */
     private void recalcaRojosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recalcaRojosActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2316,6 +2693,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_recalcaRojosActionPerformed
 
+    /**
+     *
+     * @param evt
+     */
     private void sliderVariaTonoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVariaTonoStateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2332,7 +2713,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sliderVariaTonoStateChanged
 
-
+    /**
+     *
+     * @param evt
+     */
     private void sliderPosterizarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderPosterizarStateChanged
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -2360,7 +2744,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         int resp = dlg.showOpenDialog(this);
         if (resp == JFileChooser.APPROVE_OPTION) {
             try {
-                //Solucion usando clase anónima
                 File f = new File(dlg.getSelectedFile().getAbsolutePath()) {
                     @Override
                     public String toString() {
@@ -2375,6 +2758,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_abrirSonidoActionPerformed
 
+    /**
+     * Reproduce un sonido
+     *
+     * @param evt
+     */
     private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
         File f = (File) sonidos.getSelectedItem();
         if (f != null) {
@@ -2387,6 +2775,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_playActionPerformed
 
+    /**
+     * Para un sonido
+     *
+     * @param evt
+     */
     private void stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopActionPerformed
         if (player != null) {
             player.stop();
@@ -2417,9 +2810,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Este método de se encarga de volcar en una imagen las figuras que
      * seleccionemos de nuestra lista lateral. Para ello recorremos de forma
-     * inversa nuestro vector de formas a borrar y usamos el método vuelca que
-     * es que se encargará de realizar el volcado de figuras a la imagen una por
-     * una.
+     * inversa nuestro vector de formas a borrar y usamos el método vuelca del
+     * liezno2D que es que se encargará de realizar el volcado de figuras a la
+     * imagen una por una.
      *
      * @param evt
      */
@@ -2427,8 +2820,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         int formasBorrar[];
         DefaultListModel modelo = (DefaultListModel) listaLateral.getModel();
         formasBorrar = listaLateral.getSelectedIndices();
-        //Es MUY importante interar del fin al inicio para no afectar a los otros 
-        // indices del vector
         for (int i = formasBorrar.length - 1; i >= 0; i--) {
             int indiceBorrar = formasBorrar[i] - i;
             this.getLienzoSeleccionado().vuelca(indiceBorrar);
@@ -2465,21 +2856,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             try {
                 File f = dlg.getSelectedFile();
                 recorder = new SMSoundRecorder(f);
-                //cronometro = new Cronometro2(this.tiempo);
-
                 if (recorder != null) {
                     recorder.record();
-                    //cronometro.play();
-                    //cronometro.actualizarTiempo();
-
                 }
-                // cronometro.stop();
             } catch (Exception ex) {
                 System.err.print("Error al guardar el sonido");
             }
         }
     }//GEN-LAST:event_grabarActionPerformed
 
+    /**
+     * Método encargado de gestionar el botón de pausa.
+     *
+     * @param evt
+     */
     private void pauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseActionPerformed
         if (player != null) {
             if (isPlaying) {
@@ -2512,10 +2902,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * @param evt
      */
     private void capturaInstantaneaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capturaInstantaneaActionPerformed
-
         VentanaInternaCamara vc = (VentanaInternaCamara) escritorio.getSelectedFrame();
         if (vc != null) {
-            //leer pie de pagina para mejorar
             BufferedImage img = vc.getImage();
             VentanaInternaImagen vi = new VentanaInternaImagen();
             vi.getLienzo2D().setImagen(img);
@@ -2552,47 +2940,55 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_stopVideoActionPerformed
 
+    /**
+     * Botón que se encarga de hacer saber a mi lienzo si tenemos que dibujar
+     * figuras rellenas o no.
+     *
+     * @param evt
+     */
     private void relleno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relleno2ActionPerformed
         this.getLienzoSeleccionado().setRelleno(relleno2.isSelected());
     }//GEN-LAST:event_relleno2ActionPerformed
 
+    /**
+     * JSpinner para establecer el tipo de discontinuidad.
+     *
+     * @param evt
+     */
     private void spinnerDiscontnuidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerDiscontnuidadStateChanged
         if (hayLienzo()) {
             this.getLienzoSeleccionado().setDiscontinuidad(Integer.parseInt(spinnerDiscontnuidad.getValue().toString()));
         }
     }//GEN-LAST:event_spinnerDiscontnuidadStateChanged
 
+    /////////////////////SETTERS DE COLORES DE RELLENO////////////////
+
     private void negro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negro2ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColorRelleno(Color.black);
         }
     }//GEN-LAST:event_negro2ActionPerformed
 
     private void rojo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rojo2ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColorRelleno(Color.red);
         }
     }//GEN-LAST:event_rojo2ActionPerformed
 
     private void azul2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azul2ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColorRelleno(Color.blue);
         }
     }//GEN-LAST:event_azul2ActionPerformed
 
     private void amarillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amarillo2ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColorRelleno(Color.yellow);
         }
     }//GEN-LAST:event_amarillo2ActionPerformed
 
     private void verde2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verde2ActionPerformed
         if (hayLienzo()) {
-            //this.getLienzoSeleccionado().getFigura().setColor(Color.black);
             this.getLienzoSeleccionado().setColorRelleno(Color.green);
         }
     }//GEN-LAST:event_verde2ActionPerformed
@@ -2604,34 +3000,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_masColores1ActionPerformed
 
-    private void sliderGiroStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderGiroStateChanged
-        VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
-        if (vi != null) {
-            BufferedImage img = vi.getLienzo2D().getImagen();
-            if (img != null) {
-                try {
-                    int valor = sliderGiro.getValue();
-
-                    AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(valor), img.getWidth() / 2, img.getHeight() / 2);
-                    AffineTransformOp atop;
-                    atop = new AffineTransformOp(at, null);
-                    BufferedImage imgdest = atop.filter(img, null);
-                    vi.getLienzo2D().setImagen(imgdest);
-                    vi.getLienzo2D().repaint();
-                } catch (Exception e) {
-                    System.err.println(e.getLocalizedMessage());
-                }
-            }
-        }
-    }//GEN-LAST:event_sliderGiroStateChanged
-
+    /**
+     * aplica un efecto de negativo a la imagen seleccionada en la ventana
+     * interna. Se obtiene la imagen de la ventana interna seleccionada y, si
+     * existe, se crea una instancia de RescaleOp con un factor de escala de
+     * -1.0 y un desplazamiento de 255. Esta operación de negativo se aplica a
+     * la imagen utilizando el método filter, y luego se establece la imagen
+     * resultante en la ventana interna y se repinta el lienzo.
+     *
+     * @param evt
+     */
     private void negativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativoActionPerformed
         VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
         if (vi != null) {
             BufferedImage img = vi.getLienzo2D().getImagen();
             if (img != null) {
                 try {
-                    //Usamos RescaleOp para el negativo
                     RescaleOp op = new RescaleOp(-1.0f, 255f, null);
                     BufferedImage imgdest = op.filter(img, null);
                     vi.getLienzo2D().setImagen(imgdest);
@@ -2643,10 +3027,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_negativoActionPerformed
 
+    /**
+     * Duplica la imagen de la ventana interna seleccionada y la muestra en una
+     * nueva ventana interna. Se obtiene la ventana interna de imagen
+     * seleccionada y, si existe, se obtiene la imagen de la misma. Luego se
+     * crea una nueva instancia de VentanaInternaImagen, se establece la imagen
+     * duplicada en el lienzo de la nueva ventana interna y se agrega la nueva
+     * ventana interna al escritorio. Se asigna un título a la nueva ventana
+     * interna y se muestra.
+     *
+     * @param evt
+     */
     private void duplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duplicarActionPerformed
         VentanaInternaImagen vc = (VentanaInternaImagen) escritorio.getSelectedFrame();
         if (vc != null) {
-            //leer pie de pagina para mejorar
             BufferedImage img = vc.getLienzo2D().getImagen(true);
             VentanaInternaImagen vi = new VentanaInternaImagen();
             vi.getLienzo2D().setImagen(img);
@@ -2659,10 +3053,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_duplicarActionPerformed
 
+    /**
+     * Captura una instantánea de video y la muestra como una imagen en una
+     * nueva ventana interna. Se obtiene la ventana interna de video
+     * seleccionada y, si existe, se obtiene la imagen actual del video. Luego
+     * se crea una nueva instancia de VentanaInternaImagen, se establece la
+     * imagen capturada en el lienzo de la nueva ventana interna y se agrega la
+     * nueva ventana interna al escritorio. Se asigna un título a la nueva
+     * ventana interna y se muestra.
+     *
+     * @param evt
+     */
     private void instantaneaVideoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instantaneaVideoActionPerformed
         VentanaInternaVideo vc = (VentanaInternaVideo) escritorio.getSelectedFrame();
         if (vc != null) {
-            //leer pie de pagina para mejorar
             BufferedImage img = vc.getImage();
             VentanaInternaImagen vi = new VentanaInternaImagen();
             vi.getLienzo2D().setImagen(img);
@@ -2675,6 +3079,105 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_instantaneaVideoActionPerformed
 
+    /**
+     * El método recalca los tonos azules en la imagen seleccionada en la
+     * ventana interna. Se obtiene la imagen de la ventana interna seleccionada
+     * y, si existe, se crea una instancia de AzulOp con un umbral predefinido.
+     * Esta operación de recalcar tonos azules se aplica a la imagen utilizando
+     * el método filter, y luego se repinta el lienzo.
+     *
+     * @param evt
+     */
+    private void azulOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azulOpActionPerformed
+        VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    final int umbral = 30;
+                    AzulOp Azul = new AzulOp(umbral);
+                    Azul.filter(img, img);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_azulOpActionPerformed
+
+    /////////////////////////////////////////////////////////////////////////
+
+    private void sliderGiroStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderGiroStateChanged
+        VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            if (imgFuente != null) {
+                try {
+                    double radians = Math.toRadians(sliderGiro.getValue());
+                    AffineTransform at = AffineTransform.getRotateInstance(radians, imgFuente.getWidth() / 2, imgFuente.getHeight() / 2);
+                    AffineTransformOp atop;
+                    atop = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+                    BufferedImage imgdest = atop.filter(imgFuente, null);
+                    vi.getLienzo2D().setImagen(imgdest);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_sliderGiroStateChanged
+
+
+
+    private void sliderGiroFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderGiroFocusGained
+        VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            this.imgFuente = vi.getLienzo2D().getImagen();
+        }
+    }//GEN-LAST:event_sliderGiroFocusGained
+
+    private void sliderGiroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sliderGiroFocusLost
+        this.imgFuente = null;
+        sliderGiro.setValue(0);
+    }//GEN-LAST:event_sliderGiroFocusLost
+
+    /**
+     * Este operador convierte una imagen en escala de grises en una imagen
+     * binaria, donde cada píxel es o bien blanco o bien negro, dependiendo de
+     * si su valor de intensidad es mayor o menor que un cierto umbral.
+     *
+     * @param umbral el umbral que pasemos
+     * @return new ByteLookupTable
+     */
+    private LookupTable umbralizacionBinaria(int umbral) {
+        byte[] data = new byte[256];
+        for (int i = 0; i < 256; i++) {
+            data[i] = (byte) (i < umbral ? 0 : 255);
+        }
+        return new ByteLookupTable(0, data);
+    }
+
+
+    private void umbralizacionBinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbralizacionBinariaActionPerformed
+        VentanaInternaImagen vi = (VentanaInternaImagen) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage img = vi.getLienzo2D().getImagen();
+            if (img != null) {
+                try {
+                    int umbral = 128;
+                    LookupTable lt = umbralizacionBinaria(umbral);
+                    LookupOp lop = new LookupOp(lt, null);
+                    lop.filter(img, img);
+                    vi.getLienzo2D().repaint();
+                } catch (Exception e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_umbralizacionBinariaActionPerformed
+
+    /**
+     * Clase Manejadora de audio
+     */
     class ManejadorAudio implements LineListener {
 
         @Override
@@ -2691,8 +3194,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Este método se en los actionPerformed de abrir para poder distinguir tipo
-     * de archivo.
+     * Este método se usa en los actionPerformed de abrir para poder distinguir
+     * tipo de archivo.
      *
      * @param file Archivo a pasar
      * @return Extensión
@@ -2760,7 +3263,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         public void internalFrameActivated(InternalFrameEvent evt) {
             VentanaInternaImagen vi = (VentanaInternaImagen) evt.getInternalFrame();
             DefaultListModel modelo = new DefaultListModel();
-            modelo.addAll(vi.getLienzo2D().getShapeList());
+            modelo.addAll(vi.getLienzo2D().getNewShapeList());
             listaLateral.setModel(modelo);
         }
 
@@ -2839,6 +3342,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton aumento;
     private javax.swing.JToggleButton azul1;
     private javax.swing.JToggleButton azul2;
+    private javax.swing.JButton azulOp;
     private javax.swing.JCheckBoxMenuItem barraEstado;
     private javax.swing.JLabel barraEstado2;
     private javax.swing.JSlider brillo;
@@ -2923,6 +3427,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton stopVideo;
     private javax.swing.JButton tintar;
     private javax.swing.JToggleButton transparencia;
+    private javax.swing.JButton umbralizacionBinaria;
     private javax.swing.JToggleButton verde1;
     private javax.swing.JToggleButton verde2;
     private javax.swing.JButton volcar;

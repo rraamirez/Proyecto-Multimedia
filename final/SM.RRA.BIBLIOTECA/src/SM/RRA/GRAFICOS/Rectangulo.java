@@ -84,13 +84,6 @@ public class Rectangulo extends Forma {
     }
 
     @Override
-    public void setLocation(Point2D pos) {
-        double dx = pos.getX() - this.getRectangulo().getX();
-        double dy = pos.getY() - this.getRectangulo().getY();
-        this.getRectangulo().setRect(pos.getX(), pos.getY(), this.getRectangulo().getWidth() + dx, this.getRectangulo().getHeight() + dy);
-    }
-
-    @Override
     public boolean contains(Point2D p) {
         return rectangulo.contains(p);
     }

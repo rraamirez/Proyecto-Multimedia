@@ -24,16 +24,35 @@ import java.util.ArrayList;
  * @author raule
  */
 public abstract class Forma {
+    /////INICIALIZACIÓN DE ATRIBUTOS///////////
+    /**
+     * Relleno: Considera si hacer fill a nuestra figura
+     * Mover: Considera si nuestra operación consiste en dibujar una figura o moverla.
+     * Transparente: Considera si aplicar un filtro de transparencia
+     * Liso: Considera si aplicar un filtro de antialiasing
+     * Grosor: Considera el grosor al dibujar
+     */
     boolean relleno = false;
     boolean mover = false;
     boolean transparente = false;
     boolean liso = false;
     int grosor = 5;
     int discontinuidad = 0;
+    
+    /**
+     * Color al dibujar (draw).
+     * Relleno (fill).
+     * Stroke (grosor, discontinuidad).
+     * Alphacomposite (transparencia).
+     */
     Color color;
     Color colorRelleno;
     Stroke stroke;
     AlphaComposite alphaComposite;
+    
+    
+    
+    //////////GETTERS Y SETTERS///////////////////
 
     public boolean isRelleno() {
         return relleno;
@@ -116,12 +135,27 @@ public abstract class Forma {
         this.alphaComposite = alphaComposite;
     }
     
+    
+    //******MÉTODOS ABSTRACTOS*//////////////////////////
+    
     public abstract Shape figura();
     
+    /**
+     * Este método que se utiliza para pintar nuestra figura de tipo shape en un objeto Graphics. Aplica
+     * las propiedades configuradas en el trazo, como el color, la
+     * transparencia, la suavidad, el grosor y la discontinuidad, y luego dibuja el trazo.
+     * 
+     * Tener en cuenta que en función al tipo de forma habrá más o menos atributos de dibujo.
+     *
+     * @param g
+     */
     public abstract void pintar(Graphics g);
     
-    public abstract void setLocation(Point2D p);
-
+    /**
+     * Verifica si un punto específico está en nuestra forma.
+     * @param p punto a verificar.
+     * @return true si está contenida.
+     */
     public abstract boolean contains(Point2D p);
     
     

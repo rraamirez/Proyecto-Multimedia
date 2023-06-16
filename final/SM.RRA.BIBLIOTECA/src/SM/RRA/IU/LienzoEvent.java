@@ -14,8 +14,6 @@ import java.util.EventObject;
  * @author raul
  */
 public class LienzoEvent extends EventObject {
-
-    private Shape forma;
     private Forma figura;
     private Color color;
 
@@ -23,10 +21,6 @@ public class LienzoEvent extends EventObject {
         super(source);
         this.figura = forma;
         this.color = color;
-    }
-
-    public Shape getForma() {
-        return forma;
     }
 
     public Forma getFigura() {
@@ -37,9 +31,7 @@ public class LienzoEvent extends EventObject {
         this.figura = figura;
     }
 
-    
-    
-    public Color getColor() {
+        public Color getColor() {
         return color;
     }
 }

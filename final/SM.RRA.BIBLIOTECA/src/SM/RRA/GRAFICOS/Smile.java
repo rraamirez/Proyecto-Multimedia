@@ -52,15 +52,6 @@ public class Smile extends Forma {
     }
 
     @Override
-    public void setLocation(Point2D p) {
-        // Asumiendo que quieres mover la cara completa, pero esto debería
-        // ajustarse para cada parte (ojos, boca) si es necesario.
-        AffineTransform at = AffineTransform.getTranslateInstance(p.getX() - cara.getBounds2D().getX(),
-                p.getY() - cara.getBounds2D().getY());
-        cara.transform(at);
-    }
-
-    @Override
     public boolean contains(Point2D p) {
         return cara.contains(p);
     }

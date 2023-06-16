@@ -14,9 +14,14 @@ import java.awt.geom.Point2D;
  */
 public class Curva extends Forma {
 
+    //Atributo curva
     private QuadCurve2D curva;
 
-    public Curva(Point p1, Point p2, Point ctrl, Color color, 
+    /**
+     * Constructor parametrizado. Esencial para poder coger los colores de
+     * nuestro Lienzo2D
+     */
+    public Curva(Point p1, Point p2, Point ctrl, Color color,
             boolean transparente, boolean liso, int grosor, int discontinuidad) {
         super();
         curva = new QuadCurve2D.Float(p1.x, p1.y, ctrl.x, ctrl.y, p2.x, p2.y);
@@ -34,6 +39,7 @@ public class Curva extends Forma {
         return curva;
     }
 
+    
     @Override
     public void pintar(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -65,15 +71,6 @@ public class Curva extends Forma {
     }
 
     @Override
-    public void setLocation(Point2D p) {
-        double dx = p.getX() - this.getCurva().getX1();
-        double dy = p.getY() - this.getCurva().getY1();
-        this.getCurva().setCurve(this.getCurva().getX1() + dx, this.getCurva().getY1() + dy,
-                this.getCurva().getCtrlX() + dx, this.getCurva().getCtrlY() + dy,
-                this.getCurva().getX2() + dx, this.getCurva().getY2() + dy);
-    }
-
-    @Override
     public boolean contains(Point2D p) {
         return curva.contains(p);
     }
@@ -82,9 +79,9 @@ public class Curva extends Forma {
     public Shape figura() {
         return curva;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Curva";
     }
 

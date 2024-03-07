@@ -1,4 +1,4 @@
-# PracticasSMM
+# Proyecto Multimedia
 Prácticas y proyecto final de la asigatura sistemas multimedia.
 
 Aplicación multimedia con capacidad de edición fotográfica.

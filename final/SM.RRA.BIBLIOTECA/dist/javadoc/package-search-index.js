@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"SM.RRA.GRAFICOS"},{"l":"SM.RRA.IMAGENES"},{"l":"SM.RRA.IU"}]

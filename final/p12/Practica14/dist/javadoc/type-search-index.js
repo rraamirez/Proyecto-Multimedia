@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"practica12","l":"VentanaPrincipal.ManejadorLienzo"},{"p":"practica12","l":"VentanaPrincipal.ManejadorVentanaInterna"},{"p":"practica12","l":"VentanaInternaCamara"},{"p":"practica12","l":"VentanaInternaImagen"},{"p":"practica12","l":"VentanaInternaVideo"},{"p":"practica12","l":"VentanaPrincipal"}]
